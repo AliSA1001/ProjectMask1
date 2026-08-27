@@ -4639,6 +4639,7 @@ GameObject:
   m_Component:
   - component: {fileID: 543450651648868822}
   - component: {fileID: 5866666019849870252}
+  - component: {fileID: 5866666019849870253}
   m_Layer: 6
   m_Name: SK_Arms_Mono
   m_TagString: Untagged
@@ -6276,6 +6277,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5866666019849870253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132147993549676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee58ab7194d514c4f976ecdbb48ecb91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReloadEvent
 --- !u!1 &6016349229947299205
 GameObject:
   m_ObjectHideFlags: 0
@@ -7400,7 +7413,7 @@ MonoBehaviour:
   gunDamage: 10
   fireRate: 0.57
   bulletSpeed: 50
-  gunAmmo: 999
+  gunAmmo: 50
   maxAmmo: 80
   muzzleEffect: {fileID: 1242089943}
   muzzleEffectDuration: 0.1
@@ -7479,6 +7492,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 45f68218-e5af-44df-b1ae-0ad6d533de56
     m_ActionName: 'guns/Shot[/Mouse/leftButton]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9061249583594336866}
+        m_TargetAssemblyTypeName: Pistol, Assembly-CSharp
+        m_MethodName: OnReload
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 8795a7c8-7387-4b75-a90b-6705bd1c10fc
+    m_ActionName: 'guns/Reload[/Keyboard/r]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: guns

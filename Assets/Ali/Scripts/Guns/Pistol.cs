@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem.XR;
 using UnityEngine.InputSystem;
 using System.Collections;
+using System;
 
 public class Pistol : MonoBehaviour
 {
@@ -36,6 +37,11 @@ public class Pistol : MonoBehaviour
     [Header("Animation")]
     private float currentblendValue = 0;
     [SerializeField] private float blendSmoothTime = 0.1f;
+
+
+    [Header("Conection")]
+    [SerializeField] private ReloadEvent reloadEvent;
+     
 
 
 
@@ -73,6 +79,16 @@ public class Pistol : MonoBehaviour
 
        // text_Ammo.text = gunAmmo.ToString();
     }
+    private void OnEnable()
+    {
+        reloadEvent.OnReload += OnReloadEventEnd;
+    }
+    private void OnDisable()
+    {
+        reloadEvent.OnReload -= OnReloadEventEnd;
+    }
+
+   
 
     private void HandleAnmationSprinting()
     {
@@ -214,8 +230,12 @@ public class Pistol : MonoBehaviour
         if (context.started && gunAmmo < maxAmmo)
         {
             gunAnimator.SetTrigger("Reloding");
-          //  reloadFeedback.PlayFeedbacks();
+          
 
         }
+    }
+    private void OnReloadEventEnd()
+    {
+        gunAmmo = maxAmmo;
     }
 }
