@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 807725ac2fcc430da4e1b5de9ab3f9f3
+AssetOrigin:
+  serializedVersion: 1
+  productId: 308611
+  packageName: FPS Animation Pro
+  packageVersion: 3.2.1
+  assetPath: Assets/KINEMATION/Shared/KAnimationCore/Editor/Tools/CopyBoneTool.cs
+  uploadId: 961238

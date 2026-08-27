@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 26b2896c936d4be59e98d9bf358c5a96
+AssetOrigin:
+  serializedVersion: 1
+  productId: 308611
+  packageName: FPS Animation Pro
+  packageVersion: 3.2.1
+  assetPath: Assets/KINEMATION/Shared/KAnimationCore/Runtime/Input/UserInputController.cs
+  uploadId: 961238

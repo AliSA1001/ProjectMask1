@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 8de53271a60e4843b40829a26b606311
+AssetOrigin:
+  serializedVersion: 1
+  productId: 308611
+  packageName: FPS Animation Pro
+  packageVersion: 3.2.1
+  assetPath: Assets/KINEMATION/Shared/KAnimationCore/Editor/Attributes/RigElementDrawer.cs
+  uploadId: 961238

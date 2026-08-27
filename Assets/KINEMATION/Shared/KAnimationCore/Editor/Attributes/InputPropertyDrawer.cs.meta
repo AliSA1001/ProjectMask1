@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: d71581c42592488289ee2189885f2deb
+AssetOrigin:
+  serializedVersion: 1
+  productId: 308611
+  packageName: FPS Animation Pro
+  packageVersion: 3.2.1
+  assetPath: Assets/KINEMATION/Shared/KAnimationCore/Editor/Attributes/InputPropertyDrawer.cs
+  uploadId: 961238

@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: b3f963d6ef48456893e2a2b9c4706c77
+AssetOrigin:
+  serializedVersion: 1
+  productId: 308611
+  packageName: FPS Animation Pro
+  packageVersion: 3.2.1
+  assetPath: Assets/KINEMATION/Shared/KAnimationCore/Editor/Widgets/KSplitterWidget.cs
+  uploadId: 961238

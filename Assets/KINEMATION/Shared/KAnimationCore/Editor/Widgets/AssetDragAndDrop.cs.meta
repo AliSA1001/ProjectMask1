@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: dfc97017ea654dc9b3fe8cab522f0afc
+AssetOrigin:
+  serializedVersion: 1
+  productId: 308611
+  packageName: FPS Animation Pro
+  packageVersion: 3.2.1
+  assetPath: Assets/KINEMATION/Shared/KAnimationCore/Editor/Widgets/AssetDragAndDrop.cs
+  uploadId: 961238

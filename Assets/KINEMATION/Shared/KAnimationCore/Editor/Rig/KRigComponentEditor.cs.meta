@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 69ff5379d20945a39a83cf6611fd2fa3
+AssetOrigin:
+  serializedVersion: 1
+  productId: 308611
+  packageName: FPS Animation Pro
+  packageVersion: 3.2.1
+  assetPath: Assets/KINEMATION/Shared/KAnimationCore/Editor/Rig/KRigComponentEditor.cs
+  uploadId: 961238
