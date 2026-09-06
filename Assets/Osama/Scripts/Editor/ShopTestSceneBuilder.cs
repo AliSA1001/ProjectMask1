@@ -11,6 +11,7 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 using UnityEngine.SceneManagement;
+using UnityEngine.TextCore.LowLevel;
 using UnityEngine.UI;
 
 // Builds the whole shop test scene from nothing: sample products, customer types, prefabs,
@@ -29,6 +30,7 @@ public static class ShopTestSceneBuilder
     private const string ScenePath = SceneDir + "/ShopTest.unity";
     private const string NavMeshDir = SceneDir + "/ShopTest";
     private const string PlayerActionsPath = "Assets/Ali/playerMapController/Player.inputactions";
+    private const string ArtDir = Root + "/Art/HUD";
     private const string AliScenePath = "Assets/Scenes/AliS.unity";
     private const string AliPlayerName = "Player";
 
@@ -95,6 +97,11 @@ public static class ShopTestSceneBuilder
         EnsureFolder(SceneDir);
         EnsureFolder(NavMeshDir);
 
+        // the font first: making it saves assets, and saving mid-build reloads the ScriptableObjects
+        // we'd still be holding references to (they come back as null in the scene)
+        TMP_FontAsset hudFont = BuildHudFont();
+        Material hudTextMaterial = BuildHudTextMaterial(hudFont);
+
         Materials mats = BuildMaterials();
         List<ProductSO> products = BuildProducts(mats);
         ShopSettingsSO settings = BuildSettings();
@@ -105,9 +112,9 @@ public static class ShopTestSceneBuilder
         GameObject customerPrefab = BuildCustomerPrefab(mats);
         GameObject checkoutPrefab = BuildCheckoutPrefab(mats);
         GameObject playerPrefab = BuildPlayerPrefab();
-        GameObject hudPrefab = BuildDayHudPrefab();
+        GameObject hudPrefab = BuildDayHudPrefab(hudFont, hudTextMaterial);
 
-        BuildScene(mats, products, settings, daySettings, types, shelfPrefab, customerPrefab, checkoutPrefab, playerPrefab, hudPrefab);
+        BuildScene(mats, products, settings, daySettings, types, shelfPrefab, customerPrefab, checkoutPrefab, playerPrefab, hudPrefab, hudFont, hudTextMaterial);
 
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
@@ -277,6 +284,11 @@ public static class ShopTestSceneBuilder
         s.dayStart = 10f;
         s.eveningStart = 17f;
         s.nightStart = 20f;
+        // light tints so the stone disc in the HUD keeps its texture
+        s.morningSky = new Color(1f, 0.86f, 0.70f);
+        s.daySky = new Color(0.78f, 0.90f, 1f);
+        s.eveningSky = new Color(1f, 0.62f, 0.45f);
+        s.nightSky = new Color(0.36f, 0.42f, 0.62f);
         EditorUtility.SetDirty(s);
         return s;
     }
@@ -466,57 +478,119 @@ public static class ShopTestSceneBuilder
         return SavePrefab(go, PrefabDir + "/CheckoutCounter.prefab");
     }
 
-    // the top-left clock. Built from Unity's built-in UI sprites, the real art just replaces the sprites on the Images
-    private static GameObject BuildDayHudPrefab()
+    // the top-left clock: a stone medallion (sky window with the sun / moon inside a bone ring) hanging on the left end
+    // of a wooden plank that carries the day, time and phase. Uses the art from Art/HUD, built-in sprites if a file is missing
+    private static GameObject BuildDayHudPrefab(TMP_FontAsset hudFont, Material textMaterial)
     {
         Sprite background = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd");
         Sprite knob = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Knob.psd");
         Sprite plain = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
 
-        GameObject root = new GameObject("DayTimeHUD", typeof(RectTransform), typeof(Image));
-        Anchor(root.GetComponent<RectTransform>(), new Vector2(0f, 1f), Vector2.zero, new Vector2(340f, 110f));
-        Image panel = root.GetComponent<Image>();
-        panel.sprite = background;
+        Sprite panelArt = LoadHudSprite("hud_panel.png", true);
+        Sprite skyArt = LoadHudSprite("hud_sky.png", false);
+        Sprite frameArt = LoadHudSprite("hud_sky_frame.png", false);
+        Sprite sunArt = LoadHudSprite("sun.png", false);
+        Sprite moonArt = LoadHudSprite("moon.png", false);
+        Sprite[] phaseArt =
+        {
+            LoadHudSprite("phase_morning.png", false), LoadHudSprite("phase_day.png", false),
+            LoadHudSprite("phase_evening.png", false), LoadHudSprite("phase_night.png", false),
+        };
+        Color woodText = new Color(0.93f, 0.82f, 0.60f);
+
+        // layout numbers (1080p reference): medallion centre, plank rect, text column
+        const float medallionX = 76f;
+        const float skySize = 112f;
+        const float frameSize = 152f;
+        const float plankLeft = 80f;
+        const float plankWidth = 350f;
+        const float plankHeight = 124f;
+        const float textLeft = 158f;
+        const float textRight = 340f;
+
+        GameObject root = new GameObject("DayTimeHUD", typeof(RectTransform));
+        Anchor(root.GetComponent<RectTransform>(), new Vector2(0f, 1f), Vector2.zero, new Vector2(440f, 160f));
+
+        GameObject plankGo = new GameObject("Plank", typeof(RectTransform), typeof(Image));
+        plankGo.transform.SetParent(root.transform, false);
+        Anchor(plankGo.GetComponent<RectTransform>(), new Vector2(0f, 0.5f), new Vector2(plankLeft, -2f), new Vector2(plankWidth, plankHeight));
+        Image panel = plankGo.GetComponent<Image>();
+        panel.sprite = panelArt != null ? panelArt : background;
         panel.type = Image.Type.Sliced;
-        panel.color = new Color(0.10f, 0.08f, 0.07f, 0.85f);
+        panel.color = panelArt != null ? Color.white : new Color(0.10f, 0.08f, 0.07f, 0.85f);
         panel.raycastTarget = false;
 
-        // sky window on the left. Masked, so the sun / moon disappear under the horizon
+        // sky window. Masked, so the sun / moon disappear under the horizon.
+        // With the art this is the stone disc and the code tints it with the phase colour
         GameObject skyGo = new GameObject("Sky", typeof(RectTransform), typeof(Image), typeof(Mask));
         skyGo.transform.SetParent(root.transform, false);
-        Anchor(skyGo.GetComponent<RectTransform>(), new Vector2(0f, 0.5f), new Vector2(14f, 0f), new Vector2(88f, 88f));
+        RectTransform skyRt = skyGo.GetComponent<RectTransform>();
+        skyRt.anchorMin = skyRt.anchorMax = new Vector2(0f, 0.5f);
+        skyRt.pivot = new Vector2(0.5f, 0.5f);
+        skyRt.anchoredPosition = new Vector2(medallionX, 0f);
+        skyRt.sizeDelta = new Vector2(skySize, skySize);
         Image skyImage = skyGo.GetComponent<Image>();
-        skyImage.sprite = knob;
+        skyImage.sprite = skyArt != null ? skyArt : knob;
         skyImage.color = new Color(0.45f, 0.70f, 0.95f);
         skyImage.raycastTarget = false;
         skyGo.GetComponent<Mask>().showMaskGraphic = true;
 
-        GameObject horizon = MakeIcon(skyGo.transform, "Horizon", plain, new Color(0f, 0f, 0f, 0.35f), 88f);
-        horizon.GetComponent<RectTransform>().sizeDelta = new Vector2(88f, 2f);
-        horizon.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, -18f);
-        GameObject sun = MakeIcon(skyGo.transform, "Sun", knob, new Color(1f, 0.85f, 0.30f), 26f);
-        GameObject moon = MakeIcon(skyGo.transform, "Moon", knob, new Color(0.85f, 0.90f, 1f), 22f);
+        GameObject horizon = MakeIcon(skyGo.transform, "Horizon", plain, new Color(0f, 0f, 0f, 0.35f), skySize);
+        horizon.GetComponent<RectTransform>().sizeDelta = new Vector2(skySize, 2f);
+        horizon.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, -20f);
+        horizon.SetActive(skyArt == null);
+        GameObject sun = MakeIcon(skyGo.transform, "Sun", sunArt != null ? sunArt : knob, sunArt != null ? Color.white : new Color(1f, 0.85f, 0.30f), sunArt != null ? 44f : 26f);
+        GameObject moon = MakeIcon(skyGo.transform, "Moon", moonArt != null ? moonArt : knob, moonArt != null ? Color.white : new Color(0.85f, 0.90f, 1f), moonArt != null ? 36f : 22f);
 
-        // empty slots for the real art: a ring drawn over the sky window and one icon per phase
-        GameObject skyFrame = MakeIcon(root.transform, "SkyFrame", null, new Color(1f, 1f, 1f, 0f), 88f);
-        Anchor(skyFrame.GetComponent<RectTransform>(), new Vector2(0f, 0.5f), new Vector2(14f, 0f), new Vector2(88f, 88f));
-        GameObject phaseIconGo = MakeIcon(root.transform, "PhaseIcon", null, Color.white, 32f);
-        Anchor(phaseIconGo.GetComponent<RectTransform>(), new Vector2(1f, 1f), new Vector2(-16f, -14f), new Vector2(32f, 32f));
+        // bone ring over the sky window
+        GameObject skyFrame = MakeIcon(root.transform, "SkyFrame", frameArt, frameArt != null ? Color.white : new Color(1f, 1f, 1f, 0f), frameSize);
+        RectTransform frameRt = skyFrame.GetComponent<RectTransform>();
+        frameRt.anchorMin = frameRt.anchorMax = new Vector2(0f, 0.5f);
+        frameRt.pivot = new Vector2(0.5f, 0.5f);
+        frameRt.anchoredPosition = new Vector2(medallionX, 1f);
+        frameRt.sizeDelta = new Vector2(frameSize, frameSize);
+
+        // small phase badge on the right end of the plank, off by default (DayTimeHUD.showPhaseIcon)
+        GameObject phaseIconGo = MakeIcon(root.transform, "PhaseIcon", null, Color.white, 44f);
+        RectTransform iconRt = phaseIconGo.GetComponent<RectTransform>();
+        iconRt.anchorMin = iconRt.anchorMax = new Vector2(0f, 0.5f);
+        iconRt.pivot = new Vector2(0.5f, 0.5f);
+        iconRt.anchoredPosition = new Vector2(plankLeft + plankWidth - 40f, -2f);
+        iconRt.sizeDelta = new Vector2(44f, 44f);
         phaseIconGo.GetComponent<Image>().enabled = false;
 
-        TextMeshProUGUI dayText = MakeUiText(root.transform, "DayText", 30f, TextAlignmentOptions.TopLeft);
-        Anchor(dayText.rectTransform, new Vector2(0f, 1f), new Vector2(116f, -12f), new Vector2(210f, 40f));
-        dayText.fontStyle = FontStyles.Bold;
+        // one header line "DAY 3 ....... 14:30" and the phase name centred under it.
+        // The Ghost Shadow glyphs are almost twice as tall as the point size, so the lines are spread out
+        TextMeshProUGUI dayText = MakeUiText(root.transform, "DayText", 26f, TextAlignmentOptions.MidlineLeft);
+        Anchor(dayText.rectTransform, new Vector2(0f, 0.5f), new Vector2(textLeft, 20f), new Vector2(120f, 40f));
         dayText.text = "DAY 1";
 
-        TextMeshProUGUI timeText = MakeUiText(root.transform, "TimeText", 26f, TextAlignmentOptions.TopLeft);
-        Anchor(timeText.rectTransform, new Vector2(0f, 1f), new Vector2(116f, -54f), new Vector2(110f, 40f));
+        TextMeshProUGUI timeText = MakeUiText(root.transform, "TimeText", 26f, TextAlignmentOptions.MidlineRight);
+        RectTransform timeRt = timeText.rectTransform;
+        timeRt.anchorMin = timeRt.anchorMax = new Vector2(0f, 0.5f);
+        timeRt.pivot = new Vector2(1f, 0.5f);
+        timeRt.anchoredPosition = new Vector2(textRight, 20f);
+        timeRt.sizeDelta = new Vector2(110f, 40f);
         timeText.text = "08:00";
 
-        TextMeshProUGUI phaseText = MakeUiText(root.transform, "PhaseText", 18f, TextAlignmentOptions.TopRight);
-        Anchor(phaseText.rectTransform, new Vector2(1f, 1f), new Vector2(-16f, -60f), new Vector2(140f, 30f));
-        phaseText.color = new Color(1f, 1f, 1f, 0.7f);
-        phaseText.text = "Morning";
+        TextMeshProUGUI phaseText = MakeUiText(root.transform, "PhaseText", 18f, TextAlignmentOptions.Center);
+        RectTransform phaseRt = phaseText.rectTransform;
+        phaseRt.anchorMin = phaseRt.anchorMax = new Vector2(0f, 0.5f);
+        phaseRt.pivot = new Vector2(0.5f, 0.5f);
+        phaseRt.anchoredPosition = new Vector2((textLeft + textRight) * 0.5f, -30f);
+        phaseRt.sizeDelta = new Vector2(textRight - textLeft, 32f);
+        phaseText.text = "MORNING";
+
+        foreach (TextMeshProUGUI t in new[] { dayText, timeText, phaseText })
+        {
+            if (hudFont != null) t.font = hudFont;
+            if (textMaterial != null) t.fontSharedMaterial = textMaterial;
+            t.color = woodText;
+            t.textWrappingMode = TextWrappingModes.NoWrap;
+            t.overflowMode = TextOverflowModes.Overflow;
+        }
+        if (hudFont == null) dayText.fontStyle = FontStyles.Bold;
+        phaseText.color = new Color(0.85f, 0.78f, 0.62f);
 
         DayTimeHUD hud = root.AddComponent<DayTimeHUD>();
         SetRef(hud, "dayText", dayText);
@@ -526,8 +600,126 @@ public static class ShopTestSceneBuilder
         SetRef(hud, "sun", sun.GetComponent<RectTransform>());
         SetRef(hud, "moon", moon.GetComponent<RectTransform>());
         SetRef(hud, "phaseIcon", phaseIconGo.GetComponent<Image>());
+        SetRefArray(hud, "phaseSprites", phaseArt);
+        SerializedObject hso = new SerializedObject(hud);
+        hso.FindProperty("arcCenter").vector2Value = new Vector2(0f, -20f);
+        hso.FindProperty("arcRadius").floatValue = 30f;
+        hso.ApplyModifiedPropertiesWithoutUndo();
 
         return SavePrefab(root, PrefabDir + "/DayTimeHUD.prefab");
+    }
+
+    // TMP font asset from the ttf in Art/Fonts (Ghost Shadow). Made once, then reused
+    private static TMP_FontAsset BuildHudFont()
+    {
+        string ttf = Root + "/Art/Fonts/GhostShadow.ttf";
+        string assetPath = Root + "/Art/Fonts/GhostShadow SDF.asset";
+        if (!File.Exists(ttf)) return null;
+
+        TMP_FontAsset existing = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(assetPath);
+        if (existing != null) return existing;
+
+        Font font = AssetDatabase.LoadAssetAtPath<Font>(ttf);
+        if (font == null)
+        {
+            AssetDatabase.ImportAsset(ttf);
+            font = AssetDatabase.LoadAssetAtPath<Font>(ttf);
+        }
+        if (font == null) return null;
+
+        // big atlas: the glyphs of this font are very tall, at 1024 they spilled into a second atlas that never got saved
+        TMP_FontAsset fontAsset = TMP_FontAsset.CreateFontAsset(font, 64, 6, GlyphRenderMode.SDFAA, 2048, 2048, AtlasPopulationMode.Dynamic, true);
+        if (fontAsset == null) return null;
+        fontAsset.name = "GhostShadow SDF";
+
+        // bake every printable ascii character so the atlas is fixed and works in a build
+        string chars = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
+        fontAsset.TryAddCharacters(chars, out string missing);
+        if (!string.IsNullOrEmpty(missing)) Debug.LogWarning("GhostShadow is missing: " + missing);
+        fontAsset.atlasPopulationMode = AtlasPopulationMode.Static;
+
+        AssetDatabase.CreateAsset(fontAsset, assetPath);
+        fontAsset.material.name = fontAsset.name + " Material";
+        AssetDatabase.AddObjectToAsset(fontAsset.material, fontAsset);
+        Texture2D[] atlases = fontAsset.atlasTextures;
+        for (int i = 0; i < atlases.Length; i++)
+        {
+            if (atlases[i] == null) continue;
+            atlases[i].name = fontAsset.name + " Atlas " + i;
+            AssetDatabase.AddObjectToAsset(atlases[i], fontAsset);
+        }
+        Debug.Log("GhostShadow font asset: " + fontAsset.characterTable.Count + " characters in " + atlases.Length + " atlas texture(s)");
+        AssetDatabase.SaveAssets();
+        return fontAsset;
+    }
+
+    // imports a png from Art/HUD as a UI sprite. Returns null when the file isn't there yet
+    private static Sprite LoadHudSprite(string file, bool sliced)
+    {
+        string path = ArtDir + "/" + file;
+        if (!File.Exists(path)) return null;
+
+        TextureImporter importer = AssetImporter.GetAtPath(path) as TextureImporter;
+        if (importer == null)
+        {
+            AssetDatabase.ImportAsset(path);
+            importer = AssetImporter.GetAtPath(path) as TextureImporter;
+            if (importer == null) return null;
+        }
+
+        bool changed = false;
+        if (importer.textureType != TextureImporterType.Sprite) { importer.textureType = TextureImporterType.Sprite; changed = true; }
+        if (importer.spriteImportMode != SpriteImportMode.Single) { importer.spriteImportMode = SpriteImportMode.Single; changed = true; }
+        if (!importer.alphaIsTransparency) { importer.alphaIsTransparency = true; changed = true; }
+        if (importer.mipmapEnabled) { importer.mipmapEnabled = false; changed = true; }
+        if (importer.maxTextureSize < 2048) { importer.maxTextureSize = 2048; changed = true; }
+
+        if (sliced)
+        {
+            Texture2D tex = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+            if (tex != null)
+            {
+                // left, bottom, right, top. Iron band on the left and the torn end on the right stay fixed, the middle stretches
+                Vector4 border = new Vector4(tex.width * 0.24f, tex.height * 0.22f, tex.width * 0.30f, tex.height * 0.22f);
+                if ((importer.spriteBorder - border).sqrMagnitude > 1f) { importer.spriteBorder = border; changed = true; }
+            }
+            TextureImporterSettings settings = new TextureImporterSettings();
+            importer.ReadTextureSettings(settings);
+            if (settings.spriteMeshType != SpriteMeshType.FullRect)
+            {
+                settings.spriteMeshType = SpriteMeshType.FullRect;
+                importer.SetTextureSettings(settings);
+                changed = true;
+            }
+        }
+
+        if (changed) importer.SaveAndReimport();
+        return AssetDatabase.LoadAssetAtPath<Sprite>(path);
+    }
+
+    // the HUD font with a dark outline so the numbers read on any background
+    private static Material BuildHudTextMaterial(TMP_FontAsset font)
+    {
+        if (font == null) font = TMP_Settings.defaultFontAsset;
+        if (font == null || font.material == null) return null;
+
+        EnsureFolder(ArtDir);
+        string path = ArtDir + "/HudText.mat";
+        Material mat = AssetDatabase.LoadAssetAtPath<Material>(path);
+        if (mat == null)
+        {
+            mat = new Material(font.material);
+            AssetDatabase.CreateAsset(mat, path);
+        }
+
+        mat.shader = font.material.shader;
+        mat.SetTexture(ShaderUtilities.ID_MainTex, font.material.GetTexture(ShaderUtilities.ID_MainTex));
+        mat.EnableKeyword(ShaderUtilities.Keyword_Outline);
+        mat.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.12f);
+        mat.SetColor(ShaderUtilities.ID_OutlineColor, new Color(0.06f, 0.04f, 0.02f, 1f));
+        mat.SetFloat(ShaderUtilities.ID_FaceDilate, 0.02f);
+        EditorUtility.SetDirty(mat);
+        return mat;
     }
 
     private static GameObject MakeIcon(Transform parent, string name, Sprite sprite, Color color, float size)
@@ -540,6 +732,7 @@ public static class ShopTestSceneBuilder
         image.sprite = sprite;
         image.color = color;
         image.raycastTarget = false;
+        image.preserveAspect = true;
         return go;
     }
 
@@ -734,8 +927,18 @@ public static class ShopTestSceneBuilder
 
     private static void BuildScene(Materials mats, List<ProductSO> products, ShopSettingsSO settings, DaySettingsSO daySettings,
         List<CustomerTypeSO> types, GameObject shelfPrefab, GameObject customerPrefab, GameObject checkoutPrefab, GameObject playerPrefab,
-        GameObject hudPrefab)
+        GameObject hudPrefab, TMP_FontAsset hudFont, Material hudTextMaterial)
     {
+        // re-fetch the data assets from disk. If anything got saved and reimported on the way here the
+        // objects we were handed are dead and would serialize as null
+        settings = AssetDatabase.LoadAssetAtPath<ShopSettingsSO>(DataDir + "/ShopSettings.asset");
+        daySettings = AssetDatabase.LoadAssetAtPath<DaySettingsSO>(DataDir + "/DaySettings.asset");
+        for (int i = 0; i < products.Count; i++)
+            products[i] = AssetDatabase.LoadAssetAtPath<ProductSO>(ProductsDir + "/" + SafeName(ProductDefs[i].name) + ".asset");
+        string[] typeFiles = { "Villager", "MaskedStranger", "OldMan" };
+        for (int i = 0; i < types.Count && i < typeFiles.Length; i++)
+            types[i] = AssetDatabase.LoadAssetAtPath<CustomerTypeSO>(CustomersDir + "/" + typeFiles[i] + ".asset");
+
         Scene scene = EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Single);
 
         // light fog so the outside reads a bit more like the village and less like a test grid
@@ -899,7 +1102,7 @@ public static class ShopTestSceneBuilder
         // ---- player, outside facing the door ----
         Place(playerPrefab, null, new Vector3(0f, 1f, -8f), Quaternion.identity);
 
-        BuildUi(hudPrefab);
+        BuildUi(hudPrefab, hudFont, hudTextMaterial);
 
         // ---- navmesh ----
         NavMeshSurface surface = env.AddComponent<NavMeshSurface>();
@@ -914,7 +1117,7 @@ public static class ShopTestSceneBuilder
         EditorSceneManager.SaveScene(scene, ScenePath);
     }
 
-    private static void BuildUi(GameObject hudPrefab)
+    private static void BuildUi(GameObject hudPrefab, TMP_FontAsset hudFont, Material hudTextMaterial)
     {
         GameObject canvasGo = new GameObject("ShopUI", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
         canvasGo.layer = LayerMask.NameToLayer("UI");
@@ -951,8 +1154,13 @@ public static class ShopTestSceneBuilder
             hudGo.GetComponent<RectTransform>().anchoredPosition = new Vector2(24f, -24f);
         }
 
-        TextMeshProUGUI money = MakeUiText(canvasGo.transform, "MoneyText", 40f, TextAlignmentOptions.TopLeft);
-        Anchor(money.rectTransform, new Vector2(0f, 1f), new Vector2(24f, -150f), new Vector2(600f, 60f));
+        // money sits under the plank, to the right of the medallion
+        TextMeshProUGUI money = MakeUiText(canvasGo.transform, "MoneyText", 34f, TextAlignmentOptions.TopLeft);
+        Anchor(money.rectTransform, new Vector2(0f, 1f), new Vector2(182f, -190f), new Vector2(400f, 56f));
+        if (hudFont != null) money.font = hudFont;
+        if (hudTextMaterial != null) money.fontSharedMaterial = hudTextMaterial;
+        money.color = new Color(0.93f, 0.82f, 0.60f);
+        money.textWrappingMode = TextWrappingModes.NoWrap;
 
         TextMeshProUGUI carry = MakeUiText(canvasGo.transform, "CarryText", 26f, TextAlignmentOptions.BottomRight);
         Anchor(carry.rectTransform, new Vector2(1f, 0f), new Vector2(-24f, 24f), new Vector2(800f, 80f));
@@ -965,8 +1173,12 @@ public static class ShopTestSceneBuilder
         SetRef(hud, "moneyText", money);
         SetRef(hud, "carryText", carry);
 
-        TextMeshProUGUI state = MakeUiText(canvasGo.transform, "ShopStateText", 32f, TextAlignmentOptions.TopRight);
-        Anchor(state.rectTransform, new Vector2(1f, 1f), new Vector2(-24f, -24f), new Vector2(400f, 50f));
+        TextMeshProUGUI state = MakeUiText(canvasGo.transform, "ShopStateText", 30f, TextAlignmentOptions.TopRight);
+        Anchor(state.rectTransform, new Vector2(1f, 1f), new Vector2(-32f, -44f), new Vector2(400f, 50f));
+        if (hudFont != null) state.font = hudFont;
+        if (hudTextMaterial != null) state.fontSharedMaterial = hudTextMaterial;
+        state.color = new Color(0.93f, 0.82f, 0.60f);
+        state.textWrappingMode = TextWrappingModes.NoWrap;
         SetRef(hud, "shopStateText", state);
 
         TextMeshProUGUI sale = MakeUiText(canvasGo.transform, "SaleText", 34f, TextAlignmentOptions.Top);

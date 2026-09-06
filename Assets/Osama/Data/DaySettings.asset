@@ -20,7 +20,7 @@ MonoBehaviour:
   dayStart: 10
   eveningStart: 17
   nightStart: 20
-  morningSky: {r: 0.95, g: 0.75, b: 0.55, a: 1}
-  daySky: {r: 0.45, g: 0.7, b: 0.95, a: 1}
-  eveningSky: {r: 0.85, g: 0.45, b: 0.35, a: 1}
-  nightSky: {r: 0.08, g: 0.1, b: 0.2, a: 1}
+  morningSky: {r: 1, g: 0.86, b: 0.7, a: 1}
+  daySky: {r: 0.78, g: 0.9, b: 1, a: 1}
+  eveningSky: {r: 1, g: 0.62, b: 0.45, a: 1}
+  nightSky: {r: 0.36, g: 0.42, b: 0.62, a: 1}

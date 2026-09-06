@@ -11,7 +11,8 @@ public class DayTimeHUD : MonoBehaviour
     [SerializeField] private TMP_Text timeText;
     [SerializeField] private TMP_Text phaseText;
     [SerializeField] private string dayFormat = "DAY {0}";
-    [SerializeField] private string[] phaseNames = { "Morning", "Afternoon", "Evening", "Night" };
+    // upper case on purpose, the Ghost Shadow font has no lower case letters
+    [SerializeField] private string[] phaseNames = { "MORNING", "AFTERNOON", "EVENING", "NIGHT" };
 
     [Header("Sky window")]
     [Tooltip("Gets tinted with the phase colour from the DaySettings")]
@@ -24,6 +25,7 @@ public class DayTimeHUD : MonoBehaviour
     [SerializeField] private float skyFadeSpeed = 2f;
 
     [Header("Optional: one icon per phase (Morning, Day, Evening, Night)")]
+    [SerializeField] private bool showPhaseIcon = false;
     [SerializeField] private Image phaseIcon;
     [SerializeField] private Sprite[] phaseSprites;
 
@@ -99,7 +101,7 @@ public class DayTimeHUD : MonoBehaviour
             // stays hidden until there's real art for it
             Sprite sprite = phaseSprites != null && i < phaseSprites.Length ? phaseSprites[i] : null;
             phaseIcon.sprite = sprite;
-            phaseIcon.enabled = sprite != null;
+            phaseIcon.enabled = showPhaseIcon && sprite != null;
         }
         RefreshText();
     }
