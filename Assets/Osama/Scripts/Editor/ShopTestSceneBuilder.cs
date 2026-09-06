@@ -34,7 +34,7 @@ public static class ShopTestSceneBuilder
 
     private class Materials
     {
-        public Material grass, floor, wall, wood, darkWood, metal, body, mask, lamp, window, leaves, rock;
+        public Material grass, floor, wall, wood, darkWood, metal, body, mask, lamp, window, leaves, rock, bed;
         public Dictionary<string, Material> products = new Dictionary<string, Material>();
     }
 
@@ -98,14 +98,16 @@ public static class ShopTestSceneBuilder
         Materials mats = BuildMaterials();
         List<ProductSO> products = BuildProducts(mats);
         ShopSettingsSO settings = BuildSettings();
+        DaySettingsSO daySettings = BuildDaySettings();
         List<CustomerTypeSO> types = BuildCustomerTypes(products);
 
         GameObject shelfPrefab = BuildShelfPrefab(mats);
         GameObject customerPrefab = BuildCustomerPrefab(mats);
         GameObject checkoutPrefab = BuildCheckoutPrefab(mats);
         GameObject playerPrefab = BuildPlayerPrefab();
+        GameObject hudPrefab = BuildDayHudPrefab();
 
-        BuildScene(mats, products, settings, types, shelfPrefab, customerPrefab, checkoutPrefab, playerPrefab);
+        BuildScene(mats, products, settings, daySettings, types, shelfPrefab, customerPrefab, checkoutPrefab, playerPrefab, hudPrefab);
 
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
@@ -173,6 +175,7 @@ public static class ShopTestSceneBuilder
             window = MakeMaterial("Window", new Color(0.12f, 0.16f, 0.22f), 0.9f),
             leaves = MakeMaterial("Leaves", new Color(0.18f, 0.35f, 0.16f)),
             rock = MakeMaterial("Rock", new Color(0.36f, 0.36f, 0.37f), 0.2f),
+            bed = MakeMaterial("Bed", new Color(0.45f, 0.12f, 0.12f)),
         };
 
         foreach (ProductDef def in ProductDefs)
@@ -259,6 +262,21 @@ public static class ShopTestSceneBuilder
         s.currencySymbol = "$";
         s.startingMoney = 0;
         s.rarityMultipliers = new[] { 1f, 1.5f, 2.5f, 5f };
+        EditorUtility.SetDirty(s);
+        return s;
+    }
+
+    private static DaySettingsSO BuildDaySettings()
+    {
+        DaySettingsSO s = LoadOrCreate<DaySettingsSO>(DataDir + "/DaySettings.asset");
+        s.realSecondsPerHour = 30f; // quick days for testing, a full day is 12 real minutes
+        s.startDay = 1;
+        s.startHour = 8f;
+        s.wakeUpHour = 8f;
+        s.morningStart = 6f;
+        s.dayStart = 10f;
+        s.eveningStart = 17f;
+        s.nightStart = 20f;
         EditorUtility.SetDirty(s);
         return s;
     }
@@ -446,6 +464,83 @@ public static class ShopTestSceneBuilder
         SetRefArray(counter, "queuePoints", queue);
 
         return SavePrefab(go, PrefabDir + "/CheckoutCounter.prefab");
+    }
+
+    // the top-left clock. Built from Unity's built-in UI sprites, the real art just replaces the sprites on the Images
+    private static GameObject BuildDayHudPrefab()
+    {
+        Sprite background = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd");
+        Sprite knob = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Knob.psd");
+        Sprite plain = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
+
+        GameObject root = new GameObject("DayTimeHUD", typeof(RectTransform), typeof(Image));
+        Anchor(root.GetComponent<RectTransform>(), new Vector2(0f, 1f), Vector2.zero, new Vector2(340f, 110f));
+        Image panel = root.GetComponent<Image>();
+        panel.sprite = background;
+        panel.type = Image.Type.Sliced;
+        panel.color = new Color(0.10f, 0.08f, 0.07f, 0.85f);
+        panel.raycastTarget = false;
+
+        // sky window on the left. Masked, so the sun / moon disappear under the horizon
+        GameObject skyGo = new GameObject("Sky", typeof(RectTransform), typeof(Image), typeof(Mask));
+        skyGo.transform.SetParent(root.transform, false);
+        Anchor(skyGo.GetComponent<RectTransform>(), new Vector2(0f, 0.5f), new Vector2(14f, 0f), new Vector2(88f, 88f));
+        Image skyImage = skyGo.GetComponent<Image>();
+        skyImage.sprite = knob;
+        skyImage.color = new Color(0.45f, 0.70f, 0.95f);
+        skyImage.raycastTarget = false;
+        skyGo.GetComponent<Mask>().showMaskGraphic = true;
+
+        GameObject horizon = MakeIcon(skyGo.transform, "Horizon", plain, new Color(0f, 0f, 0f, 0.35f), 88f);
+        horizon.GetComponent<RectTransform>().sizeDelta = new Vector2(88f, 2f);
+        horizon.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, -18f);
+        GameObject sun = MakeIcon(skyGo.transform, "Sun", knob, new Color(1f, 0.85f, 0.30f), 26f);
+        GameObject moon = MakeIcon(skyGo.transform, "Moon", knob, new Color(0.85f, 0.90f, 1f), 22f);
+
+        // empty slots for the real art: a ring drawn over the sky window and one icon per phase
+        GameObject skyFrame = MakeIcon(root.transform, "SkyFrame", null, new Color(1f, 1f, 1f, 0f), 88f);
+        Anchor(skyFrame.GetComponent<RectTransform>(), new Vector2(0f, 0.5f), new Vector2(14f, 0f), new Vector2(88f, 88f));
+        GameObject phaseIconGo = MakeIcon(root.transform, "PhaseIcon", null, Color.white, 32f);
+        Anchor(phaseIconGo.GetComponent<RectTransform>(), new Vector2(1f, 1f), new Vector2(-16f, -14f), new Vector2(32f, 32f));
+        phaseIconGo.GetComponent<Image>().enabled = false;
+
+        TextMeshProUGUI dayText = MakeUiText(root.transform, "DayText", 30f, TextAlignmentOptions.TopLeft);
+        Anchor(dayText.rectTransform, new Vector2(0f, 1f), new Vector2(116f, -12f), new Vector2(210f, 40f));
+        dayText.fontStyle = FontStyles.Bold;
+        dayText.text = "DAY 1";
+
+        TextMeshProUGUI timeText = MakeUiText(root.transform, "TimeText", 26f, TextAlignmentOptions.TopLeft);
+        Anchor(timeText.rectTransform, new Vector2(0f, 1f), new Vector2(116f, -54f), new Vector2(110f, 40f));
+        timeText.text = "08:00";
+
+        TextMeshProUGUI phaseText = MakeUiText(root.transform, "PhaseText", 18f, TextAlignmentOptions.TopRight);
+        Anchor(phaseText.rectTransform, new Vector2(1f, 1f), new Vector2(-16f, -60f), new Vector2(140f, 30f));
+        phaseText.color = new Color(1f, 1f, 1f, 0.7f);
+        phaseText.text = "Morning";
+
+        DayTimeHUD hud = root.AddComponent<DayTimeHUD>();
+        SetRef(hud, "dayText", dayText);
+        SetRef(hud, "timeText", timeText);
+        SetRef(hud, "phaseText", phaseText);
+        SetRef(hud, "sky", skyImage);
+        SetRef(hud, "sun", sun.GetComponent<RectTransform>());
+        SetRef(hud, "moon", moon.GetComponent<RectTransform>());
+        SetRef(hud, "phaseIcon", phaseIconGo.GetComponent<Image>());
+
+        return SavePrefab(root, PrefabDir + "/DayTimeHUD.prefab");
+    }
+
+    private static GameObject MakeIcon(Transform parent, string name, Sprite sprite, Color color, float size)
+    {
+        GameObject go = new GameObject(name, typeof(RectTransform), typeof(Image));
+        go.transform.SetParent(parent, false);
+        Anchor(go.GetComponent<RectTransform>(), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(size, size));
+
+        Image image = go.GetComponent<Image>();
+        image.sprite = sprite;
+        image.color = color;
+        image.raycastTarget = false;
+        return go;
     }
 
     // copies Ali's player out of AliS.unity (arms, gun, movement, input) and adds the shop bits on top.
@@ -637,8 +732,9 @@ public static class ShopTestSceneBuilder
 
     // ---------------------------------------------------------------- scene
 
-    private static void BuildScene(Materials mats, List<ProductSO> products, ShopSettingsSO settings, List<CustomerTypeSO> types,
-        GameObject shelfPrefab, GameObject customerPrefab, GameObject checkoutPrefab, GameObject playerPrefab)
+    private static void BuildScene(Materials mats, List<ProductSO> products, ShopSettingsSO settings, DaySettingsSO daySettings,
+        List<CustomerTypeSO> types, GameObject shelfPrefab, GameObject customerPrefab, GameObject checkoutPrefab, GameObject playerPrefab,
+        GameObject hudPrefab)
     {
         Scene scene = EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Single);
 
@@ -737,6 +833,14 @@ public static class ShopTestSceneBuilder
         sign.color = new Color(0.75f, 0.12f, 0.12f);
         sign.fontStyle = FontStyles.Bold;
 
+        // bed in the back corner, look at it and press E to skip the day / sleep
+        GameObject bed = new GameObject("Bed");
+        bed.transform.SetParent(building.transform, false);
+        bed.transform.localPosition = new Vector3(5.3f, 0f, 3.5f);
+        Box(bed, "Mattress", new Vector3(0f, 0.15f, 0f), new Vector3(1.0f, 0.3f, 2.0f), mats.bed);
+        Box(bed, "Pillow", new Vector3(0f, 0.36f, 0.7f), new Vector3(0.6f, 0.12f, 0.4f), mats.mask);
+        bed.AddComponent<SleepSpot>();
+
         GameObject shelves = new GameObject("Shelves");
         shelves.transform.SetParent(env.transform, false);
         Place(shelfPrefab, shelves.transform, new Vector3(-3.5f, 0f, 5.6f), Quaternion.identity);
@@ -754,6 +858,10 @@ public static class ShopTestSceneBuilder
         Transform entrance = MakePoint(points.transform, "ShopEntrance", new Vector3(0f, 0f, -2.2f));
 
         // ---- managers ----
+        GameObject dayGo = new GameObject("DayManager");
+        DayManager dayManager = dayGo.AddComponent<DayManager>();
+        SetRef(dayManager, "settings", daySettings);
+
         GameObject managerGo = new GameObject("ShopManager");
         ShopManager manager = managerGo.AddComponent<ShopManager>();
         SetRef(manager, "settings", settings);
@@ -791,7 +899,7 @@ public static class ShopTestSceneBuilder
         // ---- player, outside facing the door ----
         Place(playerPrefab, null, new Vector3(0f, 1f, -8f), Quaternion.identity);
 
-        BuildUi();
+        BuildUi(hudPrefab);
 
         // ---- navmesh ----
         NavMeshSurface surface = env.AddComponent<NavMeshSurface>();
@@ -806,7 +914,7 @@ public static class ShopTestSceneBuilder
         EditorSceneManager.SaveScene(scene, ScenePath);
     }
 
-    private static void BuildUi()
+    private static void BuildUi(GameObject hudPrefab)
     {
         GameObject canvasGo = new GameObject("ShopUI", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
         canvasGo.layer = LayerMask.NameToLayer("UI");
@@ -835,8 +943,16 @@ public static class ShopTestSceneBuilder
         prompt.rectTransform.offsetMin = new Vector2(16f, 8f);
         prompt.rectTransform.offsetMax = new Vector2(-16f, -8f);
 
+        // day / time clock top-left, money right under it
+        if (hudPrefab != null)
+        {
+            GameObject hudGo = (GameObject)PrefabUtility.InstantiatePrefab(hudPrefab);
+            hudGo.transform.SetParent(canvasGo.transform, false);
+            hudGo.GetComponent<RectTransform>().anchoredPosition = new Vector2(24f, -24f);
+        }
+
         TextMeshProUGUI money = MakeUiText(canvasGo.transform, "MoneyText", 40f, TextAlignmentOptions.TopLeft);
-        Anchor(money.rectTransform, new Vector2(0f, 1f), new Vector2(24f, -24f), new Vector2(600f, 60f));
+        Anchor(money.rectTransform, new Vector2(0f, 1f), new Vector2(24f, -150f), new Vector2(600f, 60f));
 
         TextMeshProUGUI carry = MakeUiText(canvasGo.transform, "CarryText", 26f, TextAlignmentOptions.BottomRight);
         Anchor(carry.rectTransform, new Vector2(1f, 0f), new Vector2(-24f, 24f), new Vector2(800f, 80f));

@@ -33,9 +33,15 @@ or the price tags / HUD stay invisible.
   (they register themselves), a `CustomerSpawner` with spawn/entrance points, baked NavMesh.
 - Price = `basePrice * rarityMultiplier`, see `ShopSettingsSO.GetSellPrice`.
 
+## Day / night
+
+`Scripts/Day`: `DayManager` (the clock, `Day` / `Hour` / `Phase`, events `OnDayChanged` / `OnPhaseChanged` / `OnMinuteChanged`),
+`DaySettingsSO` (speed, phase hours, sky colours), `DayTimeHUD` (top-left clock, prefab `Prefabs/DayTimeHUD`), `SleepSpot` (the bed).
+The shop closes itself at night (`ShopManager.closeAtNight`). Arabic docs with the dialogue hook: `Assets/Osama/Docs`.
+
 ## Where to plug things in later
 
-- Day/night: `ShopManager.SetOpen(false)` stops new customers.
+- Day/night: `ShopManager.SetOpen(false)` stops new customers, done automatically through the DayManager.
 - Inventory: `PlayerCarry` is the only seam. `ProductSO` can link to `ItemSO` once that's merged.
 - Special NPCs / quests / dialogue: `CustomerTypeSO.isSpecial` + `wantedProducts`, `Customer.OnStateChanged`.
 - Smarter customers: `ShopManager.FindSlotFor`.

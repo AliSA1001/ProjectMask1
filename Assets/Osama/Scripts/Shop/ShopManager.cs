@@ -11,7 +11,10 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private ShopSettingsSO settings;
     [Tooltip("Found automatically if empty")]
     [SerializeField] private CheckoutCounter checkout;
+    [Tooltip("Used when there is no DayManager in the scene")]
     [SerializeField] private bool openAtStart = true;
+    [Tooltip("Follow the DayManager: open during the day, closed at night")]
+    [SerializeField] private bool closeAtNight = true;
 
     public ShopSettingsSO Settings => settings;
     public CheckoutCounter Checkout => checkout;
@@ -46,14 +49,28 @@ public class ShopManager : MonoBehaviour
     private void OnDestroy()
     {
         if (instance == this) instance = null;
+        if (DayManager.instance != null) DayManager.instance.OnPhaseChanged -= HandlePhaseChanged;
     }
 
     private void Start()
     {
-        if (openAtStart) SetOpen(true);
+        if (closeAtNight && DayManager.instance != null)
+        {
+            DayManager.instance.OnPhaseChanged += HandlePhaseChanged;
+            SetOpen(!DayManager.instance.IsNight);
+        }
+        else if (openAtStart)
+        {
+            SetOpen(true);
+        }
     }
 
-    // the day/night cycle should call this. Closed just means no new customers show up
+    private void HandlePhaseChanged(DayPhase phase)
+    {
+        SetOpen(phase != DayPhase.Night);
+    }
+
+    // closed just means no new customers show up, the ones inside finish what they were doing
     public void SetOpen(bool open)
     {
         if (IsOpen == open) return;
