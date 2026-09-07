@@ -3479,7 +3479,7 @@ MonoBehaviour:
   Ammo: {fileID: 11400000, guid: 793bce0cc8280544bace6b7d8a3d02f5, type: 2}
   hotbarObj: {fileID: 1290857468}
   inventorySlotParent: {fileID: 1725125752}
-  dragIcon: {fileID: 0}
+  dragIcon: {fileID: 1598877880}
 --- !u!114 &1429724070
 MonoBehaviour:
   m_ObjectHideFlags: 0
