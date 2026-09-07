@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf3c45027befce34b8ae691a86baf99f, type: 3}
+  m_Name: OldJar
+  m_EditorClassIdentifier: Assembly-CSharp::ProductSO
+  productName: Old Jar
+  category: 0
+  rarity: 0
+  basePrice: 10
+  icon: {fileID: 0}
+  displayPrefab: {fileID: 3568664971044389756, guid: 1c1da7602f1913c419dc51f25ce9f5b6, type: 3}
