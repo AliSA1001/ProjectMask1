@@ -73,7 +73,7 @@ public class Slot : MonoBehaviour ,IPointerEnterHandler , IPointerExitHandler
         return itemAmount;
     }
 
-    private void ClearSlot()
+    public void ClearSlot()
     {
         heldItem = null;
         itemAmount = 0; 

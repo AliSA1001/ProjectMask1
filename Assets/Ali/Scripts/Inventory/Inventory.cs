@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using System;
 
 public class Inventory : MonoBehaviour
 {
@@ -44,6 +45,10 @@ public class Inventory : MonoBehaviour
         {
           AddItem(Ammo,5);
         }
+
+        StartDrag();
+        UpdateDragItemPosition();
+        EndDrag();
     }
 
     public void AddItem(ItemSO itemToAdd, int amount)
@@ -96,16 +101,115 @@ public class Inventory : MonoBehaviour
     }
     private void StartDrag()
     {
+
+        if(isDraging) return;
+
+
         if (isSelectingItem)
         {
-            
+            Slot hovered = GetHoverdSlot();
+
+            if (hovered != null && hovered.HasItem())
+            {
+                draggedSlot = hovered;
+                isDraging = true;
+
+                //show the drag item 
+                dragIcon.sprite = hovered.GetItem().icon;
+                dragIcon.color = new Color(1, 1, 1, 0.5f);
+                dragIcon.enabled = true;
+            }
         }
+    }
+
+    private void EndDrag()
+    {
+        if (!isSelectingItem && isDraging)
+        {
+            Slot hoverd = GetHoverdSlot();
+
+            if(hoverd != null)
+            {
+                HandleDrop(draggedSlot, hoverd);
+
+                dragIcon.enabled = false;
+
+                draggedSlot = null;
+                isDraging = false;
+            }
+        }
+    }
+
+   
+
+    private Slot GetHoverdSlot()
+    {
+        foreach (Slot slot in allSlots)
+        {
+            if (slot.hovering)
+            {
+                return slot;
+            }
+        }
+        return null;
+    }
+    private void HandleDrop(Slot from,Slot to)
+    {
+        if(from == to) return;
+
+        //Stacking
+        if(to.HasItem() && to.GetItem() == from.GetItem ()) 
+        {
+            int max = to.GetItem().maxStacksSize;
+            int space = max - to.GetAmount();
+
+            if(space > 0)
+            {
+                int move = Mathf.Min(space, from.GetAmount());
+                
+                to.SetItem(to.GetItem(), to.GetAmount() + move);
+                from.SetItem(from.GetItem(), from.GetAmount() - move);
+
+                if(from.GetAmount() <= 0)
+                {
+                    from.ClearSlot();
+
+                    return;
+                }
+
+            }
+            return;
+        }
+        
+        //Diffrent Item
+        if(to.HasItem() && to.GetItem() != from.GetItem()) 
+        {
+         ItemSO tempItem = to.GetItem();
+            int tempAmount = to.GetAmount();
+
+            to.SetItem(from.GetItem(), from.GetAmount());
+            from.SetItem(tempItem, tempAmount);
+            return;
+        }
+
+        //Empty Slot
+        to.SetItem(from.GetItem(), from.GetAmount());
+        from.ClearSlot();
+    }
+
+    private void UpdateDragItemPosition()
+    {
+        dragIcon.transform.position = Input.mousePosition;
     }
     public void OnSlectingItem(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
             isSelectingItem = true;
+        }
+        if (context.canceled)
+        {
+            isSelectingItem = false;
         }
     }
 
