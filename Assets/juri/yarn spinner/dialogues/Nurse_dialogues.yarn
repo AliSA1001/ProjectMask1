@@ -1,0 +1,64 @@
+﻿title: Nurse_dialogues
+---
+Nurse: morning
+
+-> morning
+    Mc: morning
+    Nurse: you're friendlier than what people say huh
+-> ….
+    Mc: ….
+    Nurse: Morning to you too
+-> What do you want
+    Mc: What do you want
+    Nurse: straight to the point huh? I like that attitude
+
+Nurse: I was hoping to find the five headed snake here
+
+-> I don't have that
+    Mc: I don't have that
+    Nurse: well go get it can't you get anything?
+-> ……..
+    Mc: ……..
+
+Nurse: I shall come back when you have it
+Nurse: Later shop man
+
+<<setFact quest_snake 1>>
+===
+
+
+title: Nurse_Waiting
+---
+Nurse: Still nothing?
+Mc: ……..
+Nurse: Later shop man
+===
+
+
+title: Nurse_Deliver
+---
+Nurse: So? Found it yet?
+
+-> it's all yours
+    Mc: it's all yours
+-> no
+    Mc: no
+    // joking like a silly goose
+    Mc: it's all yours
+
+// gives the snake
+<<takeItem five_headed_snake 1>>
+
+Nurse: I knew you could do it!
+Nurse: here this is for your trouble
+<<giveGold 100>>   // idk yall how much she'll give us
+Nurse: also you can stop by me when I smoke next to the ambulance I'll help get you whatever you want
+
+<<setFact quest_snake 2>>
+<<setFact nurse_ambulance_unlocked 1>>
+===
+
+title: Nurse_Done
+---
+Nurse: Later shop man
+===

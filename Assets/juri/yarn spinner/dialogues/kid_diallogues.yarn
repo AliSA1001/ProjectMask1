@@ -1,0 +1,71 @@
+﻿title: kid_diallogues
+---
+Kid: HEY THERE SIR
+
+-> why are you screaming
+    Mc: why are you screaming
+-> ……..
+    Mc: ……..
+-> HEY THERE KIDDO
+    Mc: HEY THERE KIDDO
+
+Kid: SIR I NEED SOMETHING FROM YOU SIR
+Mc: …..
+Kid: HERE TAKE THIS
+
+// bunch of bugs and rocks 
+<<giveItem bugs_and_rocks 1>>
+
+Kid: I'D LIKE SOME AMETHYST SIR
+
+-> this won't get you an amethyst
+    Mc: this won't get you an amethyst
+-> why
+    Mc: why
+-> …..
+    Mc: …..
+
+Kid: I'LL STOP BY TO TAKE IT LATER SIR THANN YOU
+//  kid runs off lol
+
+<<setFact quest_amethyst 1>>
+===
+
+
+title: Kid_Waiting
+---
+Kid: DID YOU GET IT YET SIR?
+Mc: …..
+Kid: I'LL COME BACK LATER SIR
+===
+
+
+title: Kid_Deliver
+---
+Kid: HELLO SIR
+Kid: GOT THE AMETHYSTINE SIR?
+
+-> Here you go
+    Mc: Here you go
+-> ….
+    Mc: ….
+-> yes but why'd a kid like you want one?
+    Mc: yes but why'd a kid like you want one?
+
+<<takeItem amethyst 1>>
+
+Kid: I..
+Kid: Thank you sir I
+Mc: what?
+Kid: it's my mom… she's sick and they told us we need an amethyst for her medicine
+Kid: I will come here again with my mom to thank you SIR THANK YOUUU!!
+// kid runs off+2
+
+<<setFact quest_amethyst 2>>
+===
+
+
+title: Kid_Done
+---
+Kid: THANK YOU AGAIN SIR!
+===
