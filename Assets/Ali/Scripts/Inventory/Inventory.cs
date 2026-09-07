@@ -50,10 +50,10 @@ public class Inventory : MonoBehaviour
                 if(currentAmount < maxStack)
                 {
                     int spaceLeft = maxStack - currentAmount;
-                    int amountToAdd = Mathf.Min(spaceLeft, amount);
+                    int amountToAdd = Mathf.Min(spaceLeft, remanining);
 
-                    slot.SetItem(itemToAdd, amountToAdd);
-                    remanining += amountToAdd;
+                    slot.SetItem(itemToAdd,currentAmount +  amountToAdd);
+                    remanining -= amountToAdd;
                     
                     if(remanining <= 0)
                     {
