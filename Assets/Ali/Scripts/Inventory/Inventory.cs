@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class Inventory : MonoBehaviour
 {
@@ -10,9 +12,16 @@ public class Inventory : MonoBehaviour
     public GameObject hotbarObj;
     public GameObject inventorySlotParent;
 
+    public Image dragIcon;
+
     private List<Slot> inventorySlots = new List<Slot>();
     private List<Slot> hotbarSlots = new List<Slot>();
     private List<Slot> allSlots = new List<Slot>();
+
+    private Slot draggedSlot = null;
+    private bool isDraging = false;
+    // new input system helper vaule 
+    private bool isSelectingItem = false;
 
     private void Awake()
     {
@@ -85,4 +94,21 @@ public class Inventory : MonoBehaviour
             Debug.Log("We are full ");
         }
     }
+    private void StartDrag()
+    {
+        if (isSelectingItem)
+        {
+            
+        }
+    }
+    public void OnSlectingItem(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            isSelectingItem = true;
+        }
+    }
+
+
+
 }

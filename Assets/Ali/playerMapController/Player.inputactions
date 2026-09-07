@@ -221,6 +221,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Inventory",
+            "id": "f6a2f3a4-adab-4398-8615-936236dbfd35",
+            "actions": [
+                {
+                    "name": "Select Item",
+                    "type": "Button",
+                    "id": "ba330902-0588-4f1b-9d73-9950de7e2cc4",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "1cb8cb7e-e23d-4348-85dd-eaf1958e1bbb",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select Item",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
