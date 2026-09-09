@@ -22,6 +22,10 @@ public class Inventory : MonoBehaviour
     private Material originalMaterial;
     private Renderer lookedAtRenderer = null;
 
+    private int equippedHotBarIndex = 0; // from 0 to 5
+    public float equippedOpacity = 0.9f;
+    public float normalOpacity = 0.58f;
+
     private List<Slot> inventorySlots = new List<Slot>();
     private List<Slot> hotbarSlots = new List<Slot>();
     private List<Slot> allSlots = new List<Slot>();
@@ -238,6 +242,57 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    private void UpdateHotBarOpacity()
+    {
+        for(int i = 0; i <hotbarSlots.Count; i++)
+        {
+            Image icon = hotbarSlots[i].GetComponent<Image>();
+            if(icon != null)
+            {
+                icon.color = (i == equippedHotBarIndex) ? new Color(1,1,1,equippedOpacity) : new Color(1,1,1,normalOpacity);
+            }
+        }
+    }
+
+    public void OnHotBarSelection(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            int selectedValue = context.ReadValue<int>();
+
+            if (selectedValue > 0)
+            {
+                equippedHotBarIndex = selectedValue - 1;
+            }
+        }
+    }
+
+    public void OnDrop(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+        {
+            Slot equippedSlot = hotbarSlots[equippedHotBarIndex];
+
+            if (!equippedSlot.HasItem())
+            {
+                return;
+            }
+            ItemSO itemSO = equippedSlot.GetItem();
+            GameObject prefab = itemSO.itemPrefab;
+          
+
+            // in case that the item dont have prefab 
+            if(prefab == null) return;
+
+            GameObject drooped = Instantiate(prefab, Camera.main.transform.position + Camera.main.transform.forward,Quaternion.identity); 
+
+            Item itemWeDrooped = drooped.GetComponent<Item>(); // we take the item comoent from the drooped item 
+            itemWeDrooped.item = itemSO;// we give it the blueprint of itself
+            itemWeDrooped.amount = equippedSlot.GetAmount();// we drop the amount we have
+
+            equippedSlot.ClearSlot();
+        }
+    }
     public void OnPickup(InputAction.CallbackContext context)
     {
         if(lookedAtRenderer != null && context.performed )
