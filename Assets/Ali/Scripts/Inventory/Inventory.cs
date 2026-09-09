@@ -12,6 +12,7 @@ public class Inventory : MonoBehaviour
 
     public GameObject hotbarObj;
     public GameObject inventorySlotParent;
+    public GameObject container;
 
     public Image dragIcon;
 
@@ -36,15 +37,15 @@ public class Inventory : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
+       /* if (Input.GetKeyDown(KeyCode.T))
         {
-            AddItem(Jar,3);
+            AddItem(Jar,1);
            
         }
         else if (Input.GetKeyDown(KeyCode.Y))
         {
           AddItem(Ammo,5);
-        }
+       */// }
 
         StartDrag();
         UpdateDragItemPosition();
@@ -203,13 +204,23 @@ public class Inventory : MonoBehaviour
     }
     public void OnSlectingItem(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && Cursor.lockState != CursorLockMode.Locked)
         {
             isSelectingItem = true;
         }
         if (context.canceled)
         {
             isSelectingItem = false;
+        }
+    }
+    public void OnOpenInventory(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+        {
+            container.SetActive(!container.activeInHierarchy);
+            // if it is Locked then we open the cursor and if not we locked it 
+            Cursor.lockState = CursorLockMode.Locked == CursorLockMode.Locked? CursorLockMode.None : CursorLockMode.Locked;
+            Cursor.visible = !Cursor.visible;
         }
     }
 

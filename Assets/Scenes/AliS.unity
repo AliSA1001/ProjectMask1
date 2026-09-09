@@ -3479,6 +3479,7 @@ MonoBehaviour:
   Ammo: {fileID: 11400000, guid: 793bce0cc8280544bace6b7d8a3d02f5, type: 2}
   hotbarObj: {fileID: 1290857468}
   inventorySlotParent: {fileID: 1725125752}
+  container: {fileID: 482452506}
   dragIcon: {fileID: 1598877880}
 --- !u!114 &1429724070
 MonoBehaviour:
@@ -3553,6 +3554,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: ba330902-0588-4f1b-9d73-9950de7e2cc4
     m_ActionName: 'Inventory/Select Item[/Mouse/leftButton]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1429724069}
+        m_TargetAssemblyTypeName: Inventory, Assembly-CSharp
+        m_MethodName: OnOpenInventory
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 3fc92eec-9f30-411b-8e91-d7216960e02a
+    m_ActionName: 'Inventory/Open Inventory[/Keyboard/i]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Inventory
