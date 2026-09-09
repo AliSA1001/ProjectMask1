@@ -286,7 +286,7 @@ public class Inventory : MonoBehaviour
 
             GameObject drooped = Instantiate(prefab, Camera.main.transform.position + Camera.main.transform.forward,Quaternion.identity); 
 
-            Item itemWeDrooped = drooped.GetComponent<Item>(); // we take the item comoent from the drooped item 
+            Item itemWeDrooped = drooped.GetComponent<Item>(); // we take the item Component from the drooped item 
             itemWeDrooped.item = itemSO;// we give it the blueprint of itself
             itemWeDrooped.amount = equippedSlot.GetAmount();// we drop the amount we have
 
