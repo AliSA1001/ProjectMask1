@@ -63,6 +63,9 @@ public class Inventory : MonoBehaviour
         StartDrag();
         UpdateDragItemPosition();
         EndDrag();
+
+        UpdateHotBarOpacity();
+
     }
 
     public void AddItem(ItemSO itemToAdd, int amount)
@@ -254,11 +257,72 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void OnHotBarSelection(InputAction.CallbackContext context)
+    public void OnHotBarSelection1(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            int selectedValue = context.ReadValue<int>();
+            int selectedValue = 1;
+
+            if (selectedValue > 0)
+            {
+                equippedHotBarIndex = selectedValue - 1;
+            }
+        }
+    }
+    public void OnHotBarSelection2(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            int selectedValue = 2;
+
+            if (selectedValue > 0)
+            {
+                equippedHotBarIndex = selectedValue - 1;
+            }
+        }
+    }
+    public void OnHotBarSelection3(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            int selectedValue = 3;
+
+            if (selectedValue > 0)
+            {
+                equippedHotBarIndex = selectedValue - 1;
+            }
+        }
+    }
+    public void OnHotBarSelection4(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            int selectedValue = 4;
+
+            if (selectedValue > 0)
+            {
+                equippedHotBarIndex = selectedValue - 1;
+            }
+        }
+    }
+    public void OnHotBarSelection5(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            int selectedValue = 5;
+
+            if (selectedValue > 0)
+            {
+                equippedHotBarIndex = selectedValue - 1;
+            }
+        }
+    }
+
+    public void OnHotBarSelection6(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            int selectedValue = 6;
 
             if (selectedValue > 0)
             {

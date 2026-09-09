@@ -254,10 +254,55 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "HotBarSelection",
-                    "type": "Value",
+                    "name": "HotBarSlot1",
+                    "type": "Button",
                     "id": "42282e6a-e953-4a52-bb51-64ec812dd0d8",
-                    "expectedControlType": "Integer",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "HotBarSlot2",
+                    "type": "Button",
+                    "id": "cf82a1b4-aec7-493d-8763-672488b33e66",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "HotBarSlot3",
+                    "type": "Button",
+                    "id": "42280b0b-9ea3-4fae-9258-378adb0d49a4",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "HotBarSlot4",
+                    "type": "Button",
+                    "id": "9ffba929-b303-4e55-8a03-ba2caa5b7d39",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "HotBarSlot5",
+                    "type": "Button",
+                    "id": "24fe5e9a-7f65-4ba6-adda-e1e17d2299a1",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "HotBarSlot6",
+                    "type": "Button",
+                    "id": "674ad2d3-0fd2-4186-a09b-277ad2e6a08d",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -313,51 +358,62 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "HotBarSelection",
+                    "action": "HotBarSlot1",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "0b6d3b6f-a7f4-4c60-b6a4-8830f2078c54",
+                    "id": "4b1de541-5ce7-4850-a5bb-986d61c39456",
                     "path": "<Keyboard>/2",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "HotBarSelection",
+                    "action": "HotBarSlot2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "c67e4448-8ef0-44ba-b052-bab608baed0b",
+                    "id": "41683928-28c7-458c-bc99-455e501d193a",
                     "path": "<Keyboard>/3",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "HotBarSelection",
+                    "action": "HotBarSlot3",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "c4325dba-882e-4a65-9399-27dfc90fd109",
+                    "id": "2f2f8b22-5cea-44b2-8f6f-c501807aac0a",
                     "path": "<Keyboard>/4",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "HotBarSelection",
+                    "action": "HotBarSlot4",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "25fab358-4848-4db3-9483-d392d56d9b59",
+                    "id": "54036308-17f1-418d-b0c9-6275d05b2c99",
                     "path": "<Keyboard>/5",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "HotBarSelection",
+                    "action": "HotBarSlot5",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1c07a2c3-7f7c-4adf-a0cb-d7e4bcb78bb5",
+                    "path": "<Keyboard>/6",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HotBarSlot6",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
