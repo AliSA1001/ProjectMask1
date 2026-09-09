@@ -24,6 +24,7 @@ public class Movement : MonoBehaviour
     [SerializeField, Range(0.1f, 10f)] private float lookSpeedY = 2f;
     [SerializeField, Range(1f, 180f)] private float LookUpLimit = 80f;
     [SerializeField, Range(1f, 180f)] private float LookDownLimit = 80f;
+    public bool UpdatingRotation = true;
 
     [Header("jump")]
     [SerializeField] private float jumpForce;
@@ -115,8 +116,8 @@ public class Movement : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         playerCamera = GetComponentInChildren<Camera>();
         defaultYPos = playerCamera.transform.localPosition.y;
-       // Cursor.lockState = CursorLockMode.Locked;
-       // Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void Update()
@@ -125,7 +126,10 @@ public class Movement : MonoBehaviour
         {
             HandleMoveSpeed();
             HandleMovewmentInput();
-            HandleMouseMovement();
+            if (UpdatingRotation)
+            {
+                HandleMouseMovement();
+            }
             HandleHeadBob();
             HandleFootStepsSound();
             ApplyFinalMovement();
@@ -144,6 +148,8 @@ public class Movement : MonoBehaviour
 
     private void HandleMouseMovement()
     {
+       
+
         rotationX -= lookInput.y * lookSpeedY;
         rotationX = Mathf.Clamp(rotationX, -LookUpLimit, LookDownLimit);
         playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);

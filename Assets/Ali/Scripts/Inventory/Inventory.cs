@@ -16,6 +16,12 @@ public class Inventory : MonoBehaviour
 
     public Image dragIcon;
 
+    public float pickupRange = 3f;
+    private Item lookedAtItem = null;
+    public Material hightlightMaterial;
+    private Material originalMaterial;
+    private Renderer lookedAtRenderer = null;
+
     private List<Slot> inventorySlots = new List<Slot>();
     private List<Slot> hotbarSlots = new List<Slot>();
     private List<Slot> allSlots = new List<Slot>();
@@ -46,6 +52,9 @@ public class Inventory : MonoBehaviour
         {
           AddItem(Ammo,5);
        */// }
+
+        DetectLookedAtItem();
+
 
         StartDrag();
         UpdateDragItemPosition();
@@ -202,6 +211,45 @@ public class Inventory : MonoBehaviour
     {
         dragIcon.transform.position = Input.mousePosition;
     }
+
+    private void DetectLookedAtItem()
+    {
+        if(lookedAtRenderer != null)
+        {
+            lookedAtRenderer.material = originalMaterial;
+            lookedAtRenderer = null;
+            originalMaterial = null;
+        }
+
+        Ray ray = new Ray(Camera.main.transform.position ,Camera.main.transform.forward);
+        if(Physics.Raycast(ray,out RaycastHit hit,pickupRange))
+        {
+            Item item = hit.collider.GetComponent<Item>();
+            if(item != null)
+            {
+                Renderer rend = item.GetComponent<Renderer>();
+                if(rend != null)
+                {
+                    originalMaterial = rend.material;
+                    rend.material = hightlightMaterial;
+                    lookedAtRenderer = rend;
+                }
+            }
+        }
+    }
+
+    public void OnPickup(InputAction.CallbackContext context)
+    {
+        if(lookedAtRenderer != null && context.performed )
+        {
+            Item item = lookedAtRenderer.GetComponent<Item>();
+            if( item != null )
+            {
+                AddItem(item.item, item.amount);
+                Destroy(item.gameObject);
+            }
+        }
+    }
     public void OnSlectingItem(InputAction.CallbackContext context)
     {
         if (context.performed && Cursor.lockState != CursorLockMode.Locked)
@@ -221,6 +269,7 @@ public class Inventory : MonoBehaviour
             // if it is Locked then we open the cursor and if not we locked it 
             Cursor.lockState = CursorLockMode.Locked == CursorLockMode.Locked? CursorLockMode.None : CursorLockMode.Locked;
             Cursor.visible = !Cursor.visible;
+            Movement.instance.UpdatingRotation = !Movement.instance.UpdatingRotation;
         }
     }
 
