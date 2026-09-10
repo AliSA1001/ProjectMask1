@@ -25,6 +25,8 @@ public class Inventory : MonoBehaviour
     private int equippedHotBarIndex = 0; // from 0 to 5
     public float equippedOpacity = 0.9f;
     public float normalOpacity = 0.58f;
+    public Transform hand;
+    private GameObject currentHandItem;
 
     private List<Slot> inventorySlots = new List<Slot>();
     private List<Slot> hotbarSlots = new List<Slot>();
@@ -255,6 +257,11 @@ public class Inventory : MonoBehaviour
                 icon.color = (i == equippedHotBarIndex) ? new Color(1,1,1,equippedOpacity) : new Color(1,1,1,normalOpacity);
             }
         }
+    }
+
+    private void EquipHandItem()
+    {
+
     }
 
     public void OnHotBarSelection1(InputAction.CallbackContext context)
