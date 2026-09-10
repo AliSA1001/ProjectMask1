@@ -2874,6 +2874,8 @@ MonoBehaviour:
   equippedOpacity: 0.9
   normalOpacity: 0.58
   hand: {fileID: 2064001265}
+  guns:
+  - {fileID: 919132147993549676}
 --- !u!114 &1429724070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4612,6 +4614,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b333f925c0a1b62449103b5515199dee, type: 3}
+--- !u!1 &919132147993549676 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3020040125572021158, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+  m_PrefabInstance: {fileID: 2147892962249754377}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2147892962249754377
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4667,6 +4674,10 @@ PrefabInstance:
     - target: {fileID: 3020040125572021158, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
       propertyPath: m_Name
       value: PistolHand
+      objectReference: {fileID: 0}
+    - target: {fileID: 3020040125572021158, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3020040125572021158, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
       propertyPath: m_TagString
