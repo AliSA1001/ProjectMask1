@@ -261,7 +261,22 @@ public class Inventory : MonoBehaviour
 
     private void EquipHandItem()
     {
+        if (currentHandItem != null)
+        {
+            Destroy(currentHandItem);
+        }
 
+            Slot equppedSlot = hotbarSlots[equippedHotBarIndex];
+            if(!equppedSlot.HasItem()) return;// if we have no item we just return 
+
+            ItemSO item = equppedSlot.GetItem();
+            if (item.handItemPrefab == null) return; // so if our item dont have hand prefab like ammo box
+
+            currentHandItem = Instantiate(item.handItemPrefab, hand);
+            currentHandItem.transform.localPosition = Vector3.zero;
+            currentHandItem.transform.localRotation = Quaternion.identity;
+            
+        
     }
 
     public void OnHotBarSelection1(InputAction.CallbackContext context)
@@ -273,6 +288,7 @@ public class Inventory : MonoBehaviour
             if (selectedValue > 0)
             {
                 equippedHotBarIndex = selectedValue - 1;
+                EquipHandItem();
             }
         }
     }
@@ -285,6 +301,8 @@ public class Inventory : MonoBehaviour
             if (selectedValue > 0)
             {
                 equippedHotBarIndex = selectedValue - 1;
+                EquipHandItem();
+
             }
         }
     }
@@ -297,6 +315,8 @@ public class Inventory : MonoBehaviour
             if (selectedValue > 0)
             {
                 equippedHotBarIndex = selectedValue - 1;
+                EquipHandItem();
+
             }
         }
     }
@@ -309,6 +329,8 @@ public class Inventory : MonoBehaviour
             if (selectedValue > 0)
             {
                 equippedHotBarIndex = selectedValue - 1;
+                EquipHandItem();
+
             }
         }
     }
@@ -321,6 +343,8 @@ public class Inventory : MonoBehaviour
             if (selectedValue > 0)
             {
                 equippedHotBarIndex = selectedValue - 1;
+                EquipHandItem();
+
             }
         }
     }
@@ -334,6 +358,8 @@ public class Inventory : MonoBehaviour
             if (selectedValue > 0)
             {
                 equippedHotBarIndex = selectedValue - 1;
+                EquipHandItem();
+
             }
         }
     }
@@ -362,6 +388,9 @@ public class Inventory : MonoBehaviour
             itemWeDrooped.amount = equippedSlot.GetAmount();// we drop the amount we have
 
             equippedSlot.ClearSlot();
+
+            EquipHandItem();
+
         }
     }
     public void OnPickup(InputAction.CallbackContext context)
@@ -373,6 +402,8 @@ public class Inventory : MonoBehaviour
             {
                 AddItem(item.item, item.amount);
                 Destroy(item.gameObject);
+                EquipHandItem();
+
             }
         }
     }

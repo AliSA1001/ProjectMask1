@@ -193,8 +193,6 @@ GameObject:
   - component: {fileID: 1655683721078979774}
   - component: {fileID: 8477150091490251648}
   - component: {fileID: 7031045322230411319}
-  - component: {fileID: 4456790024503138434}
-  - component: {fileID: 8266545300640406479}
   m_Layer: 0
   m_Name: Jar-Hand
   m_TagString: Untagged
@@ -300,47 +298,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43324696752337950, guid: 9d705e81b38370d40882994f4c8c86b9, type: 2}
---- !u!114 &4456790024503138434
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3677133242036474162}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31be3e2c15b72fc4c87c621e23f61ee0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Item
-  item: {fileID: 11400000, guid: 352efaa4369c19642a00a5fbca806275, type: 2}
-  amount: 1
---- !u!54 &8266545300640406479
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3677133242036474162}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &6081604749423310538
 GameObject:
   m_ObjectHideFlags: 0

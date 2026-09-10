@@ -3531,6 +3531,7 @@ MonoBehaviour:
   hightlightMaterial: {fileID: 2100000, guid: 9944e28867911134aa7d278ba3837b14, type: 2}
   equippedOpacity: 0.9
   normalOpacity: 0.58
+  hand: {fileID: 2064001265}
 --- !u!114 &1429724070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8535,32 +8536,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b333f925c0a1b62449103b5515199dee, type: 3}
---- !u!1 &842796769159026830 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2374262576432439241, guid: 9c552fde35f925f4c87f0a95120ab7c3, type: 3}
-  m_PrefabInstance: {fileID: 4797023749004189609}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &857183191076168670
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 842796769159026830}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.035667423, y: 0.19861273, z: 0.1201065}
-  m_Center: {x: 0, y: -0.08700817, z: 0.00988739}
 --- !u!1 &903006644187800485
 GameObject:
   m_ObjectHideFlags: 0
@@ -9863,10 +9838,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2374262576432439241, guid: 9c552fde35f925f4c87f0a95120ab7c3, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 857183191076168670}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c552fde35f925f4c87f0a95120ab7c3, type: 3}
 --- !u!4 &4835483793362255438
 Transform:
