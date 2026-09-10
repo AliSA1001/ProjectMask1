@@ -32,6 +32,9 @@ public class Inventory : MonoBehaviour
     private List<Slot> hotbarSlots = new List<Slot>();
     private List<Slot> allSlots = new List<Slot>();
 
+    // guns array 
+   [SerializeField] private GameObject[] guns;
+
     private Slot draggedSlot = null;
     private bool isDraging = false;
     // new input system helper vaule 
@@ -45,6 +48,8 @@ public class Inventory : MonoBehaviour
         allSlots.AddRange(inventorySlots);
         allSlots.AddRange(hotbarSlots);
 
+       
+       
     }
 
     private void Update()
@@ -261,6 +266,12 @@ public class Inventory : MonoBehaviour
 
     private void EquipHandItem()
     {
+        foreach (GameObject gun in guns)
+        {
+            gun.SetActive(false);
+        }
+
+
         if (currentHandItem != null)
         {
             Destroy(currentHandItem);
@@ -270,6 +281,14 @@ public class Inventory : MonoBehaviour
             if(!equppedSlot.HasItem()) return;// if we have no item we just return 
 
             ItemSO item = equppedSlot.GetItem();
+
+        if (item.isFpsRealHandObject)
+        {
+            if(item.HandNumber == null) return;
+
+            guns[item.HandNumber].gameObject.SetActive(true);
+            return;
+        }
             if (item.handItemPrefab == null) return; // so if our item dont have hand prefab like ammo box
 
             currentHandItem = Instantiate(item.handItemPrefab, hand);
@@ -424,8 +443,16 @@ public class Inventory : MonoBehaviour
         {
             container.SetActive(!container.activeInHierarchy);
             // if it is Locked then we open the cursor and if not we locked it 
-            Cursor.lockState = CursorLockMode.Locked == CursorLockMode.Locked? CursorLockMode.None : CursorLockMode.Locked;
-            Cursor.visible = !Cursor.visible;
+            if(Cursor.lockState == CursorLockMode.Locked)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
             Movement.instance.UpdatingRotation = !Movement.instance.UpdatingRotation;
         }
     }

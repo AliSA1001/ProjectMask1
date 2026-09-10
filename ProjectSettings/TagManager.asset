@@ -7,6 +7,7 @@ TagManager:
   - Metal
   - Wood
   - Grass
+  - Gun
   layers:
   - Default
   - TransparentFX
