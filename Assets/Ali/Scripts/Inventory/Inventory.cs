@@ -259,7 +259,7 @@ public class Inventory : MonoBehaviour
             Image icon = hotbarSlots[i].GetComponent<Image>();
             if(icon != null)
             {
-                icon.color = (i == equippedHotBarIndex) ? new Color(1,1,1,equippedOpacity) : new Color(1,1,1,normalOpacity);
+                icon.color = (i == equippedHotBarIndex) ? new Color(0,0,0,equippedOpacity) : new Color(0,0,0,normalOpacity);
             }
         }
     }

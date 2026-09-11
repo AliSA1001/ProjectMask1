@@ -97,9 +97,12 @@ public class Movement : MonoBehaviour
     private Vector2 lookInput;
 
 
-    private bool isSprinting = false;
+    public bool isSprinting = false;
 
     private float rotationX = 0;
+
+    
+   
 
     private void Awake()
     {
