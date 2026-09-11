@@ -6,6 +6,7 @@ public class STBar : MonoBehaviour
     [SerializeField] private float maxST;
     [SerializeField] private float playerSt;
     [SerializeField] private Slider StSlider;
+    [SerializeField] private bool didConsumST;
 
     //ref 
     private Movement movement;
@@ -26,7 +27,29 @@ public class STBar : MonoBehaviour
 
         if (movement.isSprinting)
         {
-            playerSt -= 1 * Time.deltaTime;
+            playerSt -= 15 * Time.deltaTime;
+            didConsumST = true;
         }
+        else
+        {
+            if(didConsumST)
+            {
+                Invoke("GainST", 2);
+                
+            }
+            else
+            {
+                GainST();
+            }
+        }
+    }
+
+    private void GainST()
+    {
+        if (playerSt < maxST)
+        {
+            playerSt += Time.deltaTime * 10;
+        }
+       didConsumST = false;
     }
 }
