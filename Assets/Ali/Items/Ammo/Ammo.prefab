@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Item
   item: {fileID: 11400000, guid: 793bce0cc8280544bace6b7d8a3d02f5, type: 2}
-  amount: 1
+  amount: 50
 --- !u!65 &4394727987170824454
 BoxCollider:
   m_ObjectHideFlags: 0
