@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.TextCore;
 using UnityEngine.UI;
 
 public class STBar : MonoBehaviour
@@ -9,7 +10,7 @@ public class STBar : MonoBehaviour
     [SerializeField] private Slider StSlider;
     [SerializeField] private bool didConsumST;
 
-    public Action OnNoSt;
+    public Action<bool> OnST_StateChange;
 
     //ref 
     private Movement movement;
@@ -56,7 +57,11 @@ public class STBar : MonoBehaviour
 
         if(playerSt <= 0)
         {
-            OnNoSt?.Invoke();
+            OnST_StateChange?.Invoke(false);
+        }
+        else
+        {
+            OnST_StateChange?.Invoke(true);
         }
     }
 

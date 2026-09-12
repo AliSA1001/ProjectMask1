@@ -127,16 +127,21 @@ public class Movement : MonoBehaviour
     }
     private void OnEnable()
     {
-        STBar.OnNoSt += OnNoST;
+        STBar.OnST_StateChange += OnNoST;
     }
 
     private void OnDisable()
     {
-        STBar.OnNoSt -= OnNoST;
+        STBar.OnST_StateChange -= OnNoST;
     }
-    private void OnNoST()
+    private void OnNoST(bool St_Change)
     {
-        haveST = false;
+        haveST = St_Change;
+
+        if (!haveST)
+        {
+            isSprinting = false;
+        }
     }
 
     private void Update()
@@ -320,11 +325,11 @@ public class Movement : MonoBehaviour
     }
     public void OnSprint(InputAction.CallbackContext context)
     {
-        if (context.started && characterController.isGrounded && !isCrouching && !haveST)
+        if (context.started && characterController.isGrounded && !isCrouching && haveST)
         {
             isSprinting = true;
         }
-        else if (context.canceled)
+        else if (context.canceled || !haveST)
         {
             isSprinting = false;
         }
