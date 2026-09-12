@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -101,8 +102,10 @@ public class Movement : MonoBehaviour
 
     private float rotationX = 0;
 
-    
-   
+
+    // ref 
+    [SerializeField] private STBar STBar;
+    private bool haveST = true;
 
     private void Awake()
     {
@@ -121,6 +124,19 @@ public class Movement : MonoBehaviour
         defaultYPos = playerCamera.transform.localPosition.y;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+    private void OnEnable()
+    {
+        STBar.OnNoSt += OnNoST;
+    }
+
+    private void OnDisable()
+    {
+        STBar.OnNoSt -= OnNoST;
+    }
+    private void OnNoST()
+    {
+        haveST = false;
     }
 
     private void Update()
@@ -304,7 +320,7 @@ public class Movement : MonoBehaviour
     }
     public void OnSprint(InputAction.CallbackContext context)
     {
-        if (context.started && characterController.isGrounded && !isCrouching)
+        if (context.started && characterController.isGrounded && !isCrouching && !haveST)
         {
             isSprinting = true;
         }

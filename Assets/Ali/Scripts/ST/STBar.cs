@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,8 @@ public class STBar : MonoBehaviour
     [SerializeField] private float playerSt;
     [SerializeField] private Slider StSlider;
     [SerializeField] private bool didConsumST;
+
+    public Action OnNoSt;
 
     //ref 
     private Movement movement;
@@ -25,9 +28,15 @@ public class STBar : MonoBehaviour
     {
         StSlider.value = playerSt;
 
-        if (movement.isSprinting)
+        if (movement.isSprinting && playerSt > 0)
         {
             playerSt -= 15 * Time.deltaTime;
+            didConsumST = true;
+        }
+
+        else if(playerSt <= 0 && movement.isSprinting)
+        {
+            playerSt = 0;
             didConsumST = true;
         }
         else
@@ -41,6 +50,13 @@ public class STBar : MonoBehaviour
             {
                 GainST();
             }
+        }
+
+
+
+        if(playerSt <= 0)
+        {
+            OnNoSt?.Invoke();
         }
     }
 
