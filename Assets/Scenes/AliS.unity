@@ -6147,6 +6147,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Gun
       objectReference: {fileID: 0}
+    - target: {fileID: 6436321287075107637, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+      propertyPath: STBar
+      value: 
+      objectReference: {fileID: 115055464}
     - target: {fileID: 8744569290158001414, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.151
