@@ -17,3 +17,7 @@ MonoBehaviour:
   maxStacksSize: 20
   itemPrefab: {fileID: 2374262576432439241, guid: 9c552fde35f925f4c87f0a95120ab7c3, type: 3}
   handItemPrefab: {fileID: 5889614807592531297, guid: 9662aecc825e77c49b29a7978812eeb6, type: 3}
+  isFpsRealHandObject: 0
+  HandNumber: 0
+  isAmmo: 1
+  ammoGunNumber: 0

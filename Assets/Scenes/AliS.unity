@@ -6151,6 +6151,10 @@ PrefabInstance:
       propertyPath: STBar
       value: 
       objectReference: {fileID: 115055464}
+    - target: {fileID: 8070496056637468775, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+      propertyPath: Inventory
+      value: 
+      objectReference: {fileID: 1429724069}
     - target: {fileID: 8744569290158001414, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.151
