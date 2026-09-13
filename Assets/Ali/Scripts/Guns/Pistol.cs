@@ -4,6 +4,7 @@ using UnityEngine.InputSystem.XR;
 using UnityEngine.InputSystem;
 using System.Collections;
 using System;
+using JetBrains.Annotations;
 
 public class Pistol : MonoBehaviour
 {
@@ -60,6 +61,14 @@ public class Pistol : MonoBehaviour
    // [SerializeField] private MMF_Player reloadFeedback;
     [SerializeField] private ParticleSystem ShootFeedback;
 
+
+
+    // Conection to the inventory to get the ammo for the gun 
+    [SerializeField] private Inventory Inventory;
+    [SerializeField] private int ammoTypeNumber;
+
+
+
     public void Start()
     {
         player = Movement.instance;
@@ -75,7 +84,7 @@ public class Pistol : MonoBehaviour
         HandleShooting();
         HandleAnmationSprinting();
 
-
+        HandleAmmo();
 
        // text_Ammo.text = gunAmmo.ToString();
     }
@@ -89,7 +98,10 @@ public class Pistol : MonoBehaviour
     }
 
    
-
+    private void HandleAmmo()
+    {
+        gunAmmo = Inventory.HandleSendAmmo(0);
+    }
     private void HandleAnmationSprinting()
     {
         float targetBlend = 0;

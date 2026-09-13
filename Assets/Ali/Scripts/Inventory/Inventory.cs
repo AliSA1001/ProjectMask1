@@ -31,6 +31,7 @@ public class Inventory : MonoBehaviour
     private List<Slot> inventorySlots = new List<Slot>();
     private List<Slot> hotbarSlots = new List<Slot>();
     private List<Slot> allSlots = new List<Slot>();
+    private List<Slot> allAmmo = new List<Slot>();
 
     // guns array 
    [SerializeField] private GameObject[] guns;
@@ -72,6 +73,8 @@ public class Inventory : MonoBehaviour
         EndDrag();
 
         UpdateHotBarOpacity();
+
+        HandleAmmo();
 
     }
 
@@ -296,6 +299,37 @@ public class Inventory : MonoBehaviour
             currentHandItem.transform.localRotation = Quaternion.identity;
             
         
+    }
+
+    private void HandleAmmo()
+    {
+        foreach (Slot slot in allSlots)
+        {
+            ItemSO item = slot.GetItem();
+            if (item != null)
+            {
+                if (item.isAmmo)
+                {
+                    allAmmo.Add(slot);
+                }
+            }
+        }
+    }
+    public int HandleSendAmmo(int ammoType)
+    {
+        int ammoCount = 0;
+        foreach (Slot slot in allAmmo)
+        {
+            ItemSO item = slot.GetItem();
+            if (item != null) // check if we event ahve an item
+            {
+                if (ammoType == item.ammoGunNumber)
+                {
+                    ammoCount += slot.GetAmount();
+                }
+            }
+        }
+        return ammoCount;
     }
 
     public void OnHotBarSelection1(InputAction.CallbackContext context)

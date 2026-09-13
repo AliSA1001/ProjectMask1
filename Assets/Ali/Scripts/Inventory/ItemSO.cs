@@ -10,4 +10,6 @@ public class ItemSO : ScriptableObject
     public GameObject handItemPrefab;
     public bool isFpsRealHandObject;
     public int HandNumber;
+    public bool isAmmo;
+    public int ammoGunNumber;
 }
