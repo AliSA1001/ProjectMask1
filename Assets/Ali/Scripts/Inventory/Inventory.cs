@@ -303,6 +303,9 @@ public class Inventory : MonoBehaviour
 
     private void HandleAmmo()
     {
+        allAmmo.Clear();
+
+
         foreach (Slot slot in allSlots)
         {
             ItemSO item = slot.GetItem();
