@@ -352,6 +352,7 @@ public class Inventory : MonoBehaviour
             if (slot.GetAmount() > 0 && slot.GetItem().ammoGunNumber == ammpType)
             {
                 slot.RemoveAmount(1);
+                return;
             }
         }
     }

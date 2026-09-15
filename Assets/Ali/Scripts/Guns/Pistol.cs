@@ -140,7 +140,7 @@ public class Pistol : MonoBehaviour
             {
                 ShootFeedback.Play();
                 gunAnimator.SetTrigger("Shoting");
-
+                HandleSubtractFromInventory();
 
                 if (HandleHitScan(out gunRaycastInfo))
                 {
