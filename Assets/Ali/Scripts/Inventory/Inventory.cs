@@ -41,6 +41,8 @@ public class Inventory : MonoBehaviour
     // new input system helper vaule 
     private bool isSelectingItem = false;
 
+   
+
     private void Awake()
     {
         inventorySlots.AddRange(inventorySlotParent.GetComponentsInChildren<Slot>());
@@ -51,6 +53,15 @@ public class Inventory : MonoBehaviour
 
        
        
+    }
+    private void OnEnable()
+    {
+        Pistol.OnAmmoUse += OnAmmoUse;
+    }
+    private void OnDisable()
+    {
+        Pistol.OnAmmoUse -= OnAmmoUse;
+
     }
 
     private void Update()
@@ -333,6 +344,16 @@ public class Inventory : MonoBehaviour
             }
         }
         return ammoCount;
+    }
+    private void OnAmmoUse(int ammpType)
+    {
+        foreach (Slot slot in allAmmo)
+        {
+            if (slot.GetAmount() > 0 && slot.GetItem().ammoGunNumber == ammpType)
+            {
+                slot.RemoveAmount(1);
+            }
+        }
     }
 
     public void OnHotBarSelection1(InputAction.CallbackContext context)

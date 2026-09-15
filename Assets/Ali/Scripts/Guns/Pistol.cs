@@ -67,7 +67,7 @@ public class Pistol : MonoBehaviour
     [SerializeField] private Inventory Inventory;
     [SerializeField] private int ammoTypeNumber;
 
-
+    public static Action<int> OnAmmoUse;
 
     public void Start()
     {
@@ -162,8 +162,12 @@ public class Pistol : MonoBehaviour
         }
     }
 
+    private void HandleSubtractFromInventory()
+    {
+        OnAmmoUse?.Invoke(ammoTypeNumber);
+    }
 
-    
+
 
     protected virtual void Recoil()
     {
