@@ -84,23 +84,23 @@ public class Pistol : MonoBehaviour
         HandleShooting();
         HandleAnmationSprinting();
 
-        HandleAmmo();
+       
 
        // text_Ammo.text = gunAmmo.ToString();
     }
     private void OnEnable()
     {
-        reloadEvent.OnReload += OnReloadEventEnd;
+       
     }
     private void OnDisable()
     {
-        reloadEvent.OnReload -= OnReloadEventEnd;
+       
     }
 
    
     private void HandleAmmo()
     {
-        gunAmmo = Inventory.HandleSendAmmo(0);
+        gunAmmo += Inventory.HandleSendAmmo(0, gunAmmo, maxAmmo);
     }
     private void HandleAnmationSprinting()
     {
@@ -140,7 +140,7 @@ public class Pistol : MonoBehaviour
             {
                 ShootFeedback.Play();
                 gunAnimator.SetTrigger("Shoting");
-                HandleSubtractFromInventory();
+              //  HandleSubtractFromInventory();
 
                 if (HandleHitScan(out gunRaycastInfo))
                 {
@@ -245,13 +245,11 @@ public class Pistol : MonoBehaviour
     {
         if (context.started && gunAmmo < maxAmmo)
         {
+            HandleAmmo();
             gunAnimator.SetTrigger("Reloding");
           
 
         }
     }
-    private void OnReloadEventEnd()
-    {
-        gunAmmo = maxAmmo;
-    }
+  
 }

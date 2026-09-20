@@ -329,17 +329,33 @@ public class Inventory : MonoBehaviour
             }
         }
     }
-    public int HandleSendAmmo(int ammoType)
+    public int HandleSendAmmo(int ammoType , int currentAmmoCount , int maxAmmo)
     {
         int ammoCount = 0;
+        int ammoNeededCount =maxAmmo - currentAmmoCount; 
         foreach (Slot slot in allAmmo)
         {
             ItemSO item = slot.GetItem();
-            if (item != null) // check if we event ahve an item
+            if (item != null) // check if we event have an item
             {
                 if (ammoType == item.ammoGunNumber)
                 {
-                    ammoCount += slot.GetAmount();
+                    if(ammoNeededCount <= 0)
+                    {
+                        return ammoCount;
+                    }
+                        if(slot.GetAmount() >= ammoNeededCount)
+                        {
+                        slot.RemoveAmount(ammoNeededCount);
+                        ammoCount += ammoNeededCount;
+                        return ammoCount;
+                        }
+                        else 
+                        {
+                        ammoCount +=  slot.GetAmount();
+                        ammoNeededCount -= slot.GetAmount();
+                        slot.RemoveAmount(slot.GetAmount());
+                        }
                 }
             }
         }

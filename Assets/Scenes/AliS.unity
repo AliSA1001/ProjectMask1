@@ -2955,6 +2955,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6588758997168973718, guid: aeda08d515ae8aa40b2963b812f23bef, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7600877744537179930, guid: aeda08d515ae8aa40b2963b812f23bef, type: 3}
       propertyPath: m_Name
       value: Slot (1)
@@ -6141,7 +6145,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3020040125572021158, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3020040125572021158, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
       propertyPath: m_TagString
@@ -6151,6 +6155,14 @@ PrefabInstance:
       propertyPath: STBar
       value: 
       objectReference: {fileID: 115055464}
+    - target: {fileID: 8070496056637468775, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+      propertyPath: gunAmmo
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070496056637468775, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+      propertyPath: maxAmmo
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 8070496056637468775, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
       propertyPath: Inventory
       value: 
@@ -6376,25 +6388,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2459762538693211412, guid: aeda08d515ae8aa40b2963b812f23bef, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7600877744537179930, guid: aeda08d515ae8aa40b2963b812f23bef, type: 3}
       propertyPath: m_Name
       value: Slot
-      objectReference: {fileID: 0}
-    - target: {fileID: 8827704205336835045, guid: aeda08d515ae8aa40b2963b812f23bef, type: 3}
-      propertyPath: m_Color.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8827704205336835045, guid: aeda08d515ae8aa40b2963b812f23bef, type: 3}
-      propertyPath: m_Color.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8827704205336835045, guid: aeda08d515ae8aa40b2963b812f23bef, type: 3}
-      propertyPath: m_Color.r
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

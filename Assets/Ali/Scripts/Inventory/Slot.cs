@@ -13,12 +13,14 @@ public class Slot : MonoBehaviour ,IPointerEnterHandler , IPointerExitHandler
 
     private Image iconImage;
     private TextMeshProUGUI amountText;
+    private TextMeshProUGUI ammoAmount;
 
     private void Awake()
     {
         // here we just say hey get the image from child 0 and text from child 1
         iconImage = transform.GetChild(0).GetComponent<Image>();
         amountText = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        ammoAmount = transform.GetChild(2).GetComponent<TextMeshProUGUI>();
     }
     // we need way to tell inventory about our slot information 
     public ItemSO GetItem()
@@ -44,19 +46,35 @@ public class Slot : MonoBehaviour ,IPointerEnterHandler , IPointerExitHandler
         {
             iconImage = transform.GetChild(0).GetComponent<Image>();
             amountText = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+            ammoAmount = transform.GetChild(2).GetComponent<TextMeshProUGUI>();
         }
 
 
-       if (heldItem != null)
+        if (heldItem != null)
         {
             iconImage.enabled = true;
             iconImage.sprite = heldItem.icon;
             amountText.text = itemAmount.ToString();
+
+            if (heldItem.isFpsRealHandObject)
+            {
+                ammoAmount.text = "X";
+            }
+            else
+            {
+                ammoAmount.text= "";
+            }
+
+            
         }
         else
         {
             iconImage.enabled = false;
             amountText.text = "";
+            if(ammoAmount != null)
+            {
+                ammoAmount.text = "";
+            }
         }
     }
 
