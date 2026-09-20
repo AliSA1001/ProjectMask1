@@ -42,6 +42,7 @@ public class Pistol : MonoBehaviour
 
     [Header("Conection")]
     [SerializeField] private ReloadEvent reloadEvent;
+    private bool isReloading = false;
      
 
 
@@ -90,18 +91,19 @@ public class Pistol : MonoBehaviour
     }
     private void OnEnable()
     {
-       
+        reloadEvent.OnReload += OnReload;
     }
     private void OnDisable()
     {
-       
+        reloadEvent.OnReload -= OnReload;
     }
 
-   
-    private void HandleAmmo()
+   private void OnReload()
     {
         gunAmmo += Inventory.HandleSendAmmo(0, gunAmmo, maxAmmo);
+        isReloading = false ;
     }
+   
     private void HandleAnmationSprinting()
     {
         float targetBlend = 0;
@@ -124,11 +126,7 @@ public class Pistol : MonoBehaviour
         gunAnimator.SetFloat("Blend", currentblendValue);
 
     }
-    private void HandleReload()
-    {
-        gunAmmo = maxAmmo;
-    }
-
+    
     protected virtual void HandleShooting()
     {
         if (attackTrigger && nextFireTime <= Time.time)
@@ -243,9 +241,9 @@ public class Pistol : MonoBehaviour
     }
     public void OnReload(InputAction.CallbackContext context)
     {
-        if (context.started && gunAmmo < maxAmmo)
+        if (context.started && gunAmmo < maxAmmo && !isReloading)
         {
-            HandleAmmo();
+            isReloading = true;
             gunAnimator.SetTrigger("Reloding");
           
 
