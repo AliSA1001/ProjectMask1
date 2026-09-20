@@ -102,8 +102,10 @@ public class Pistol : MonoBehaviour
     {
         gunAmmo += Inventory.HandleSendAmmo(0, gunAmmo, maxAmmo);
         isReloading = false ;
+        gunAnimator.SetBool("IsReloding", isReloading);
+
     }
-   
+
     private void HandleAnmationSprinting()
     {
         float targetBlend = 0;
@@ -226,13 +228,13 @@ public class Pistol : MonoBehaviour
     public virtual void OnAttack(InputAction.CallbackContext context)
     {
 
-        if (context.started)
+        if (context.started && !isReloading)
         {
             attackTrigger = true;
 
 
         }
-        else if (context.canceled)
+        else if (context.canceled )
         {
             attackTrigger = false;
 
@@ -245,6 +247,7 @@ public class Pistol : MonoBehaviour
         {
             isReloading = true;
             gunAnimator.SetTrigger("Reloding");
+            gunAnimator.SetBool("IsReloding" , isReloading);
           
 
         }
