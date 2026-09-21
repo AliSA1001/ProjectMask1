@@ -248,9 +248,13 @@ public class Pistol : MonoBehaviour
             isReloading = true;
             gunAnimator.SetTrigger("Reloding");
             gunAnimator.SetBool("IsReloding" , isReloading);
-          
+            Invoke("ResetReloadState",2);
 
         }
     }
-  
+    private void ResetReloadState()
+    {
+        isReloading = false;
+    }
+
 }
