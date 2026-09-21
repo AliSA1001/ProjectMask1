@@ -10,17 +10,18 @@ public class Slot : MonoBehaviour ,IPointerEnterHandler , IPointerExitHandler
 
     private ItemSO heldItem;
     private int itemAmount;
+    private int ammoAmount;
 
     private Image iconImage;
     private TextMeshProUGUI amountText;
-    private TextMeshProUGUI ammoAmount;
+    private TextMeshProUGUI ammoAmountText;
 
     private void Awake()
     {
         // here we just say hey get the image from child 0 and text from child 1
         iconImage = transform.GetChild(0).GetComponent<Image>();
         amountText = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-        ammoAmount = transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+        ammoAmountText = transform.GetChild(2).GetComponent<TextMeshProUGUI>();
     }
     // we need way to tell inventory about our slot information 
     public ItemSO GetItem()
@@ -46,7 +47,7 @@ public class Slot : MonoBehaviour ,IPointerEnterHandler , IPointerExitHandler
         {
             iconImage = transform.GetChild(0).GetComponent<Image>();
             amountText = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-            ammoAmount = transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+            ammoAmountText = transform.GetChild(2).GetComponent<TextMeshProUGUI>();
         }
 
 
@@ -58,11 +59,11 @@ public class Slot : MonoBehaviour ,IPointerEnterHandler , IPointerExitHandler
 
             if (heldItem.isFpsRealHandObject)
             {
-                ammoAmount.text = "X";
+                ammoAmountText.text = ammoAmount.ToString() + "X";
             }
             else
             {
-                ammoAmount.text= "";
+                ammoAmountText.text= "";
             }
 
             
@@ -71,9 +72,9 @@ public class Slot : MonoBehaviour ,IPointerEnterHandler , IPointerExitHandler
         {
             iconImage.enabled = false;
             amountText.text = "";
-            if(ammoAmount != null)
+            if(ammoAmountText != null)
             {
-                ammoAmount.text = "";
+                ammoAmountText.text = "";
             }
         }
     }
@@ -96,6 +97,19 @@ public class Slot : MonoBehaviour ,IPointerEnterHandler , IPointerExitHandler
             UpdateSlot();
         }
         return itemAmount;
+    }
+
+    public int AddAmmo( int amountToAdd )
+    {
+        ammoAmount += amountToAdd;
+        UpdateSlot ();
+        return ammoAmount;
+    }
+    public int RemoveAmmo( int amountToRemove )
+    {
+        ammoAmount -= amountToRemove;
+        UpdateSlot();
+        return ammoAmount;
     }
 
     public void ClearSlot()

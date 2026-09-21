@@ -332,7 +332,8 @@ public class Inventory : MonoBehaviour
     public int HandleSendAmmo(int ammoType , int currentAmmoCount , int maxAmmo)
     {
         int ammoCount = 0;
-        int ammoNeededCount =maxAmmo - currentAmmoCount; 
+        int ammoNeededCount =maxAmmo - currentAmmoCount;
+        Slot equppedSlot = hotbarSlots[equippedHotBarIndex];
         foreach (Slot slot in allAmmo)
         {
             ItemSO item = slot.GetItem();
@@ -348,6 +349,7 @@ public class Inventory : MonoBehaviour
                         {
                         slot.RemoveAmount(ammoNeededCount);
                         ammoCount += ammoNeededCount;
+                        equppedSlot.AddAmmo(ammoCount);
                         return ammoCount;
                         }
                         else 
@@ -359,18 +361,13 @@ public class Inventory : MonoBehaviour
                 }
             }
         }
+        equppedSlot.AddAmmo(ammoCount);
         return ammoCount;
     }
-    private void OnAmmoUse(int ammpType)
+    private void OnAmmoUse()
     {
-        foreach (Slot slot in allAmmo)
-        {
-            if (slot.GetAmount() > 0 && slot.GetItem().ammoGunNumber == ammpType)
-            {
-                slot.RemoveAmount(1);
-                return;
-            }
-        }
+        Slot equppedSlot = hotbarSlots[equippedHotBarIndex];
+        equppedSlot.RemoveAmmo(1);
     }
 
     public void OnHotBarSelection1(InputAction.CallbackContext context)

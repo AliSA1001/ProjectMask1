@@ -68,7 +68,7 @@ public class Pistol : MonoBehaviour
     [SerializeField] private Inventory Inventory;
     [SerializeField] private int ammoTypeNumber;
 
-    public static Action<int> OnAmmoUse;
+    public static Action OnAmmoUse;
 
     public void Start()
     {
@@ -140,7 +140,7 @@ public class Pistol : MonoBehaviour
             {
                 ShootFeedback.Play();
                 gunAnimator.SetTrigger("Shoting");
-              //  HandleSubtractFromInventory();
+               HandleSubtractFromInventory();
 
                 if (HandleHitScan(out gunRaycastInfo))
                 {
@@ -164,7 +164,7 @@ public class Pistol : MonoBehaviour
 
     private void HandleSubtractFromInventory()
     {
-        OnAmmoUse?.Invoke(ammoTypeNumber);
+        OnAmmoUse?.Invoke();
     }
 
 
