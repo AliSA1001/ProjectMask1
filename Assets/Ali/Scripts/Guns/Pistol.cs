@@ -100,7 +100,7 @@ public class Pistol : MonoBehaviour
 
    private void OnReload()
     {
-        gunAmmo += Inventory.HandleSendAmmo(0, gunAmmo, maxAmmo);
+        gunAmmo += Inventory.HandleSendAmmo(1, gunAmmo, maxAmmo);
         isReloading = false ;
         gunAnimator.SetBool("IsReloding", isReloading);
 
@@ -243,13 +243,16 @@ public class Pistol : MonoBehaviour
     }
     public void OnReload(InputAction.CallbackContext context)
     {
-        if (context.started && gunAmmo < maxAmmo && !isReloading)
+        if(Inventory.DoWeHaveTheRightAmmoType(1))
         {
-            isReloading = true;
-            gunAnimator.SetTrigger("Reloding");
-            gunAnimator.SetBool("IsReloding" , isReloading);
-            Invoke("ResetReloadState",2);
+            if (context.started && gunAmmo < maxAmmo && !isReloading)
+            {
+                isReloading = true;
+                gunAnimator.SetTrigger("Reloding");
+                gunAnimator.SetBool("IsReloding", isReloading);
+                Invoke("ResetReloadState", 2);
 
+            }
         }
     }
     private void ResetReloadState()

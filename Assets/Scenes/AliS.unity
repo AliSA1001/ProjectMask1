@@ -3663,8 +3663,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a74000fa079a91d468ac1b54e0ffb8bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Inventory
-  Jar: {fileID: 11400000, guid: 352efaa4369c19642a00a5fbca806275, type: 2}
-  Ammo: {fileID: 11400000, guid: 793bce0cc8280544bace6b7d8a3d02f5, type: 2}
   hotbarObj: {fileID: 1290857468}
   inventorySlotParent: {fileID: 1725125752}
   container: {fileID: 482452506}
@@ -6072,6 +6070,10 @@ PrefabInstance:
     - target: {fileID: 1616087451216172251, guid: b333f925c0a1b62449103b5515199dee, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 3.418
+      objectReference: {fileID: 0}
+    - target: {fileID: 3856761573964855039, guid: b333f925c0a1b62449103b5515199dee, type: 3}
+      propertyPath: amount
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8589140711080028813, guid: b333f925c0a1b62449103b5515199dee, type: 3}
       propertyPath: m_Name

@@ -7,8 +7,8 @@ using System;
 
 public class Inventory : MonoBehaviour
 {
-    public ItemSO Jar;
-    public ItemSO Ammo;
+   // public ItemSO Jar;
+  //  public ItemSO Ammo;
 
     public GameObject hotbarObj;
     public GameObject inventorySlotParent;
@@ -316,7 +316,6 @@ public class Inventory : MonoBehaviour
     {
         allAmmo.Clear();
 
-
         foreach (Slot slot in allSlots)
         {
             ItemSO item = slot.GetItem();
@@ -328,6 +327,23 @@ public class Inventory : MonoBehaviour
                 }
             }
         }
+    }
+
+    public bool DoWeHaveTheRightAmmoType(int AmmoType)
+    {
+        foreach (Slot slot in allSlots)
+        {
+            ItemSO item = slot.GetItem();
+            if (item != null)
+            {
+                if (item.ammoGunNumber == AmmoType)
+                {
+                    return true;
+                }
+            }
+        }
+         
+            return false;
     }
     public int HandleSendAmmo(int ammoType , int currentAmmoCount , int maxAmmo)
     {
