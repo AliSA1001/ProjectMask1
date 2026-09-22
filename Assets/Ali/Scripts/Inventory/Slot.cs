@@ -32,11 +32,17 @@ public class Slot : MonoBehaviour ,IPointerEnterHandler , IPointerExitHandler
     {
         return itemAmount;
     }
+
+    public int GetAmmoAmount()
+    {
+        return ammoAmount;
+    }
     // here we need way so the inventory can tell the slot to carry this item
-    public void SetItem(ItemSO item , int amount)
+    public void SetItem(ItemSO item , int amount , int _ammoAmount)
     {
         heldItem = item;
         itemAmount = amount;
+        ammoAmount = _ammoAmount;
 
         UpdateSlot();
     }
@@ -116,6 +122,7 @@ public class Slot : MonoBehaviour ,IPointerEnterHandler , IPointerExitHandler
     {
         heldItem = null;
         itemAmount = 0; 
+        ammoAmount = 0;
         UpdateSlot() ;
     }
 

@@ -20,4 +20,4 @@ MonoBehaviour:
   isFpsRealHandObject: 0
   HandNumber: 0
   isAmmo: 1
-  ammoGunNumber: 0
+  ammoGunNumber: 1
