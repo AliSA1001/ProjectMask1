@@ -14,11 +14,20 @@ public class Knife : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
+    private void ResetAttack()
+    {
+        canAttack = true ;
+    }
+
     public void OnAttack(InputAction.CallbackContext context)
     {
         if(context.started && canAttack)
         {
             animator.SetTrigger("Attacking");
+            canAttack = false;
+            Invoke("ResetAttack",timeBetweenAttacks);
+
+
         }
 
     }
