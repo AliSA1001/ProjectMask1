@@ -429,6 +429,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Melee",
+            "id": "c4566a20-ea7e-4a2d-a7b3-4e280cd2dd21",
+            "actions": [
+                {
+                    "name": "Attack",
+                    "type": "Button",
+                    "id": "6e60cd3d-80ee-405d-a7f0-a4eee1a55f25",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "1778c6dd-0e03-47b2-83c9-98f1021a4721",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
