@@ -12,4 +12,9 @@ public class ItemSO : ScriptableObject
     public int HandNumber;
     public bool isAmmo;
     public int ammoGunNumber;
+
+    [Header("Melee")]
+    [SerializeField] private bool isMeleeObject;
+    
+    
 }
