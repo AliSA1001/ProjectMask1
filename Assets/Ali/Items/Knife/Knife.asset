@@ -21,3 +21,4 @@ MonoBehaviour:
   HandNumber: 1
   isAmmo: 0
   ammoGunNumber: 0
+  isMeleeObject: 1

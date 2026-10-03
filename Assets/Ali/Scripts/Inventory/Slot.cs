@@ -11,10 +11,12 @@ public class Slot : MonoBehaviour ,IPointerEnterHandler , IPointerExitHandler
     private ItemSO heldItem;
     private int itemAmount;
     private int ammoAmount;
+    private float durability;
 
     private Image iconImage;
     private TextMeshProUGUI amountText;
     private TextMeshProUGUI ammoAmountText;
+    private Slider durabilityBar;
 
     private void Awake()
     {
@@ -22,6 +24,7 @@ public class Slot : MonoBehaviour ,IPointerEnterHandler , IPointerExitHandler
         iconImage = transform.GetChild(0).GetComponent<Image>();
         amountText = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
         ammoAmountText = transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+        durabilityBar = transform.GetChild(3).GetComponent<Slider>();
     }
     // we need way to tell inventory about our slot information 
     public ItemSO GetItem()
@@ -37,12 +40,17 @@ public class Slot : MonoBehaviour ,IPointerEnterHandler , IPointerExitHandler
     {
         return ammoAmount;
     }
+    public float GetDurability()
+    {
+        return durability;
+    }
     // here we need way so the inventory can tell the slot to carry this item
-    public void SetItem(ItemSO item , int amount , int _ammoAmount)
+    public void SetItem(ItemSO item , int amount , int _ammoAmount , float _durability)
     {
         heldItem = item;
         itemAmount = amount;
         ammoAmount = _ammoAmount;
+        durability = _durability;
 
         UpdateSlot();
     }
@@ -54,6 +62,8 @@ public class Slot : MonoBehaviour ,IPointerEnterHandler , IPointerExitHandler
             iconImage = transform.GetChild(0).GetComponent<Image>();
             amountText = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
             ammoAmountText = transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+            durabilityBar = transform.GetChild(3).GetComponent<Slider>();
+
         }
 
 
@@ -63,22 +73,30 @@ public class Slot : MonoBehaviour ,IPointerEnterHandler , IPointerExitHandler
             iconImage.sprite = heldItem.icon;
             amountText.text = itemAmount.ToString();
 
-            if (heldItem.isFpsRealHandObject)
+            if (heldItem.isFpsRealHandObject && !heldItem.isMeleeObject)
             {
                 ammoAmountText.text = ammoAmount.ToString() + "X";
+                durabilityBar.value = 0;
+            }
+            else if(heldItem.isFpsRealHandObject && heldItem.isMeleeObject)
+            {
+                ammoAmountText.text = "";
+                durabilityBar.value = durability;
             }
             else
             {
                 ammoAmountText.text= "";
+                durabilityBar.value = 0;
             }
 
-            
+
         }
         else
         {
             iconImage.enabled = false;
             amountText.text = "";
-            if(ammoAmountText != null)
+            durabilityBar.value = 0;
+            if (ammoAmountText != null)
             {
                 ammoAmountText.text = "";
             }

@@ -89,7 +89,7 @@ public class Inventory : MonoBehaviour
 
     }
 
-    public void AddItem(ItemSO itemToAdd, int amount , int ammoAmount)
+    public void AddItem(ItemSO itemToAdd, int amount , int ammoAmount , float durability)
     {
         int remanining = amount;
         // first we check if we have the same item alredy and if we can stack it 
@@ -104,7 +104,7 @@ public class Inventory : MonoBehaviour
                     int spaceLeft = maxStack - currentAmount;
                     int amountToAdd = Mathf.Min(spaceLeft, remanining);
 
-                    slot.SetItem(itemToAdd,currentAmount +  amountToAdd, ammoAmount);
+                    slot.SetItem(itemToAdd,currentAmount +  amountToAdd, ammoAmount , durability);
                     remanining -= amountToAdd;
                     
                     if(remanining <= 0)
@@ -123,7 +123,7 @@ public class Inventory : MonoBehaviour
             {
                 // soooooooo we take the smallest of maxsize or remaning and use it in the new empty slot 
                 int amountToPlace = Mathf.Min(itemToAdd.maxStacksSize,remanining);
-                slot.SetItem(itemToAdd, amountToPlace , ammoAmount);
+                slot.SetItem(itemToAdd, amountToPlace , ammoAmount , durability);
                 remanining -= amountToPlace;
 
                 if(remanining <= 0)
@@ -205,8 +205,8 @@ public class Inventory : MonoBehaviour
             {
                 int move = Mathf.Min(space, from.GetAmount());
                 
-                to.SetItem(to.GetItem(), to.GetAmount() + move , to.GetAmmoAmount());
-                from.SetItem(from.GetItem(), from.GetAmount() - move , from.GetAmmoAmount());
+                to.SetItem(to.GetItem(), to.GetAmount() + move , to.GetAmmoAmount(), to.GetDurability());
+                from.SetItem(from.GetItem(), from.GetAmount() - move , from.GetAmmoAmount() , from.GetDurability());
 
                 if(from.GetAmount() <= 0)
                 {
@@ -225,14 +225,15 @@ public class Inventory : MonoBehaviour
          ItemSO tempItem = to.GetItem();
             int tempAmount = to.GetAmount();
             int tempAmmoAmount = to.GetAmmoAmount();
+            float tempDurability = to.GetDurability();
 
-            to.SetItem(from.GetItem(), from.GetAmount(), from.GetAmmoAmount());
-            from.SetItem(tempItem, tempAmount ,tempAmmoAmount );
+            to.SetItem(from.GetItem(), from.GetAmount(), from.GetAmmoAmount() , from.GetDurability());
+            from.SetItem(tempItem, tempAmount ,tempAmmoAmount , tempDurability );
             return;
         }
 
         //Empty Slot
-        to.SetItem(from.GetItem(), from.GetAmount(), from.GetAmmoAmount());
+        to.SetItem(from.GetItem(), from.GetAmount(), from.GetAmmoAmount() ,from.GetDurability() );
         from.ClearSlot();
     }
 
@@ -509,7 +510,7 @@ public class Inventory : MonoBehaviour
             Item item = lookedAtRenderer.GetComponent<Item>();
             if( item != null )
             {
-                AddItem(item.item, item.amount , item.ammoAmount);
+                AddItem(item.item, item.amount , item.ammoAmount , item.durability);
                 Destroy(item.gameObject);
                 EquipHandItem();
 

@@ -14,7 +14,7 @@ public class ItemSO : ScriptableObject
     public int ammoGunNumber;
 
     [Header("Melee")]
-    [SerializeField] private bool isMeleeObject;
+    public bool isMeleeObject;
     
     
 }
