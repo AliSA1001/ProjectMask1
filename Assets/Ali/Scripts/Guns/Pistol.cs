@@ -67,6 +67,7 @@ public class Pistol : MonoBehaviour
     // Conection to the inventory to get the ammo for the gun 
     [SerializeField] private Inventory Inventory;
     [SerializeField] private int ammoTypeNumber;
+    [SerializeField] private GameObject container;
 
     public static Action OnAmmoUse;
 
@@ -98,6 +99,10 @@ public class Pistol : MonoBehaviour
         reloadEvent.OnReload -= OnReload;
     }
 
+    public void NewAmmoAmount(int amount)
+    {
+        gunAmmo = amount;
+    }
    private void OnReload()
     {
         gunAmmo += Inventory.HandleSendAmmo(1, gunAmmo, maxAmmo);
@@ -228,7 +233,7 @@ public class Pistol : MonoBehaviour
     public virtual void OnAttack(InputAction.CallbackContext context)
     {
 
-        if (context.started && !isReloading)
+        if (context.started && !isReloading && !container.activeInHierarchy)
         {
             attackTrigger = true;
 
@@ -245,7 +250,7 @@ public class Pistol : MonoBehaviour
     {
         if(Inventory.DoWeHaveTheRightAmmoType(1))
         {
-            if (context.started && gunAmmo < maxAmmo && !isReloading)
+            if (context.started && gunAmmo < maxAmmo && !isReloading && !container.activeInHierarchy)
             {
                 isReloading = true;
                 gunAnimator.SetTrigger("Reloding");

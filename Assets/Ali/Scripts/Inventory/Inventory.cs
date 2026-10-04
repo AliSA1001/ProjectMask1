@@ -303,6 +303,7 @@ public class Inventory : MonoBehaviour
             if(item.HandNumber == null) return;
 
             guns[item.HandNumber].gameObject.SetActive(true);
+            guns[item.HandNumber].gameObject.GetComponentInChildren<Pistol>().NewAmmoAmount(equppedSlot.GetAmmoAmount());
             return;
         }
             if (item.handItemPrefab == null) return; // so if our item dont have hand prefab like ammo box
