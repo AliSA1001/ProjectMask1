@@ -5,7 +5,8 @@ public class Knife : MonoBehaviour
 {
     [SerializeField] private float timeBetweenAttacks= 0.5f;
     [SerializeField] private bool canAttack = true;
-    [SerializeField] private float attackDps;
+    [SerializeField] public float attackDps;
+    [SerializeField] public float currentDurability;
 
     // HitBox 
     [SerializeField] private BoxCollider hitboxCollider;
