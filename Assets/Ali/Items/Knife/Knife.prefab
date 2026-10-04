@@ -191,8 +191,9 @@ GameObject:
   - component: {fileID: 5227307982062031647}
   - component: {fileID: 673179374645126876}
   - component: {fileID: 489301075963110545}
-  - component: {fileID: 450779783303346682}
   - component: {fileID: 5133196227229079220}
+  - component: {fileID: 4112686639545987411}
+  - component: {fileID: 3387854844117765856}
   m_Layer: 0
   m_Name: Knife
   m_TagString: Untagged
@@ -274,8 +275,51 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &450779783303346682
-MeshCollider:
+--- !u!114 &5133196227229079220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8065274873250622529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31be3e2c15b72fc4c87c621e23f61ee0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Item
+  item: {fileID: 11400000, guid: 274ab0cba9fd22d498dd1dbfd86f75e7, type: 2}
+  amount: 1
+  ammoAmount: 0
+  durability: 100
+--- !u!54 &4112686639545987411
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8065274873250622529}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &3387854844117765856
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -292,22 +336,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -3219612707528939634, guid: 04a915bd9a19ba846a9a7b34d2e64c33, type: 3}
---- !u!114 &5133196227229079220
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8065274873250622529}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31be3e2c15b72fc4c87c621e23f61ee0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Item
-  item: {fileID: 11400000, guid: 274ab0cba9fd22d498dd1dbfd86f75e7, type: 2}
-  amount: 1
-  ammoAmount: 0
+  serializedVersion: 3
+  m_Size: {x: 0.06099991, y: 0.024461588, z: 0.019218879}
+  m_Center: {x: -0.000000718905, y: 1.0466687e-10, z: 0.0007348975}

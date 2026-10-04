@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,7 +13,11 @@ public class Knife : MonoBehaviour
     [SerializeField] private BoxCollider hitboxCollider;
 
 
+
     private Animator animator;
+
+    public static Action OnDurabilityLose;
+
 
     private void Awake()
     {
@@ -28,8 +33,10 @@ public class Knife : MonoBehaviour
         hitboxCollider.enabled = false ;
         animator.SetTrigger("ForceBackToIdle");
     }
-
-
+    public void DurabilityLose()
+    {
+        OnDurabilityLose?.Invoke();
+    }
     public void OnAttack(InputAction.CallbackContext context)
     {
         if(context.started && canAttack)

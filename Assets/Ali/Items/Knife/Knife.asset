@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Knife
   icon: {fileID: 21300000, guid: 198bfbc020893144ab1a24d779ccd087, type: 3}
   maxStacksSize: 1
-  itemPrefab: {fileID: 0}
+  itemPrefab: {fileID: 8065274873250622529, guid: 43ecd149c03cbff45bbe4b654577e613, type: 3}
   handItemPrefab: {fileID: 0}
   isFpsRealHandObject: 1
   HandNumber: 1

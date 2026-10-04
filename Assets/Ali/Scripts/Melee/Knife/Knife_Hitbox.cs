@@ -10,7 +10,7 @@ public class Knife_Hitbox : MonoBehaviour
         if (other.TryGetComponent(out IDamgeable damgeable))
         {
             damgeable.TakeDamage(Knife.attackDps);
-            
+            Knife.DurabilityLose();
         }
 
     }

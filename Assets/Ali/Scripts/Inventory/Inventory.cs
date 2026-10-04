@@ -57,11 +57,12 @@ public class Inventory : MonoBehaviour
     private void OnEnable()
     {
         Pistol.OnAmmoUse += OnAmmoUse;
+        Knife.OnDurabilityLose += OnDurabilityLose;
     }
     private void OnDisable()
     {
         Pistol.OnAmmoUse -= OnAmmoUse;
-
+        Knife.OnDurabilityLose -= OnDurabilityLose;
     }
 
     private void Update()
@@ -392,6 +393,12 @@ public class Inventory : MonoBehaviour
         Slot equppedSlot = hotbarSlots[equippedHotBarIndex];
         equppedSlot.RemoveAmmo(1);
     }
+    private void OnDurabilityLose()
+    {
+        Slot equppedSlot = hotbarSlots[equippedHotBarIndex];
+        equppedSlot.RemoveDurability(10);
+    }
+
 
     public void OnHotBarSelection1(InputAction.CallbackContext context)
     {

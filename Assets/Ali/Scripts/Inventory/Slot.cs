@@ -135,6 +135,18 @@ public class Slot : MonoBehaviour ,IPointerEnterHandler , IPointerExitHandler
         UpdateSlot();
         return ammoAmount;
     }
+    public float AddDurability( float amountToAdd)
+    {
+        durability += amountToAdd;
+        UpdateSlot();
+        return durability;
+    }
+    public float RemoveDurability( float amountToRemove )
+    {
+        durability -= amountToRemove;
+        UpdateSlot();
+        return durability;
+    }
 
     public void ClearSlot()
     {
