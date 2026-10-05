@@ -12,6 +12,7 @@ public class Knife_Hitbox : MonoBehaviour
             damgeable.TakeDamage(Knife.attackDps);
             Knife.DurabilityLose();
         }
+        
 
     }
 }

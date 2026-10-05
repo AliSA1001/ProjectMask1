@@ -87,6 +87,7 @@ public class Inventory : MonoBehaviour
         UpdateHotBarOpacity();
 
         HandleAmmo();
+                                        
 
     }
 
@@ -397,6 +398,11 @@ public class Inventory : MonoBehaviour
     {
         Slot equppedSlot = hotbarSlots[equippedHotBarIndex];
         equppedSlot.RemoveDurability(10);
+        if(equppedSlot.GetDurability() <= 0)
+        {
+            equppedSlot.ClearSlot();
+            EquipHandItem();
+        }
     }
 
 
@@ -508,6 +514,7 @@ public class Inventory : MonoBehaviour
             itemWeDrooped.item = itemSO;// we give it the blueprint of itself
             itemWeDrooped.amount = equippedSlot.GetAmount();// we drop the amount we have
             itemWeDrooped.ammoAmount = equippedSlot.GetAmmoAmount();
+            itemWeDrooped.durability = equippedSlot.GetDurability();
 
             equippedSlot.ClearSlot();
 

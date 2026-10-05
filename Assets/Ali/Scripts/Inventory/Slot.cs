@@ -144,7 +144,14 @@ public class Slot : MonoBehaviour ,IPointerEnterHandler , IPointerExitHandler
     public float RemoveDurability( float amountToRemove )
     {
         durability -= amountToRemove;
-        UpdateSlot();
+        if (durability <= 0)
+        {
+            ClearSlot();
+        }
+        else
+        {
+            UpdateSlot();
+        }
         return durability;
     }
 
@@ -153,6 +160,7 @@ public class Slot : MonoBehaviour ,IPointerEnterHandler , IPointerExitHandler
         heldItem = null;
         itemAmount = 0; 
         ammoAmount = 0;
+        durability = 0;
         UpdateSlot() ;
     }
 
