@@ -4,6 +4,7 @@ using UnityEngine.AI;
 public class BasicEnemyBrain : MonoBehaviour
 {
     private NavMeshAgent agent;
+    private Animator animator;
     private Vector3 playerPos;
 
     [SerializeField] private float attackDistnce;
@@ -11,6 +12,7 @@ public class BasicEnemyBrain : MonoBehaviour
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
     }
     private void Start()
     {
@@ -22,6 +24,8 @@ public class BasicEnemyBrain : MonoBehaviour
         playerPos = Movement.instance.transform.position;
 
         agent.destination = playerPos;
+
+        animator.SetFloat("Speed" , agent.velocity.magnitude);
             
         
     }
