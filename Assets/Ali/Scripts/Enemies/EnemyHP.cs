@@ -7,6 +7,9 @@ public class EnemyHP : MonoBehaviour
     [SerializeField] private float currentHealth;
     private RagDoll ragdoll;
 
+    public float blinkIntensity;
+    public float blinkDuration;
+    private float blinkTimer;
 
     private void Awake()
     {

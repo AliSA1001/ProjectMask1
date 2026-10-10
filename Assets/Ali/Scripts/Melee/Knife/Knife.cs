@@ -15,6 +15,7 @@ public class Knife : MonoBehaviour
 
 
     private Animator animator;
+    [SerializeField] private Knife_Hitbox hitbox;
 
     public static Action OnDurabilityLose;
 
@@ -22,6 +23,9 @@ public class Knife : MonoBehaviour
     private void Awake()
     {
         animator = GetComponent<Animator>();
+    }
+    private void Start()
+    {
     }
 
     private void ResetAttack()
@@ -44,6 +48,7 @@ public class Knife : MonoBehaviour
             animator.SetTrigger("Attacking");
             canAttack = false;
             Invoke("ResetAttack",timeBetweenAttacks);
+            hitbox.ResetList();
             hitboxCollider.enabled = true;
 
 
