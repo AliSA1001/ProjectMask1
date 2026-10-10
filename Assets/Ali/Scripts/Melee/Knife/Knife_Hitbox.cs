@@ -7,12 +7,14 @@ public class Knife_Hitbox : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
        
-        if (other.TryGetComponent(out IDamgeable damgeable))
+        if (other.TryGetComponent(out IDamgeable damgeable) )
         {
             damgeable.TakeDamage(Knife.attackDps);
             Knife.DurabilityLose();
+           
         }
         
 
     }
+    
 }
