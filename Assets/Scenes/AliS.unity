@@ -12895,6 +12895,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7546835849697935748, guid: fd110fb5157c7fe49b054e4bdf976b33, type: 3}
+      propertyPath: blinkDuration
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7546835849697935748, guid: fd110fb5157c7fe49b054e4bdf976b33, type: 3}
+      propertyPath: blinkIntensity
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8704278865718021742, guid: fd110fb5157c7fe49b054e4bdf976b33, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.41

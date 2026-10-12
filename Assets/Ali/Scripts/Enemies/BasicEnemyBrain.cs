@@ -6,6 +6,7 @@ public class BasicEnemyBrain : MonoBehaviour
     private NavMeshAgent agent;
     private Animator animator;
     private Vector3 playerPos;
+    private bool isBrainOn = true;
     
 
     [SerializeField] private float attackDistnce;
@@ -27,19 +28,28 @@ public class BasicEnemyBrain : MonoBehaviour
 
     private void Update()
     {
-        timer -= Time.deltaTime;
-        if(timer < 0)
+        if (isBrainOn)
         {
-            playerPos = Movement.instance.transform.position;
-
-            float sqrDistance = (playerPos - agent.destination).sqrMagnitude;
-            if(sqrDistance > maxDistance * maxDistance)
+            timer -= Time.deltaTime;
+            if (timer < 0)
             {
-                agent.destination = playerPos; // this is very heavy line on the cpu so we have to check if we need to use it by the 2 if statments up 
+                playerPos = Movement.instance.transform.position;
+
+                float sqrDistance = (playerPos - agent.destination).sqrMagnitude;
+                if (sqrDistance > maxDistance * maxDistance)
+                {
+                    agent.destination = playerPos; // this is very heavy line on the cpu so we have to check if we need to use it by the 2 if statments up 
+                }
+                timer = maxTime;
             }
-            timer =maxTime;
+            animator.SetFloat("Speed", agent.velocity.magnitude);
+
         }
-        animator.SetFloat("Speed" , agent.velocity.magnitude);
-            
+    }
+
+
+    public void StopNavMesh()
+    {
+        isBrainOn = false;
     }
 }

@@ -6,6 +6,7 @@ public class EnemyHP : MonoBehaviour
     [SerializeField] private float maxHealth;
     [SerializeField] private float currentHealth;
     private RagDoll ragdoll;
+    private SkinnedMeshRenderer skinnedMeshRenderer;
 
     public float blinkIntensity;
     public float blinkDuration;
@@ -19,7 +20,7 @@ public class EnemyHP : MonoBehaviour
     private void Start()
     {
         ragdoll = GetComponent<RagDoll>();
-
+        skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
         var rigedBodies = GetComponentsInChildren<Rigidbody>();
         foreach (var body in rigedBodies)
         {
@@ -29,7 +30,10 @@ public class EnemyHP : MonoBehaviour
     }
     private void Update()
     {
-       
+       blinkTimer -= Time.deltaTime;
+        float lerp = Mathf.Clamp01(blinkTimer / blinkDuration);
+        float intensity = lerp * blinkIntensity; //+ 1f; 
+        skinnedMeshRenderer.material.color = Color.white * intensity;
     }
 
     public void TakeDamage(float damage)
@@ -39,6 +43,8 @@ public class EnemyHP : MonoBehaviour
         {
             HandleDeath();
         }
+
+        blinkTimer = blinkDuration;
     }
 
     private void HandleDeath()
