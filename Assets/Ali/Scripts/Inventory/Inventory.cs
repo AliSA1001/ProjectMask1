@@ -78,6 +78,7 @@ public class Inventory : MonoBehaviour
        */// }
 
         DetectLookedAtItem();
+   
 
 
         StartDrag();
@@ -176,11 +177,13 @@ public class Inventory : MonoBehaviour
 
                 draggedSlot = null;
                 isDraging = false;
+
             }
         }
+
     }
 
-   
+
 
     private Slot GetHoverdSlot()
     {
@@ -198,7 +201,7 @@ public class Inventory : MonoBehaviour
         if(from == to) return;
 
         //Stacking
-        if(to.HasItem() && to.GetItem() == from.GetItem ()) 
+        if(to.HasItem() && to.GetItem() == from.GetItem () && to.GetItem().maxStacksSize > 1 ) 
         {
             int max = to.GetItem().maxStacksSize;
             int space = max - to.GetAmount();
@@ -222,7 +225,7 @@ public class Inventory : MonoBehaviour
         }
         
         //Diffrent Item
-        if(to.HasItem() && to.GetItem() != from.GetItem()) 
+        if(to.HasItem() &&( to.GetItem() != from.GetItem() || (to.GetItem().maxStacksSize <= 1 && from.GetItem() .maxStacksSize <= 1)))
         {
          ItemSO tempItem = to.GetItem();
             int tempAmount = to.GetAmount();
@@ -231,12 +234,16 @@ public class Inventory : MonoBehaviour
 
             to.SetItem(from.GetItem(), from.GetAmount(), from.GetAmmoAmount() , from.GetDurability());
             from.SetItem(tempItem, tempAmount ,tempAmmoAmount , tempDurability );
+            EquipHandItem();
+
             return;
         }
 
         //Empty Slot
         to.SetItem(from.GetItem(), from.GetAmount(), from.GetAmmoAmount() ,from.GetDurability() );
         from.ClearSlot();
+        EquipHandItem();
+
     }
 
     private void UpdateDragItemPosition()

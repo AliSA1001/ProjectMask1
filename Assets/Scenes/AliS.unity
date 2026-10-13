@@ -9519,7 +9519,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1458472215
 Transform:
   m_ObjectHideFlags: 0
@@ -12767,6 +12767,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1998756276936340688, guid: beecb4e54b2669941badca3d5cf32d84, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2156509787409253502, guid: beecb4e54b2669941badca3d5cf32d84, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -12775,17 +12779,29 @@ PrefabInstance:
       propertyPath: m_Name
       value: Automatic_Rifle09
       objectReference: {fileID: 0}
+    - target: {fileID: 2172174049907833426, guid: beecb4e54b2669941badca3d5cf32d84, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2172174049907833426, guid: beecb4e54b2669941badca3d5cf32d84, type: 3}
+      propertyPath: m_TagString
+      value: Gun
+      objectReference: {fileID: 0}
+    - target: {fileID: 2298753323253958199, guid: beecb4e54b2669941badca3d5cf32d84, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2917845555491440705, guid: beecb4e54b2669941badca3d5cf32d84, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.336
+      value: -0.345
       objectReference: {fileID: 0}
     - target: {fileID: 2917845555491440705, guid: beecb4e54b2669941badca3d5cf32d84, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.063
+      value: 0.055
       objectReference: {fileID: 0}
     - target: {fileID: 2917845555491440705, guid: beecb4e54b2669941badca3d5cf32d84, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.656
+      value: 0.661
       objectReference: {fileID: 0}
     - target: {fileID: 2917845555491440705, guid: beecb4e54b2669941badca3d5cf32d84, type: 3}
       propertyPath: m_LocalRotation.w
@@ -12818,6 +12834,22 @@ PrefabInstance:
     - target: {fileID: 2917845555491440705, guid: beecb4e54b2669941badca3d5cf32d84, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3043204443410639579, guid: beecb4e54b2669941badca3d5cf32d84, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6799391317420565303, guid: beecb4e54b2669941badca3d5cf32d84, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6828754812786317874, guid: beecb4e54b2669941badca3d5cf32d84, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7116367013958529566, guid: beecb4e54b2669941badca3d5cf32d84, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8315187844006965875, guid: beecb4e54b2669941badca3d5cf32d84, type: 3}
       propertyPath: m_Enabled
