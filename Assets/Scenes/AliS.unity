@@ -16071,7 +16071,7 @@ GameObject:
   - component: {fileID: 1400255338}
   - component: {fileID: 2917845555178057817}
   m_Layer: 6
-  m_Name: Automatic_Rifle09
+  m_Name: MP40
   m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

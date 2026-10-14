@@ -315,6 +315,15 @@ public class Movement : MonoBehaviour
 
     }
 
+    public Vector2 GetMoveInput() // we need to call this in sway and bob guns script
+    {
+        return moveInput.normalized;
+    }
+    public Vector2 GetLookInput()
+    {
+        return lookInput;
+    }
+
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
