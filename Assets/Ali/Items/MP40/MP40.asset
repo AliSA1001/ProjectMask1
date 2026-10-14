@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: MP40
   m_EditorClassIdentifier: Assembly-CSharp::ItemSO
   itemName: MP40
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 8c6b2cdfaa906094788abb8b9a48ad65, type: 3}
   maxStacksSize: 1
   itemPrefab: {fileID: 2172174049907833426, guid: beecb4e54b2669941badca3d5cf32d84, type: 3}
   handItemPrefab: {fileID: 0}
-  isFpsRealHandObject: 0
+  isFpsRealHandObject: 1
   HandNumber: 0
   isAmmo: 0
   ammoGunNumber: 0
