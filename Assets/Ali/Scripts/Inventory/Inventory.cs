@@ -56,12 +56,12 @@ public class Inventory : MonoBehaviour
     }
     private void OnEnable()
     {
-        Pistol.OnAmmoUse += OnAmmoUse;
+        MasterGun.OnAmmoUse += OnAmmoUse;
         Knife.OnDurabilityLose += OnDurabilityLose;
     }
     private void OnDisable()
     {
-        Pistol.OnAmmoUse -= OnAmmoUse;
+        MasterGun.OnAmmoUse -= OnAmmoUse;
         Knife.OnDurabilityLose -= OnDurabilityLose;
     }
 
@@ -312,9 +312,9 @@ public class Inventory : MonoBehaviour
             if(item.HandNumber == null) return;
 
             guns[item.HandNumber].gameObject.SetActive(true);
-            if (guns[item.HandNumber].gameObject.GetComponentInChildren<Pistol>() != null)// here we check if it is a gun
+            if (guns[item.HandNumber].gameObject.GetComponentInChildren<MasterGun>() != null)// here we check if it is a gun
             {
-                guns[item.HandNumber].gameObject.GetComponentInChildren<Pistol>().NewAmmoAmount(equppedSlot.GetAmmoAmount());
+                guns[item.HandNumber].gameObject.GetComponentInChildren<MasterGun>().NewAmmoAmount(equppedSlot.GetAmmoAmount());
             }
 
             return;

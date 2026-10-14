@@ -6,7 +6,7 @@ using System.Collections;
 using System;
 using JetBrains.Annotations;
 
-public class Pistol : MonoBehaviour
+public class MasterGun : MonoBehaviour
 {
     [Header("Connections")]
     // 'protected' means the Child (Shotgun) can see this, but other scripts cannot.
