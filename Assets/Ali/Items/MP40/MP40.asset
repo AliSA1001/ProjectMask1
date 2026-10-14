@@ -18,7 +18,7 @@ MonoBehaviour:
   itemPrefab: {fileID: 2172174049907833426, guid: beecb4e54b2669941badca3d5cf32d84, type: 3}
   handItemPrefab: {fileID: 0}
   isFpsRealHandObject: 1
-  HandNumber: 0
+  HandNumber: 2
   isAmmo: 0
   ammoGunNumber: 0
   isMeleeObject: 0
