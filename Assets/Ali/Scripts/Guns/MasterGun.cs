@@ -92,11 +92,13 @@ public class MasterGun : MonoBehaviour
     }
     private void OnEnable()
     {
+        if(reloadEvent != null)
         reloadEvent.OnReload += OnReload;
     }
     private void OnDisable()
     {
-        reloadEvent.OnReload -= OnReload;
+        if (reloadEvent != null)
+            reloadEvent.OnReload -= OnReload;
     }
 
     public void NewAmmoAmount(int amount)
@@ -236,7 +238,7 @@ public class MasterGun : MonoBehaviour
         if (context.started && !isReloading && !container.activeInHierarchy)
         {
             attackTrigger = true;
-
+            Debug.Log("We shot");
 
         }
         else if (context.canceled )
