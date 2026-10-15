@@ -142,6 +142,7 @@ public class MasterGun : MonoBehaviour
         {
             if (gunAmmo <= 0)
             {
+                return;
             }
             else
             {

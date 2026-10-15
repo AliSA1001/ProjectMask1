@@ -9047,7 +9047,7 @@ MonoBehaviour:
   gunRange: 100
   gunDamage: 10
   fireRate: 0.13
-  bulletSpeed: 200
+  bulletSpeed: 500
   gunAmmo: 999
   maxAmmo: 80
   muzzleEffect: {fileID: 1094904201}
