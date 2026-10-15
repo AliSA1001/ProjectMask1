@@ -323,6 +323,14 @@ public class Movement : MonoBehaviour
     {
         return lookInput;
     }
+    public bool isGrounded()
+    {
+      return characterController.isGrounded;
+    }
+    public CharacterController GetCharacterController()
+    {
+        return characterController;
+    }
 
     public void OnMove(InputAction.CallbackContext context)
     {

@@ -146,6 +146,7 @@ public class MasterGun : MonoBehaviour
             else
             {
                gunAnimator.SetTrigger("Shoting");
+                ShootFeedback.Play();
                HandleSubtractFromInventory();
 
                 if (HandleHitScan(out gunRaycastInfo))

@@ -10,6 +10,7 @@ public class GunSwayAndBob : MonoBehaviour
     public bool bobSway = true;
 
     private Movement movement;
+    private CharacterController characterController;
 
     private Vector2 moveInput;
     private Vector2 lookInput;
@@ -30,6 +31,18 @@ public class GunSwayAndBob : MonoBehaviour
     [SerializeField] private float maxRotationStep = 5f;
     private Vector3 swayEulerRotation;
 
+    [Header("Bobbing")]
+    [SerializeField] private float speedCurve;
+    [SerializeField] private Vector3 traveLimit = Vector3.one * 0.025f;
+    [SerializeField] private Vector3 bobLimit = Vector3.one * 0.01f;
+    private Vector3 bobPosition;
+
+    private float curveSin { get => Mathf.Sin(speedCurve); }
+    private float curveCos {  get => Mathf.Cos(speedCurve); }
+
+    [Header("Bob Rotation")]
+    [SerializeField] private Vector3 multiplier;
+    private Vector3 bobEulerRotation;
     private void Awake()
     {
         initialPos = transform.localPosition;
@@ -38,6 +51,7 @@ public class GunSwayAndBob : MonoBehaviour
     private void Start()
     {
         movement = Movement.instance;
+        characterController = movement.GetCharacterController();
     }
 
     private void Update()
@@ -46,6 +60,8 @@ public class GunSwayAndBob : MonoBehaviour
 
         Sway();
         SwayRotation();
+        BobOffset();
+        BobRotation();
 
         CompositePosititionRotation();
 
@@ -80,19 +96,50 @@ public class GunSwayAndBob : MonoBehaviour
 
     }
 
+
+    private void BobOffset()
+    {
+        speedCurve += Time.deltaTime * (movement.isGrounded() ? characterController.velocity.magnitude : 1f) + 0.01f;
+
+        if(bobOffset == false) { bobPosition = Vector3.zero; return; }
+
+        bobPosition.x = 
+            (curveCos * bobLimit.x * (movement.isGrounded() ? 1 : 0))
+            - (moveInput.x * traveLimit.x);
+
+        bobPosition.y = 
+            (curveSin * bobLimit.y )
+            - (characterController.velocity.y * traveLimit.y);
+
+        bobPosition.z = - (moveInput.y * traveLimit.z );
+    }
+
+    private void BobRotation()
+    {
+        if (bobSway == false) { bobEulerRotation = Vector3.zero; return; }
+
+        bobEulerRotation.x = (moveInput != Vector2.zero ? multiplier.x * (Mathf.Sin(2 * speedCurve)) :
+                                                          multiplier.x * (Mathf.Sin (2 * speedCurve) / 2));
+        bobEulerRotation.y = (moveInput != Vector2.zero ? multiplier.y * curveCos : 0);
+        bobEulerRotation.z = (moveInput != Vector2.zero ? multiplier.z * curveCos * moveInput.x : 0);
+    }
+
+
     private void CompositePosititionRotation()
     {
         // position 
         transform.localPosition =
             Vector3.Lerp(transform.localPosition,
-            swayPos,
+            swayPos + bobPosition,
             smooth * Time.deltaTime);
 
         //rotation 
         transform.localRotation = 
             Quaternion.Slerp(transform.localRotation,
-            Quaternion.Euler(swayEulerRotation),
+            Quaternion.Euler(swayEulerRotation) * Quaternion.Euler(bobEulerRotation),
             smoothRot * Time.deltaTime);
             
     }
+
+
 }
