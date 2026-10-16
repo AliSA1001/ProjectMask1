@@ -21,7 +21,25 @@ public class MasterGun : MonoBehaviour
     [SerializeField] protected float bulletSpeed = 50f;
     [SerializeField] protected int gunAmmo = 999;
     [SerializeField] private int maxAmmo = 80;
-    
+
+    [Header("HipFire")]//HipFire
+    public float recoilX;
+    public float recoilY;
+    public float recoilZ;
+
+    [Header("ADS")]//Aim down Sight
+    public float aimRecoilX;
+    public float aimRecoilY;
+    public float aimRecoilZ;
+
+    [Header("Settings")] //Settings
+    public float snappiness;
+    public float returnSpeed;
+
+    // event to call the change for the recoil vaules
+    public static Action<float[]> OnEnableGun;
+    private float[] recoilData;
+
     [Header("Visuals")]
     [SerializeField] protected ParticleSystem muzzleEffect;
     [SerializeField] protected float muzzleEffectDuration = 0.1f;
@@ -29,6 +47,7 @@ public class MasterGun : MonoBehaviour
     [SerializeField] protected TrailRenderer bulletTrail;
     [SerializeField] protected ParticleSystem impactParticleSystem;
     [SerializeField] protected Transform trailSpawnPoint;
+    [SerializeField] protected GameObject bulletHoles;
 
     [Header("hitscan")]
     [SerializeField] LayerMask hitLayers;
@@ -75,7 +94,11 @@ public class MasterGun : MonoBehaviour
 
     public static Action OnAmmoUse;
 
-    
+
+    private void Awake()
+    {
+        recoilData = new float[8] { recoilX, recoilY, recoilZ, aimRecoilX, aimRecoilY, aimRecoilZ, snappiness, returnSpeed };
+    }
     public void Start()
     {
         player = Movement.instance;
@@ -98,6 +121,9 @@ public class MasterGun : MonoBehaviour
     {
         if(reloadEvent != null)
         reloadEvent.OnReload += OnReload;
+
+        OnEnableGun?.Invoke(recoilData);
+
     }
     private void OnDisable()
     {
@@ -116,6 +142,7 @@ public class MasterGun : MonoBehaviour
         gunAnimator.SetBool("IsReloding", isReloading);
 
     }
+    
 
     private void HandleAnmationSprinting()
     {
@@ -218,6 +245,10 @@ public class MasterGun : MonoBehaviour
         ParticleSystem instanceofParticleSystem = Instantiate(impactParticleSystem, gunRaycasthitInfo.point, Quaternion.LookRotation(gunRaycastInfo.normal));
         Destroy(instanceofParticleSystem.gameObject, 2f);
         Destroy(instance.gameObject, instance.time);
+
+        GameObject ImpactBulletHole = Instantiate(bulletHoles, gunRaycasthitInfo.point, Quaternion.LookRotation(gunRaycastInfo.normal));
+        Destroy(ImpactBulletHole.gameObject, 10f);
+       
     }
 
 

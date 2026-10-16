@@ -4202,6 +4202,9 @@ MonoBehaviour:
   recoilX: -2
   recoilY: 2
   recoilZ: 0.35
+  aimRecoilX: 0
+  aimRecoilY: 0
+  aimRecoilZ: 0
   snappiness: 6
   returnSpeed: 2
 --- !u!1001 &986930777
@@ -8906,6 +8909,18 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 574276064000833234, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+      propertyPath: recoilX
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 574276064000833234, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+      propertyPath: recoilY
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 574276064000833234, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+      propertyPath: recoilZ
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 574276064000833234, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
       propertyPath: Inventory
       value: 
       objectReference: {fileID: 1429724069}
@@ -8913,6 +8928,14 @@ PrefabInstance:
       propertyPath: container
       value: 
       objectReference: {fileID: 482452506}
+    - target: {fileID: 574276064000833234, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+      propertyPath: snappiness
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 574276064000833234, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+      propertyPath: returnSpeed
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 574276064000833234, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
       propertyPath: recoilNewScript
       value: 
@@ -8977,6 +9000,10 @@ PrefabInstance:
       propertyPath: easeHpBarSlider
       value: 
       objectReference: {fileID: 1877848684}
+    - target: {fileID: 2029829314877923679, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2452696645757886199, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
       propertyPath: Inventory
       value: 
