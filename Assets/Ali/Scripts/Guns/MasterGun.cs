@@ -44,6 +44,7 @@ public class MasterGun : MonoBehaviour
     [Header("Conection")]
     [SerializeField] private ReloadEvent reloadEvent;
     private Recoil recoilScript;
+    [SerializeField] private NewRecoil recoilNewScript;
     private bool isReloading = false;
      
 
@@ -151,7 +152,7 @@ public class MasterGun : MonoBehaviour
             {
                gunAnimator.SetTrigger("Shoting");
                 ShootFeedback.Play();
-                recoilScript.AddRecoil(recoil);
+                recoilNewScript.RecoilFire();
                HandleSubtractFromInventory();
 
                 if (HandleHitScan(out gunRaycastInfo))
