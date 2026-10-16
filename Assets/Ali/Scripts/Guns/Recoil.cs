@@ -19,5 +19,31 @@ public class Recoil : MonoBehaviour
     private Vector2 recoilVelocity;
 
 
-    
+    private void LateUpdate()
+    {
+        float dt = Time.deltaTime;
+
+        Vector2 accel = (-returnStrength * recoilOffset) - (daming* recoilVelocity);
+        recoilVelocity += accel * dt;
+        recoilOffset += recoilVelocity * dt;
+
+        recoilOffset.y = Mathf.Clamp(recoilOffset.y,-maxPitch, maxPitch);
+
+        pivotPoint.localRotation = Quaternion.Euler(-recoilOffset.y , recoilOffset .x , 0);
+    }
+    public void AddRecoil(float recoilMultiplier = 1.0f)
+    {
+        float yaw = Random.Range(-yawKick,yawKick) * yawRandomness;
+
+        recoilOffset.y += pitchKick * recoilMultiplier;
+        recoilOffset.x += yaw * recoilMultiplier;
+    }
+
+
+    public void ResetRecoil()
+    {
+        recoilOffset = Vector2.zero;
+        recoilVelocity = Vector2.zero;
+        pivotPoint.localRotation = Quaternion.identity;
+    }
 }

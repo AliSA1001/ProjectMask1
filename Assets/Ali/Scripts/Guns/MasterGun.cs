@@ -21,6 +21,7 @@ public class MasterGun : MonoBehaviour
     [SerializeField] protected float bulletSpeed = 50f;
     [SerializeField] protected int gunAmmo = 999;
     [SerializeField] private int maxAmmo = 80;
+    [SerializeField] private float recoil =1;
 
     [Header("Visuals")]
     [SerializeField] protected ParticleSystem muzzleEffect;
@@ -42,6 +43,7 @@ public class MasterGun : MonoBehaviour
 
     [Header("Conection")]
     [SerializeField] private ReloadEvent reloadEvent;
+    private Recoil recoilScript;
     private bool isReloading = false;
      
 
@@ -71,6 +73,7 @@ public class MasterGun : MonoBehaviour
 
     public static Action OnAmmoUse;
 
+    
     public void Start()
     {
         player = Movement.instance;
@@ -78,7 +81,7 @@ public class MasterGun : MonoBehaviour
         {
             maincam = Camera.main.transform;
         }
-
+        recoilScript = GetComponent<Recoil>();
     }
 
     public void Update()
@@ -148,6 +151,7 @@ public class MasterGun : MonoBehaviour
             {
                gunAnimator.SetTrigger("Shoting");
                 ShootFeedback.Play();
+                recoilScript.AddRecoil(recoil);
                HandleSubtractFromInventory();
 
                 if (HandleHitScan(out gunRaycastInfo))
