@@ -21,8 +21,7 @@ public class MasterGun : MonoBehaviour
     [SerializeField] protected float bulletSpeed = 50f;
     [SerializeField] protected int gunAmmo = 999;
     [SerializeField] private int maxAmmo = 80;
-    [SerializeField] private float recoil =1;
-
+    
     [Header("Visuals")]
     [SerializeField] protected ParticleSystem muzzleEffect;
     [SerializeField] protected float muzzleEffectDuration = 0.1f;
@@ -43,9 +42,11 @@ public class MasterGun : MonoBehaviour
 
     [Header("Conection")]
     [SerializeField] private ReloadEvent reloadEvent;
-    private Recoil recoilScript;
     [SerializeField] private NewRecoil recoilNewScript;
     private bool isReloading = false;
+
+    //events 
+    public static Action<bool> OnShoting;
      
 
 
@@ -61,8 +62,7 @@ public class MasterGun : MonoBehaviour
     protected bool attackTrigger;
 
 
-   // [Header("Feedbacks")]
-   // [SerializeField] private MMF_Player reloadFeedback;
+    [Header("Feedbacks")]
     [SerializeField] private ParticleSystem ShootFeedback;
 
 
@@ -71,6 +71,7 @@ public class MasterGun : MonoBehaviour
     [SerializeField] private Inventory Inventory;
     [SerializeField] private int ammoTypeNumber;
     [SerializeField] private GameObject container;
+    
 
     public static Action OnAmmoUse;
 
@@ -82,7 +83,6 @@ public class MasterGun : MonoBehaviour
         {
             maincam = Camera.main.transform;
         }
-        recoilScript = GetComponent<Recoil>();
     }
 
     public void Update()
@@ -244,6 +244,7 @@ public class MasterGun : MonoBehaviour
         if (context.started && !isReloading && !container.activeInHierarchy)
         {
             attackTrigger = true;
+
             Debug.Log("We shot");
 
         }
@@ -252,6 +253,7 @@ public class MasterGun : MonoBehaviour
             attackTrigger = false;
 
         }
+        OnShoting?.Invoke(attackTrigger);
 
     }
     public void OnReload(InputAction.CallbackContext context)

@@ -103,9 +103,12 @@ public class Movement : MonoBehaviour
     private float rotationX = 0;
 
 
-    // ref 
+    // ref ST
     [SerializeField] private STBar STBar;
     private bool haveST = true;
+
+    // ref for guns
+    private bool isShoting = false;
 
     private void Awake()
     {
@@ -128,11 +131,15 @@ public class Movement : MonoBehaviour
     private void OnEnable()
     {
         STBar.OnST_StateChange += OnNoST;
+        MasterGun.OnShoting += OnShoting;
     }
 
+   
     private void OnDisable()
     {
         STBar.OnST_StateChange -= OnNoST;
+        MasterGun.OnShoting -= OnShoting;
+
     }
     private void OnNoST(bool St_Change)
     {
@@ -143,6 +150,16 @@ public class Movement : MonoBehaviour
             isSprinting = false;
         }
     }
+    private void OnShoting(bool attackTrigger)
+    {
+        isShoting = attackTrigger;
+        if (isShoting)
+        {
+            isSprinting = false;
+        }
+    }
+
+
 
     private void Update()
     {
@@ -342,7 +359,7 @@ public class Movement : MonoBehaviour
     }
     public void OnSprint(InputAction.CallbackContext context)
     {
-        if (context.started && characterController.isGrounded && !isCrouching && haveST)
+        if (context.started && characterController.isGrounded && !isCrouching && haveST && !isShoting)
         {
             isSprinting = true;
         }
