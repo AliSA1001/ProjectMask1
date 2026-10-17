@@ -17,6 +17,7 @@ public class GunSwayAndBob : MonoBehaviour
     private Vector3 initialPos;
     private Quaternion initialRot;
 
+
     // values we will use in more then one place
     private float smooth = 10f;
     private float smoothRot = 12f;
@@ -54,7 +55,7 @@ public class GunSwayAndBob : MonoBehaviour
         characterController = movement.GetCharacterController();
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         GetInput();
 
