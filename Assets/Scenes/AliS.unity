@@ -8753,8 +8753,8 @@ MonoBehaviour:
   bobSway: 1
   step: 0.009
   maxStepDistance: 0.06
-  rotationStep: 4
-  maxRotationStep: 5
+  rotationStep: 2
+  maxRotationStep: 3
   speedCurve: 0
   traveLimit: {x: 0.025, y: 0.025, z: 0.025}
   bobLimit: {x: 0.01, y: 0.01, z: 0.01}
@@ -9075,6 +9075,10 @@ PrefabInstance:
     - target: {fileID: 3418259575705082243, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
       propertyPath: m_Data.m_HintWeight
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4047399075538040756, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5531757891131019071, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
       propertyPath: m_IsActive
