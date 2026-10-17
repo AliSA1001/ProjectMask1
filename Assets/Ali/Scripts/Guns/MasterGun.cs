@@ -177,7 +177,7 @@ public class MasterGun : MonoBehaviour
             }
             else
             {
-               gunAnimator.SetTrigger("Shoting");
+                gunAnimator.SetBool("IsShoting", true);
                 ShootFeedback.Play();
                 recoilNewScript.RecoilFire();
                HandleSubtractFromInventory();
@@ -282,6 +282,7 @@ public class MasterGun : MonoBehaviour
         else if (context.canceled )
         {
             attackTrigger = false;
+            gunAnimator.SetBool("IsShoting" , false);
 
         }
         OnShoting?.Invoke(attackTrigger);
