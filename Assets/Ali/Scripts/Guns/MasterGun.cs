@@ -49,6 +49,10 @@ public class MasterGun : MonoBehaviour
     [SerializeField] protected Transform trailSpawnPoint;
     [SerializeField] protected GameObject bulletHoles;
 
+    [Header("SFX")]
+    [SerializeField] protected AudioClip[] ShotSounds;
+    private AudioSource gunAudioSource;
+
     [Header("hitscan")]
     [SerializeField] LayerMask hitLayers;
 
@@ -98,6 +102,7 @@ public class MasterGun : MonoBehaviour
     private void Awake()
     {
         recoilData = new float[8] { recoilX, recoilY, recoilZ, aimRecoilX, aimRecoilY, aimRecoilZ, snappiness, returnSpeed };
+        gunAudioSource = GetComponent<AudioSource>();
     }
     public void Start()
     {
@@ -180,7 +185,8 @@ public class MasterGun : MonoBehaviour
                 gunAnimator.SetBool("IsShoting", true);
                 ShootFeedback.Play();
                 recoilNewScript.RecoilFire();
-               HandleSubtractFromInventory();
+                HandleShotSounds();
+                HandleSubtractFromInventory();
 
                 if (HandleHitScan(out gunRaycastInfo))
                 {
@@ -200,6 +206,18 @@ public class MasterGun : MonoBehaviour
                 nextFireTime = Time.time + fireRate;
             }
         }
+    }
+
+    private void HandleShotSounds()
+    {
+        if(ShotSounds == null) {  return; }
+
+        int randomSound = UnityEngine.Random.Range(0, ShotSounds.Length);
+
+
+        gunAudioSource.PlayOneShot(ShotSounds[randomSound]);
+        
+        
     }
 
     private void HandleSubtractFromInventory()
