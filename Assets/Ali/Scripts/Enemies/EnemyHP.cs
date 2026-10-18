@@ -47,7 +47,10 @@ public class EnemyHP : MonoBehaviour
 
         blinkTimer = blinkDuration;
     }
-
+    public float GetHealth()
+    {
+        return currentHealth;
+    }
     private void HandleDeath()
     {
         ragdoll.ActivateRagdoll();
