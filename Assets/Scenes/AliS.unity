@@ -1701,7 +1701,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.097
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -9252,6 +9252,10 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 574276064000833234, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+      propertyPath: magAdded
+      value: 
+      objectReference: {fileID: 8300000, guid: 5d6d4ff74da326c4d803723caedde707, type: 3}
+    - target: {fileID: 574276064000833234, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
       propertyPath: Inventory
       value: 
       objectReference: {fileID: 1429724069}
@@ -9259,6 +9263,10 @@ PrefabInstance:
       propertyPath: container
       value: 
       objectReference: {fileID: 482452506}
+    - target: {fileID: 574276064000833234, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+      propertyPath: magRemove
+      value: 
+      objectReference: {fileID: 8300000, guid: af50e8c90df922f4285dc45d6ae931aa, type: 3}
     - target: {fileID: 574276064000833234, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
       propertyPath: reloadEvent
       value: 
@@ -9666,6 +9674,10 @@ PrefabInstance:
     - target: {fileID: 5200917229519762628, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
       propertyPath: m_LocalPosition.z
       value: -0.0675
+      objectReference: {fileID: 0}
+    - target: {fileID: 5277197646880365174, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+      propertyPath: m_Volume
+      value: 0.108
       objectReference: {fileID: 0}
     - target: {fileID: 5471245201505804880, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
       propertyPath: m_LocalScale.x

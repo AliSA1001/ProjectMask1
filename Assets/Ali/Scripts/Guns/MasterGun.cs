@@ -51,6 +51,8 @@ public class MasterGun : MonoBehaviour
 
     [Header("SFX")]
     [SerializeField] protected AudioClip[] ShotSounds;
+    [SerializeField] private AudioClip magRemove;
+    [SerializeField] private AudioClip magAdded;
     private AudioSource gunAudioSource;
 
     [Header("hitscan")]
@@ -126,6 +128,8 @@ public class MasterGun : MonoBehaviour
     {
         if(reloadEvent != null)
         reloadEvent.OnReload += OnReload;
+        reloadEvent.OnMagRemove += OnMagRemove;
+        reloadEvent.OnMagAdd += OnMagAdd;
 
         OnEnableGun?.Invoke(recoilData);
 
@@ -134,6 +138,18 @@ public class MasterGun : MonoBehaviour
     {
         if (reloadEvent != null)
             reloadEvent.OnReload -= OnReload;
+            reloadEvent.OnMagRemove -= OnMagRemove;
+            reloadEvent.OnMagAdd -= OnMagAdd;
+    }
+
+    private void OnMagAdd()
+    {
+        gunAudioSource.PlayOneShot(magAdded);
+    }
+
+    private void OnMagRemove()
+    {
+        gunAudioSource.PlayOneShot(magRemove);
     }
 
     public void NewAmmoAmount(int amount)
