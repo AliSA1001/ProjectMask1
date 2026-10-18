@@ -207,12 +207,14 @@ public class MasterGun : MonoBehaviour
                 if (HandleHitScan(out gunRaycastInfo))
                 {
                     IDamgeable damageable = gunRaycastInfo.collider.GetComponent<IDamgeable>();
+                    ParticleSystem hitParticle = null;
 
                     if (damageable != null)
                     {
                         damageable.TakeDamage(gunDamage);
+                        hitParticle = damageable.GetHitParticleSystem();
                     }
-                    StartCoroutine(HandleTrail(gunRaycastInfo));
+                    StartCoroutine(HandleTrail(gunRaycastInfo , hitParticle));
                 }
                 else
                 {
@@ -262,7 +264,7 @@ public class MasterGun : MonoBehaviour
     }
 
 
-    protected virtual IEnumerator HandleTrail(RaycastHit gunRaycasthitInfo)
+    protected virtual IEnumerator HandleTrail(RaycastHit gunRaycasthitInfo , ParticleSystem particle)
     {
         TrailRenderer instance = Instantiate(bulletTrail, trailSpawnPoint.position, Quaternion.identity);
         while (Vector3.Distance(instance.transform.position, gunRaycasthitInfo.point) > 0.1f)
@@ -280,8 +282,16 @@ public class MasterGun : MonoBehaviour
         Destroy(instanceofParticleSystem.gameObject, 2f);
         Destroy(instance.gameObject, instance.time);
 
-        GameObject ImpactBulletHole = Instantiate(bulletHoles, gunRaycasthitInfo.point, Quaternion.LookRotation(gunRaycastInfo.normal));
-        Destroy(ImpactBulletHole.gameObject, 10f);
+        if (particle != null)
+        {
+            ParticleSystem bloodParticle =  Instantiate(particle, gunRaycasthitInfo.point, Quaternion.LookRotation(gunRaycastInfo.normal));
+            Destroy(bloodParticle.gameObject, 2f);
+        }
+        else
+        {
+            GameObject ImpactBulletHole = Instantiate(bulletHoles, gunRaycasthitInfo.point, Quaternion.LookRotation(gunRaycastInfo.normal));
+            Destroy(ImpactBulletHole.gameObject, 10f);
+        }
        
     }
 

@@ -11,6 +11,7 @@ public class EnemyHP : MonoBehaviour
     public float blinkIntensity;
     public float blinkDuration;
     private float blinkTimer;
+    public ParticleSystem hitParticle;
 
     private void Awake()
     {

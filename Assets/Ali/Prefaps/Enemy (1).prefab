@@ -151,6 +151,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHP
   maxHealth: 50
   currentHealth: 0
+  blinkIntensity: 0
+  blinkDuration: 0
+  hitParticle: {fileID: 8538455091997576435, guid: 0ad1a0a820b2bd54498db908690c1a72, type: 3}
 --- !u!1001 &6655661439124572983
 PrefabInstance:
   m_ObjectHideFlags: 0
