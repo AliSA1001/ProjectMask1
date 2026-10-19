@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class GunSwayAndBob : MonoBehaviour
 {
+    [SerializeField] private MasterGun gunScript;
+
     [Header("Settings")]
     public bool sway = true;
     public bool swayRotation = true;
@@ -57,14 +59,21 @@ public class GunSwayAndBob : MonoBehaviour
 
     private void LateUpdate()
     {
-        GetInput();
+        if (gunScript.isAiming)
+        {
+            HandleStopSwayAndBob();
+        }
+        else
+        {
+            GetInput();
 
-        Sway();
-        SwayRotation();
-        BobOffset();
-        BobRotation();
+            Sway();
+            SwayRotation();
+            BobOffset();
+            BobRotation();
 
-        CompositePosititionRotation();
+            CompositePosititionRotation();
+        }
 
 
     }
@@ -73,6 +82,12 @@ public class GunSwayAndBob : MonoBehaviour
     {
        moveInput = movement.GetMoveInput();
        lookInput = movement.GetLookInput();
+    }
+
+    private void HandleStopSwayAndBob()
+    {
+        transform.localPosition = initialPos;
+        transform.localRotation = initialRot;
     }
     private void Sway()
     {

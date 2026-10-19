@@ -13,7 +13,6 @@ public class MasterGun : MonoBehaviour
     [SerializeField] protected RaycastHit gunRaycastInfo;
     [SerializeField] private Transform maincam;
     private Movement player;
-    private Vector3 gunCurrentPos;
 
     [Header("Stats")]
     [SerializeField] protected float gunRange = 100f;
@@ -24,16 +23,15 @@ public class MasterGun : MonoBehaviour
     [SerializeField] private int maxAmmo = 80;
 
     [Header("HipFire")]//HipFire
-    [SerializeField] private Transform hipFirePos;
     [SerializeField] private float UnAimDownSightSpeed;
     public float recoilX;
     public float recoilY;
     public float recoilZ;
 
     [Header("ADS")]//Aim down Sight
-    [SerializeField] private Transform aimDownSightPos;
     [SerializeField] private float aimDownSightSpeed;
-    private bool isAiming;
+    private float aimLayerWighet = 0;
+    public bool isAiming;
     public float aimRecoilX;
     public float aimRecoilY;
     public float aimRecoilZ;
@@ -141,7 +139,6 @@ public class MasterGun : MonoBehaviour
 
         OnEnableGun?.Invoke(recoilData);
 
-        gunCurrentPos = hipFirePos.localPosition;
 
     }
     private void OnDisable()
@@ -325,20 +322,23 @@ public class MasterGun : MonoBehaviour
 
     protected void HandleAiming()
     {
-        if(isAiming)
-        {
-            gunCurrentPos = Vector3.Lerp(gunCurrentPos, aimDownSightPos.localPosition, aimDownSightSpeed * Time.deltaTime);
-            gunAnimator.SetLayerWeight(1, 1);
+      Camera camera = maincam.GetComponent<Camera>();
 
+        if (isAiming)
+        {
+            // gunCurrentPos = Vector3.Lerp(gunCurrentPos, aimDownSightPos.localPosition, aimDownSightSpeed * Time.deltaTime);
+            aimLayerWighet = Mathf.Lerp(aimLayerWighet, 1, aimDownSightSpeed * Time.deltaTime);
+            camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, 30, 5 *  Time.deltaTime);
         }
         else
         {
-            gunCurrentPos = Vector3.Lerp(gunCurrentPos, hipFirePos.localPosition, UnAimDownSightSpeed * Time.deltaTime);
-            gunAnimator.SetLayerWeight(1, 0);
+           // gunCurrentPos = Vector3.Lerp(gunCurrentPos, hipFirePos.localPosition, UnAimDownSightSpeed * Time.deltaTime);
+          aimLayerWighet =  Mathf.Lerp(aimLayerWighet, 0, UnAimDownSightSpeed * Time.deltaTime);
+            camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, 60, 5 * Time.deltaTime);
 
 
         }
-        transform.localPosition = gunCurrentPos;
+        gunAnimator.SetLayerWeight(1,aimLayerWighet);
     }
 
     public virtual void OnAttack(InputAction.CallbackContext context)

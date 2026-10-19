@@ -6,6 +6,12 @@ public class NewRecoil : MonoBehaviour
     private Vector3 currentRotation;
     private Vector3 targetRotation;
 
+    //conection 
+    [SerializeField] private MasterGun gunScript;
+
+    //bools 
+    private bool isAiming;
+
     [Header("HipFire")]//HipFire
     [SerializeField] private float recoilX;
     [SerializeField] private float recoilY;
@@ -19,6 +25,12 @@ public class NewRecoil : MonoBehaviour
     [Header("Settings")] //Settings
     [SerializeField] private float snappiness;
     [SerializeField] private float returnSpeed;
+
+
+    private void Start()
+    {
+        
+    }
 
     private void OnEnable()
     {
@@ -44,6 +56,8 @@ public class NewRecoil : MonoBehaviour
 
     private void Update()
     {
+        isAiming = gunScript.isAiming;
+
         targetRotation = Vector3.Lerp(targetRotation,Vector3.zero , returnSpeed * Time.deltaTime);
         currentRotation = Vector3.Slerp(currentRotation,targetRotation , snappiness * Time.fixedDeltaTime);
         transform.localRotation = Quaternion.Euler(currentRotation);
@@ -51,7 +65,16 @@ public class NewRecoil : MonoBehaviour
 
     public void RecoilFire()
     {
-        targetRotation += new Vector3(recoilX, Random.Range(-recoilY, recoilY), Random.Range(-recoilZ, recoilZ));
+        if(isAiming)
+        {
+            targetRotation += new Vector3(aimRecoilX, Random.Range(-aimRecoilY, aimRecoilY), Random.Range(-aimRecoilZ, aimRecoilZ));
+            
+        }
+        else
+        {
+            targetRotation += new Vector3(recoilX, Random.Range(-recoilY, recoilY), Random.Range(-recoilZ, recoilZ));
+
+        }
     }
 
 }

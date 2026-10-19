@@ -821,6 +821,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 972c69a5e32272d4e80072caee149f84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GunSwayAndBob
+  gunScript: {fileID: 0}
   sway: 1
   swayRotation: 1
   bobOffset: 1
@@ -852,13 +853,12 @@ MonoBehaviour:
   bulletSpeed: 500
   gunAmmo: 999
   maxAmmo: 80
-  hipFirePos: {fileID: 0}
   UnAimDownSightSpeed: 0
   recoilX: -1
   recoilY: 2
   recoilZ: 0.35
-  aimDownSightPos: {fileID: 0}
   aimDownSightSpeed: 0
+  isAiming: 0
   aimRecoilX: 0
   aimRecoilY: 0
   aimRecoilZ: 0
@@ -10590,6 +10590,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 972c69a5e32272d4e80072caee149f84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GunSwayAndBob
+  gunScript: {fileID: 369449136}
   sway: 1
   swayRotation: 1
   bobOffset: 1
@@ -10841,6 +10842,10 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 574276064000833234, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+      propertyPath: recoilX
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 574276064000833234, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
       propertyPath: magAdded
       value: 
       objectReference: {fileID: 8300000, guid: 5d6d4ff74da326c4d803723caedde707, type: 3}
@@ -10856,6 +10861,18 @@ PrefabInstance:
       propertyPath: magRemove
       value: 
       objectReference: {fileID: 8300000, guid: af50e8c90df922f4285dc45d6ae931aa, type: 3}
+    - target: {fileID: 574276064000833234, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+      propertyPath: aimRecoilX
+      value: -1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 574276064000833234, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+      propertyPath: aimRecoilY
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 574276064000833234, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+      propertyPath: aimRecoilZ
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 574276064000833234, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
       propertyPath: hipFirePos
       value: 
@@ -10874,11 +10891,11 @@ PrefabInstance:
       objectReference: {fileID: 1720792095}
     - target: {fileID: 574276064000833234, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
       propertyPath: aimDownSightSpeed
-      value: 1
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 574276064000833234, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
       propertyPath: UnAimDownSightSpeed
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 574276064000833234, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
       propertyPath: ShotSounds.Array.size
@@ -11355,6 +11372,18 @@ PrefabInstance:
     - target: {fileID: 5869258553155733471, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0.13398094
+      objectReference: {fileID: 0}
+    - target: {fileID: 5905192057863698137, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+      propertyPath: gunScript
+      value: 
+      objectReference: {fileID: 369449136}
+    - target: {fileID: 5905192057863698137, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+      propertyPath: aimRecoilX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5905192057863698137, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+      propertyPath: aimRecoilY
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5974338241075187194, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
       propertyPath: m_LocalPosition.x
