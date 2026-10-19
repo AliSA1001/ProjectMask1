@@ -33,6 +33,7 @@ public class MasterGun : MonoBehaviour
     [Header("ADS")]//Aim down Sight
     [SerializeField] private Transform aimDownSightPos;
     [SerializeField] private float aimDownSightSpeed;
+    private bool isAiming;
     public float aimRecoilX;
     public float aimRecoilY;
     public float aimRecoilZ;
@@ -110,7 +111,6 @@ public class MasterGun : MonoBehaviour
     {
         recoilData = new float[8] { recoilX, recoilY, recoilZ, aimRecoilX, aimRecoilY, aimRecoilZ, snappiness, returnSpeed };
         gunAudioSource = GetComponent<AudioSource>();
-        gunCurrentPos = transform.position;
         
     }
     public void Start()
@@ -126,6 +126,7 @@ public class MasterGun : MonoBehaviour
     {
         HandleShooting();
         HandleAnmationSprinting();
+        HandleAiming();
 
        
 
@@ -140,7 +141,7 @@ public class MasterGun : MonoBehaviour
 
         OnEnableGun?.Invoke(recoilData);
 
-        gunCurrentPos = hipFirePos.position;
+        gunCurrentPos = hipFirePos.localPosition;
 
     }
     private void OnDisable()
@@ -322,6 +323,24 @@ public class MasterGun : MonoBehaviour
         Destroy(instance.gameObject, instance.time);
     }
 
+    protected void HandleAiming()
+    {
+        if(isAiming)
+        {
+            gunCurrentPos = Vector3.Lerp(gunCurrentPos, aimDownSightPos.localPosition, aimDownSightSpeed * Time.deltaTime);
+            gunAnimator.SetLayerWeight(1, 1);
+
+        }
+        else
+        {
+            gunCurrentPos = Vector3.Lerp(gunCurrentPos, hipFirePos.localPosition, UnAimDownSightSpeed * Time.deltaTime);
+            gunAnimator.SetLayerWeight(1, 0);
+
+
+        }
+        transform.localPosition = gunCurrentPos;
+    }
+
     public virtual void OnAttack(InputAction.CallbackContext context)
     {
 
@@ -344,14 +363,15 @@ public class MasterGun : MonoBehaviour
 
     public virtual void OnAimDownSight(InputAction.CallbackContext context)
     {
-        if(context.started && !isReloading)
+        if(context.performed && !isReloading)
         {
-            gunCurrentPos = Vector3.Lerp(gunCurrentPos, aimDownSightPos.localPosition, aimDownSightSpeed * Time.deltaTime);
+            isAiming = true;
+            Debug.Log("Aim");
 
         }
-        else
+        if(context.canceled )
         {
-            gunCurrentPos = Vector3.Lerp(gunCurrentPos, hipFirePos.localPosition, UnAimDownSightSpeed * Time.deltaTime);
+            isAiming = false;
 
         }
     }
