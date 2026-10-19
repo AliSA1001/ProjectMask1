@@ -13,6 +13,7 @@ public class MasterGun : MonoBehaviour
     [SerializeField] protected RaycastHit gunRaycastInfo;
     [SerializeField] private Transform maincam;
     private Movement player;
+    private Vector3 gunCurrentPos;
 
     [Header("Stats")]
     [SerializeField] protected float gunRange = 100f;
@@ -23,11 +24,15 @@ public class MasterGun : MonoBehaviour
     [SerializeField] private int maxAmmo = 80;
 
     [Header("HipFire")]//HipFire
+    [SerializeField] private Transform hipFirePos;
+    [SerializeField] private float UnAimDownSightSpeed;
     public float recoilX;
     public float recoilY;
     public float recoilZ;
 
     [Header("ADS")]//Aim down Sight
+    [SerializeField] private Transform aimDownSightPos;
+    [SerializeField] private float aimDownSightSpeed;
     public float aimRecoilX;
     public float aimRecoilY;
     public float aimRecoilZ;
@@ -105,6 +110,8 @@ public class MasterGun : MonoBehaviour
     {
         recoilData = new float[8] { recoilX, recoilY, recoilZ, aimRecoilX, aimRecoilY, aimRecoilZ, snappiness, returnSpeed };
         gunAudioSource = GetComponent<AudioSource>();
+        gunCurrentPos = transform.position;
+        
     }
     public void Start()
     {
@@ -132,6 +139,8 @@ public class MasterGun : MonoBehaviour
         reloadEvent.OnMagAdd += OnMagAdd;
 
         OnEnableGun?.Invoke(recoilData);
+
+        gunCurrentPos = hipFirePos.position;
 
     }
     private void OnDisable()
@@ -331,6 +340,20 @@ public class MasterGun : MonoBehaviour
         }
         OnShoting?.Invoke(attackTrigger);
 
+    }
+
+    public virtual void OnAimDownSight(InputAction.CallbackContext context)
+    {
+        if(context.started && !isReloading)
+        {
+            gunCurrentPos = Vector3.Lerp(gunCurrentPos, aimDownSightPos.localPosition, aimDownSightSpeed * Time.deltaTime);
+
+        }
+        else
+        {
+            gunCurrentPos = Vector3.Lerp(gunCurrentPos, hipFirePos.localPosition, UnAimDownSightSpeed * Time.deltaTime);
+
+        }
     }
     public void OnReload(InputAction.CallbackContext context)
     {
