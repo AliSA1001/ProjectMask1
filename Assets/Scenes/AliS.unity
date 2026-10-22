@@ -10412,6 +10412,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 6e60cd3d-80ee-405d-a7f0-a4eee1a55f25
     m_ActionName: 'Melee/Attack[/Mouse/leftButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ae842e3a-1da9-4c1b-bd10-3756ac72e2a2
+    m_ActionName: 'guns/AIm[/Mouse/rightButton]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Inventory
@@ -18387,25 +18391,13 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5712449345047173817, guid: fd110fb5157c7fe49b054e4bdf976b33, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 2948835c6f138104e83b99f3a3bb1fb7, type: 2}
     - target: {fileID: 7223666696480703166, guid: fd110fb5157c7fe49b054e4bdf976b33, type: 3}
       propertyPath: m_Name
       value: Enemy (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 7223666696480703166, guid: fd110fb5157c7fe49b054e4bdf976b33, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7546835849697935748, guid: fd110fb5157c7fe49b054e4bdf976b33, type: 3}
-      propertyPath: blinkDuration
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7546835849697935748, guid: fd110fb5157c7fe49b054e4bdf976b33, type: 3}
-      propertyPath: blinkIntensity
-      value: 10
+      propertyPath: dieForce
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8704278865718021742, guid: fd110fb5157c7fe49b054e4bdf976b33, type: 3}
       propertyPath: m_LocalPosition.x

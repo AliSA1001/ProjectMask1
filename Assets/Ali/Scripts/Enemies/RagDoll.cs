@@ -34,4 +34,11 @@ public class RagDoll : MonoBehaviour
             brain.StopNavMesh();
         }
     }
+
+
+    public void ApplyForce(Vector3 force)
+    {
+        Rigidbody rigidbody = animator.GetBoneTransform(HumanBodyBones.Hips).GetComponent<Rigidbody>();
+        rigidbody.AddForce(force , ForceMode.VelocityChange);
+    }
 }

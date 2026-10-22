@@ -218,7 +218,7 @@ public class MasterGun : MonoBehaviour
 
                     if (damageable != null)
                     {
-                        damageable.TakeDamage(gunDamage);
+                        damageable.TakeDamage(gunDamage , maincam.forward);
                         hitParticle = damageable.GetHitParticleSystem();
                     }
                     StartCoroutine(HandleTrail(gunRaycastInfo , hitParticle));

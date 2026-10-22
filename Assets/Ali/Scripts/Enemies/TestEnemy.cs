@@ -7,7 +7,7 @@ public class TestEnemy : MonoBehaviour, IDamgeable
         return null;
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, Vector3 direction)
     {
         Debug.Log("DPS Delt =" +  damage);
     }

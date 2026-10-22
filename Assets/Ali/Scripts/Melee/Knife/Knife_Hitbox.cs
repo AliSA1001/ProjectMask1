@@ -17,7 +17,7 @@ public class Knife_Hitbox : MonoBehaviour
             if (other.TryGetComponent(out IDamgeable damgeable) && !enemiesList.Contains(enemyHP))
             {
                 enemiesList.Add(enemyHP);
-                damgeable.TakeDamage(Knife.attackDps);
+               // damgeable.TakeDamage(Knife.attackDps);
                 Knife.DurabilityLose();
 
             }

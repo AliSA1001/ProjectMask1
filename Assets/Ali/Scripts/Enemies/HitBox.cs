@@ -11,9 +11,9 @@ public class HitBox : MonoBehaviour, IDamgeable
     {
         enemyHP = GetComponentInParent<EnemyHP>();
     }
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, Vector3 diraction)
     {
-      enemyHP.TakeDamage(damage);
+      enemyHP.TakeDamage(damage , diraction);
     }
 
     public ParticleSystem GetHitParticleSystem()

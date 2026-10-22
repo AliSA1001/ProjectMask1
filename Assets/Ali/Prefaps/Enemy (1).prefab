@@ -338,7 +338,7 @@ NavMeshAgent:
   m_Acceleration: 40
   avoidancePriority: 50
   m_AngularSpeed: 720
-  m_StoppingDistance: 20
+  m_StoppingDistance: 2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -436,6 +436,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHP
   maxHealth: 50
   currentHealth: 0
+  hpBarUI: {fileID: 4765306609785766494}
+  dieForce: 20
   blinkIntensity: 10
   blinkDuration: 0
   hitParticle: {fileID: 8538455091997576435, guid: 0ad1a0a820b2bd54498db908690c1a72, type: 3}

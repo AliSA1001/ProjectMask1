@@ -5,6 +5,8 @@ public class EnemyHP : MonoBehaviour
 {
     [SerializeField] private float maxHealth;
     [SerializeField] private float currentHealth;
+    [SerializeField] private GameObject hpBarUI;
+    [SerializeField] private float dieForce;
     private RagDoll ragdoll;
     private SkinnedMeshRenderer skinnedMeshRenderer;
 
@@ -31,18 +33,18 @@ public class EnemyHP : MonoBehaviour
     }
     private void Update()
     {
-       blinkTimer -= Time.deltaTime;
+        blinkTimer -= Time.deltaTime;
         float lerp = Mathf.Clamp01(blinkTimer / blinkDuration);
         float intensity = lerp * blinkIntensity; //+ 1f; 
         skinnedMeshRenderer.material.color = Color.white * intensity;
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage , Vector3 direction)
     {
        currentHealth -= damage;
         if(currentHealth <= 0)
         {
-            HandleDeath();
+            HandleDeath(direction);
         }
 
         blinkTimer = blinkDuration;
@@ -51,8 +53,11 @@ public class EnemyHP : MonoBehaviour
     {
         return currentHealth;
     }
-    private void HandleDeath()
+    private void HandleDeath(Vector3 direction)
     {
         ragdoll.ActivateRagdoll();
+        direction.y = 1;
+        ragdoll.ApplyForce(direction * dieForce);
+        hpBarUI.SetActive(false);
     }
 }
