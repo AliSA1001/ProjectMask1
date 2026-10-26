@@ -36,7 +36,10 @@ public class EnemyHP : MonoBehaviour
         blinkTimer -= Time.deltaTime;
         float lerp = Mathf.Clamp01(blinkTimer / blinkDuration);
         float intensity = lerp * blinkIntensity; //+ 1f; 
-        skinnedMeshRenderer.material.color = Color.white * intensity;
+        if (skinnedMeshRenderer != null)
+        {
+            skinnedMeshRenderer.material.color = Color.white * intensity;
+        }
     }
 
     public void TakeDamage(float damage , Vector3 direction)
