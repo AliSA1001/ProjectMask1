@@ -10,6 +10,9 @@ public class EnemyHP : MonoBehaviour
     private RagDoll ragdoll;
     private SkinnedMeshRenderer skinnedMeshRenderer;
 
+    // for dummy 
+    private MeshRenderer MeshRenderer;
+
     public float blinkIntensity;
     public float blinkDuration;
     private float blinkTimer;
@@ -18,6 +21,8 @@ public class EnemyHP : MonoBehaviour
     private void Awake()
     {
         currentHealth = maxHealth;
+
+        MeshRenderer = GetComponent<MeshRenderer>();
        
     }
     private void Start()
@@ -35,10 +40,14 @@ public class EnemyHP : MonoBehaviour
     {
         blinkTimer -= Time.deltaTime;
         float lerp = Mathf.Clamp01(blinkTimer / blinkDuration);
-        float intensity = lerp * blinkIntensity; //+ 1f; 
+        float intensity = lerp * blinkIntensity + 1f; 
         if (skinnedMeshRenderer != null)
         {
             skinnedMeshRenderer.material.color = Color.white * intensity;
+        }
+        else
+        {
+            MeshRenderer.material.color = Color.white * intensity;
         }
     }
 
