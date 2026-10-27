@@ -57,12 +57,12 @@ public class Inventory : MonoBehaviour
     private void OnEnable()
     {
         MasterGun.OnAmmoUse += OnAmmoUse;
-        Knife.OnDurabilityLose += OnDurabilityLose;
+        Melee.OnDurabilityLose += OnDurabilityLose;
     }
     private void OnDisable()
     {
         MasterGun.OnAmmoUse -= OnAmmoUse;
-        Knife.OnDurabilityLose -= OnDurabilityLose;
+        Melee.OnDurabilityLose -= OnDurabilityLose;
     }
 
     private void Update()
