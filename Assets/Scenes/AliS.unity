@@ -1827,7 +1827,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &164673541
 Transform:
   m_ObjectHideFlags: 0
@@ -2033,6 +2033,7 @@ MonoBehaviour:
   damage: 10
   windUpTime2: 0.34
   attackCooldown2: 1
+  comboThreshold: 0.15
 --- !u!114 &164673549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17721,11 +17722,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1122592886408874911, guid: fd110fb5157c7fe49b054e4bdf976b33, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1122592886408874911, guid: fd110fb5157c7fe49b054e4bdf976b33, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7223666696480703166, guid: fd110fb5157c7fe49b054e4bdf976b33, type: 3}
       propertyPath: m_Name
@@ -17733,7 +17734,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7223666696480703166, guid: fd110fb5157c7fe49b054e4bdf976b33, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7546835849697935748, guid: fd110fb5157c7fe49b054e4bdf976b33, type: 3}
       propertyPath: dieForce

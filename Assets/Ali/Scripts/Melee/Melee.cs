@@ -23,6 +23,9 @@ public class Melee : MonoBehaviour
     private bool can2ndAttack = false;
     private bool isDoing2ndAttack = false;
 
+    [Header("combo")]
+    [SerializeField] private float comboThreshold = 0.15f;
+
 
     private Animator animator;
     private bool canAttack = true;
@@ -63,6 +66,7 @@ public class Melee : MonoBehaviour
     IEnumerator Attack()
     {
         canAttack = false;
+        isDoing2ndAttack = false ;
         animator.Play("Knife_Attack");
 
         yield return new WaitForSeconds(windUpTime);
@@ -73,7 +77,6 @@ public class Melee : MonoBehaviour
 
         foreach (Collider hit in hits)
         {
-            can2ndAttack = true;
             GameObject hitTarget = hit.transform.root.gameObject;
             if (!ListOfTargetHits.Contains(hitTarget))
             {
@@ -86,33 +89,42 @@ public class Melee : MonoBehaviour
 
             }
         }
-        if (isDoing2ndAttack)
+
+        yield return new WaitForSeconds(attackCooldown - windUpTime);
+        float combotimer = 0;
+        can2ndAttack = true;
+        while(combotimer < comboThreshold)
         {
-            StartCoroutine(Attack2());
+            if(isDoing2ndAttack)
+            {
+                StartCoroutine(Attack2()); 
+                yield break;
+            }
+            combotimer += Time.deltaTime;
             yield return null;
         }
 
-        yield return new WaitForSeconds(attackCooldown - windUpTime);
         animator.Play("Knife Standing");
         ListOfTargetHits.Clear();
         canAttack = true;
+        can2ndAttack = false;
 
     }
 
     IEnumerator Attack2()
     {
+        
         can2ndAttack = false;
         animator.Play("Knife_Attack2");
 
-        yield return new WaitForSeconds(windUpTime);
+        yield return new WaitForSeconds(windUpTime2);
 
         Collider[] hits = Physics.OverlapSphere(attackPoint.position, attackRange, hitLayer);
 
         List<GameObject> ListOfTargetHits = new List<GameObject>();
-
         foreach (Collider hit in hits)
         {
-            can2ndAttack = true;
+           
             GameObject hitTarget = hit.transform.root.gameObject;
             if (!ListOfTargetHits.Contains(hitTarget))
             {
@@ -125,7 +137,8 @@ public class Melee : MonoBehaviour
 
             }
         }
-        yield return new WaitForSeconds(attackCooldown - windUpTime);
+        yield return new WaitForSeconds(attackCooldown2 - windUpTime2);
+       
         animator.Play("Knife Standing");
         ListOfTargetHits.Clear();
         canAttack = true;
