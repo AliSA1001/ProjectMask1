@@ -2031,7 +2031,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 55
   damage: 10
-  windUpTime2: 0.34
+  windUpTime2: 0.2
   attackCooldown2: 1
   comboThreshold: 0.15
 --- !u!114 &164673549
