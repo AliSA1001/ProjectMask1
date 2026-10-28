@@ -66,7 +66,6 @@ public class Melee : MonoBehaviour
     IEnumerator Attack()
     {
         canAttack = false;
-        isDoing2ndAttack = false ;
         animator.Play("Knife_Attack");
 
         yield return new WaitForSeconds(windUpTime);
@@ -91,23 +90,11 @@ public class Melee : MonoBehaviour
         }
 
         yield return new WaitForSeconds(attackCooldown - windUpTime);
-        float combotimer = 0;
-        can2ndAttack = true;
-        while(combotimer < comboThreshold)
-        {
-            if(isDoing2ndAttack)
-            {
-                StartCoroutine(Attack2()); 
-                yield break;
-            }
-            combotimer += Time.deltaTime;
-            yield return null;
-        }
+       
 
         animator.Play("Knife Standing");
         ListOfTargetHits.Clear();
         canAttack = true;
-        can2ndAttack = false;
 
     }
 
