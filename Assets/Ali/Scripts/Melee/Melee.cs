@@ -25,6 +25,7 @@ public class Melee : MonoBehaviour
 
     [Header("combo")]
     [SerializeField] private float comboThreshold = 0.15f;
+    private Coroutine activeAttackCorroutin;
 
 
     private Animator animator;
@@ -46,18 +47,32 @@ public class Melee : MonoBehaviour
 
     private void Update()
     {
+       
     }
 
     public void OnAttack(InputAction.CallbackContext context)
     {
         if (context.performed && canAttack)
         {
-            StartCoroutine(Attack());
+           activeAttackCorroutin = StartCoroutine(Attack());
         }
         else if (context.performed && can2ndAttack)
         {
-            isDoing2ndAttack = true;
+            if(activeAttackCorroutin != null)
+            {
+                StopCoroutine(activeAttackCorroutin);
+            }
+            StartCoroutine(Attack2());
         }
+    }
+
+    public void EnableAttack2() // anim event
+    {
+        can2ndAttack = true;
+    }
+    public void DisableAttack2()
+    {
+        can2ndAttack = false ;
     }
     private void DurabilityLose()
     {
@@ -102,6 +117,7 @@ public class Melee : MonoBehaviour
     {
         
         can2ndAttack = false;
+        canAttack = false;
         animator.Play("Knife_Attack2");
 
         yield return new WaitForSeconds(windUpTime2);
