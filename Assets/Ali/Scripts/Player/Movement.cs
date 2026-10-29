@@ -175,7 +175,6 @@ public class Movement : MonoBehaviour
             HandleFootStepsSound();
             ApplyFinalMovement();
 
-            HandleInteract();
         }
     }
     private void HandleMovewmentInput()
@@ -315,22 +314,7 @@ public class Movement : MonoBehaviour
         }
     }
 
-    private void HandleInteract()
-    {
-        if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out RaycastHit hit, 7))
-        {
-            if (hit.collider.TryGetComponent<IInteractable>(out IInteractable target))
-            {
-                if (canInteract)
-                    target.Interact();
-            }
-            else
-            {
-
-            }
-        }
-
-    }
+  
 
     public Vector2 GetMoveInput() // we need to call this in sway and bob guns script
     {
@@ -382,16 +366,6 @@ public class Movement : MonoBehaviour
             HandleCrouch();
         }
     }
-    public void OnInteract(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            canInteract = true;
-        }
-        else if (context.canceled)
-        {
-            canInteract = false;
-        }
-    }
+   
 }
 

@@ -294,7 +294,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8704278865718021742}
   - component: {fileID: 4702867368023085776}
-  - component: {fileID: 8564633269027582815}
+  - component: {fileID: 2828510215473843119}
   - component: {fileID: 8177184558213571242}
   - component: {fileID: 6653351338053490772}
   - component: {fileID: 6219390308481104537}
@@ -346,7 +346,7 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &8564633269027582815
+--- !u!114 &2828510215473843119
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -355,12 +355,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 7223666696480703166}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fc71f8a7300a9a45bc9f97021d1a44f, type: 3}
+  m_Script: {fileID: 11500000, guid: ce967673eb5bf6644898155b9dd850c1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BasicEnemyBrain
-  attackDistnce: 54
-  maxTime: 0.1
-  maxDistance: 1
+  m_EditorClassIdentifier: Assembly-CSharp::AiAgent
+  stateMachine: {fileID: 0}
+  initialState: 2
+  navMeshAgent: {fileID: 4702867368023085776}
+  agentConfig: {fileID: 11400000, guid: ef596708578cb9f47aed67c5973c6963, type: 2}
+  ragDoll: {fileID: 0}
+  mesh: {fileID: 0}
+  hpBar: {fileID: 0}
+  animator: {fileID: 0}
+  playerPos: {x: 0, y: 0, z: 0}
 --- !u!95 &8177184558213571242
 Animator:
   serializedVersion: 7
@@ -437,7 +443,6 @@ MonoBehaviour:
   maxHealth: 50
   currentHealth: 0
   hpBarUI: {fileID: 4765306609785766494}
-  dieForce: 20
   blinkIntensity: 10
   blinkDuration: 0
   hitParticle: {fileID: 8538455091997576435, guid: 0ad1a0a820b2bd54498db908690c1a72, type: 3}

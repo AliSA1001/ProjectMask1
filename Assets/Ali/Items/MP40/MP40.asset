@@ -21,4 +21,5 @@ MonoBehaviour:
   HandNumber: 2
   isAmmo: 0
   ammoGunNumber: 0
-  isMeleeObject: 0
+  isMeleeObject: 1
+  canBePickedByEnemy: 1

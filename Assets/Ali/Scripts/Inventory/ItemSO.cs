@@ -15,6 +15,9 @@ public class ItemSO : ScriptableObject
 
     [Header("Melee")]
     public bool isMeleeObject;
+
+    [Header("Enemy Interaction")]
+    public bool canBePickedByEnemy;
     
     
 }

@@ -8,4 +8,6 @@ public class AIAgentConfig : ScriptableObject
 
      public float dieForce = 10;
 
+     public float maxSightDistance = 5.05f;
+
 }

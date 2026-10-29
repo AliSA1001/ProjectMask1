@@ -4,7 +4,6 @@ using UnityEngine.AI;
 public class AiChasePlayerScript : AiState
 {
     
-    private Vector3 playerPos;
 
 
     private AiAgent agent;
@@ -17,9 +16,6 @@ public class AiChasePlayerScript : AiState
     }
     public void Enter(AiAgent agent)
     {
-    
-        playerPos = Movement.instance.transform.position;
-
     }
 
     public void Update(AiAgent agent)
@@ -33,22 +29,22 @@ public class AiChasePlayerScript : AiState
         
                 if(agent.navMeshAgent.hasPath)
                 {
-                 agent.navMeshAgent.destination = playerPos;
+                 agent.navMeshAgent.destination = agent.playerPos;
 
                 }
         
                 if (timer < 0)
                 {
-                    playerPos = Movement.instance.transform.position;
+                   agent.playerPos = Movement.instance.transform.position;
 
-                    float sqrDistance = (playerPos - agent.navMeshAgent.destination).sqrMagnitude;
+                    float sqrDistance = (agent.playerPos - agent.navMeshAgent.destination).sqrMagnitude;
                     if (sqrDistance >agent.agentConfig.maxDistance * agent.agentConfig.maxDistance)
                     {
-                        agent.navMeshAgent.destination = playerPos; // this is very heavy line on the cpu so we have to check if we need to use it by the 2 if statments up 
+                        agent.navMeshAgent.destination = agent.playerPos; // this is very heavy line on the cpu so we have to check if we need to use it by the 2 if statments up 
                     }
                     timer =agent.agentConfig.maxTime;
                 }
-              //  animator.SetFloat("Speed", agent.navMeshAgent.velocity.magnitude);
+               agent.animator.SetFloat("Speed", agent.navMeshAgent.velocity.magnitude);
 
             
         
