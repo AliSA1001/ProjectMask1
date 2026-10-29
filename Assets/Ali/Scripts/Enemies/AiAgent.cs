@@ -1,16 +1,20 @@
+
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AiAgent : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    private AiStateMachine stateMachine;
+    [SerializeField] private AiStateId initialState;
 
-    // Update is called once per frame
-    void Update()
+
+    private void Start()
     {
-        
+        stateMachine = new AiStateMachine(this);
+        stateMachine.ChangeState(initialState);
+    }
+    private void Update()
+    {
+        stateMachine.Update();
     }
 }
