@@ -6,8 +6,7 @@ public class EnemyHP : MonoBehaviour
     [SerializeField] private float maxHealth;
     [SerializeField] private float currentHealth;
     [SerializeField] private GameObject hpBarUI;
-    [SerializeField] private float dieForce;
-    private RagDoll ragdoll;
+    private AiAgent agent;
     private SkinnedMeshRenderer skinnedMeshRenderer;
 
     // for dummy 
@@ -27,7 +26,7 @@ public class EnemyHP : MonoBehaviour
     }
     private void Start()
     {
-        ragdoll = GetComponent<RagDoll>();
+        agent = GetComponent<AiAgent>();
         skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
         var rigedBodies = GetComponentsInChildren<Rigidbody>();
         foreach (var body in rigedBodies)
@@ -64,12 +63,12 @@ public class EnemyHP : MonoBehaviour
     public float GetHealth()
     {
         return currentHealth;
+        
     }
     private void HandleDeath(Vector3 direction)
     {
-        ragdoll.ActivateRagdoll();
-        direction.y = 1;
-        ragdoll.ApplyForce(direction * dieForce);
-        hpBarUI.SetActive(false);
+      AiDeathState deathState = agent.stateMachine.GetState(AiStateId.Death) as AiDeathState;
+      deathState.direction = direction;
+      agent.stateMachine.ChangeState(AiStateId.Death);
     }
 }

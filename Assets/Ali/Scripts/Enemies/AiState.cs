@@ -2,7 +2,8 @@ using UnityEngine;
 
 public enum AiStateId
 {
-    ChasePlayer
+    ChasePlayer,
+    Death
 
 }
 

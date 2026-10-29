@@ -5,13 +5,11 @@ public class RagDoll : MonoBehaviour
 {
    private Rigidbody[] rigidbodies;
     private Animator animator;
-    private BasicEnemyBrain brain;
 
     private void Start()
     {
         rigidbodies = GetComponentsInChildren<Rigidbody>();
         animator = GetComponent<Animator>();
-        brain = GetComponent<BasicEnemyBrain>();
 
         DeactivetRagdoll();
     }
@@ -31,7 +29,6 @@ public class RagDoll : MonoBehaviour
         {
             rigidbody.isKinematic = false;
             animator.enabled = false;
-            brain.StopNavMesh();
         }
     }
 

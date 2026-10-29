@@ -17722,11 +17722,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1122592886408874911, guid: fd110fb5157c7fe49b054e4bdf976b33, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1122592886408874911, guid: fd110fb5157c7fe49b054e4bdf976b33, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7223666696480703166, guid: fd110fb5157c7fe49b054e4bdf976b33, type: 3}
       propertyPath: m_Name
@@ -17734,7 +17734,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7223666696480703166, guid: fd110fb5157c7fe49b054e4bdf976b33, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7546835849697935748, guid: fd110fb5157c7fe49b054e4bdf976b33, type: 3}
       propertyPath: dieForce
@@ -17780,11 +17780,40 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8564633269027582815, guid: fd110fb5157c7fe49b054e4bdf976b33, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7223666696480703166, guid: fd110fb5157c7fe49b054e4bdf976b33, type: 3}
+      insertIndex: 2
+      addedObject: {fileID: 7745372269162835156}
   m_SourcePrefab: {fileID: 100100000, guid: fd110fb5157c7fe49b054e4bdf976b33, type: 3}
+--- !u!1 &7745372269162835154 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7223666696480703166, guid: fd110fb5157c7fe49b054e4bdf976b33, type: 3}
+  m_PrefabInstance: {fileID: 7745372269162835153}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7745372269162835156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7745372269162835154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce967673eb5bf6644898155b9dd850c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AiAgent
+  initialState: 0
+  navMeshAgent: {fileID: 7745372269162835157}
+  agentConfig: {fileID: 11400000, guid: ef596708578cb9f47aed67c5973c6963, type: 2}
+--- !u!195 &7745372269162835157 stripped
+NavMeshAgent:
+  m_CorrespondingSourceObject: {fileID: 4702867368023085776, guid: fd110fb5157c7fe49b054e4bdf976b33, type: 3}
+  m_PrefabInstance: {fileID: 7745372269162835153}
+  m_PrefabAsset: {fileID: 0}
 --- !u!33 &7836944760286159447
 MeshFilter:
   m_ObjectHideFlags: 0
