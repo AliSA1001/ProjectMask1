@@ -13,6 +13,8 @@ public class UIHpBar : MonoBehaviour
     {
         enemyHP = GetComponentInParent<EnemyHP>();
         hpSlider.value = enemyHP.GetHealth();
+
+        
     }
 
     private void LateUpdate()
