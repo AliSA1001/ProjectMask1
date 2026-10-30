@@ -14481,6 +14481,7 @@ MonoBehaviour:
   equippedOpacity: 0.9
   normalOpacity: 0.58
   hand: {fileID: 7247464106056026639}
+  inventorySlots: []
   guns:
   - {fileID: 3758129896192228527}
   - {fileID: 164673540}
@@ -19374,7 +19375,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc4a60bdd0e9241498b45e359adb735f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OtherInventory
-  inventorySlotParent: {fileID: 0}
   Items:
   - {fileID: 1789390510574165662, guid: 329b3e507559d3d41b6e978daf531c15, type: 3}
   - {fileID: 5133196227229079220, guid: 43ecd149c03cbff45bbe4b654577e613, type: 3}
@@ -21771,6 +21771,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da8df9f93172ad44eba9663172501480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CombineInventory
+  inventory_player: {fileID: 1429724069}
+  inventorySlotParent_Player: {fileID: 1038184888}
+  inventorySlotParent_OtherInventory: {fileID: 1250596462}
 --- !u!1 &2075138793
 GameObject:
   m_ObjectHideFlags: 0
