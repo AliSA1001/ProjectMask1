@@ -2,16 +2,19 @@ using UnityEngine;
 
 public class InteractableObject : MonoBehaviour, IInteractable
 {
-    private TransformInventoryScript TransformInventory;
+    private CombineInventory combineInventory;
+    private OtherInventory otherInventory;
+    
 
     private void Start()
     {
-        TransformInventory = TransformInventoryScript.instance;
+        combineInventory = CombineInventory.Instance;
+        otherInventory = GetComponent<OtherInventory>();
 
     }
     public void Interact()
     {
         Debug.Log("interact with box");
-        TransformInventory.transform.GetChild(0).gameObject.SetActive(true);
+        combineInventory.OpenOtherInventory(otherInventory.GetItems());
     }
 }

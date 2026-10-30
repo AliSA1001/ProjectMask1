@@ -28,7 +28,7 @@ public class Inventory : MonoBehaviour
     public Transform hand;
     private GameObject currentHandItem;
 
-    private List<Slot> inventorySlots = new List<Slot>();
+    public List<Slot> inventorySlots = new List<Slot>();
     private List<Slot> hotbarSlots = new List<Slot>();
     private List<Slot> allSlots = new List<Slot>();
     private List<Slot> allAmmo = new List<Slot>();
