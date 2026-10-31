@@ -43,6 +43,82 @@ public class CombineInventory : MonoBehaviour
     public void OpenOtherInventory(List<Item> otherInvenotryItems)
     {
         Continer.SetActive(true);// we need to get our inventory info and the other npc inventory inventory
-        
+
+        for (int i = 0; i < inventorySlots_OtherInventory.Count; i++)
+        {
+            if (i < otherInvenotryItems.Count)
+            {
+                Item itemData = otherInvenotryItems[i];
+                inventorySlots_OtherInventory[i].SetItem(itemData.item, itemData.amount, itemData.ammoAmount, itemData.durability);
+
+            }
+            else
+            {
+                inventorySlots_OtherInventory[i].ClearSlot();
+
+            }
+        }
+
+        if (Cursor.lockState == CursorLockMode.Locked)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        Movement.instance.UpdatingRotation = !Movement.instance.UpdatingRotation;
+    
+}
+
+    public void AddItem(ItemSO itemToAdd, int amount, int ammoAmount, float durability)
+    {
+        int remanining = amount;
+        // first we check if we have the same item alredy and if we can stack it 
+        foreach (Slot slot in inventorySlots_OtherInventory)
+        {
+            if (slot.HasItem() && slot.GetItem() == itemToAdd)
+            {
+                int currentAmount = slot.GetAmount();
+                int maxStack = itemToAdd.maxStacksSize;
+                if (currentAmount < maxStack)
+                {
+                    int spaceLeft = maxStack - currentAmount;
+                    int amountToAdd = Mathf.Min(spaceLeft, remanining);
+
+                    slot.SetItem(itemToAdd, currentAmount + amountToAdd, ammoAmount, durability);
+                    remanining -= amountToAdd;
+
+                    if (remanining <= 0)
+                    {
+                        // if remaining is 0 or less we just return and end it here 
+                        // if not we got down more
+                        return;
+                    }
+                }
+            }
+        }
+        foreach (Slot slot in inventorySlots_OtherInventory)
+        {
+            if (!slot.HasItem())
+            {
+                // soooooooo we take the smallest of maxsize or remaning and use it in the new empty slot 
+                int amountToPlace = Mathf.Min(itemToAdd.maxStacksSize, remanining);
+                slot.SetItem(itemToAdd, amountToPlace, ammoAmount, durability);
+                remanining -= amountToPlace;
+
+                if (remanining <= 0)
+                {
+                    return;
+                }
+            }
+        }
+        if (remanining > 0)
+        {
+            Debug.Log("We are full ");
+        }
     }
 }
+

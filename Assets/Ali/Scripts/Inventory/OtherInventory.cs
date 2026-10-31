@@ -11,8 +11,9 @@ public class OtherInventory : MonoBehaviour
     private void Awake()
     {
     }
+   
 
-    public List<Item> GetItems()
+        public List<Item> GetItems()
     {
         return Items;
     }
