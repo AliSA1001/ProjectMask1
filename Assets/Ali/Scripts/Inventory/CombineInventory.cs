@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -8,13 +9,16 @@ public class CombineInventory : MonoBehaviour
     public static CombineInventory Instance;
     [SerializeField] private Inventory inventory_player;
 
+
     private GameObject Continer;
 
     public GameObject inventorySlotParent_Player;
     public GameObject inventorySlotParent_OtherInventory;
+    public GameObject HotBarObjet;
 
     private List<Slot> inventorySlots_Player = new List<Slot>();
     private List<Slot> inventorySlots_OtherInventory = new List<Slot>();
+    private List<Slot> hotBarSlots = new List<Slot>();
 
 
 
@@ -33,6 +37,7 @@ public class CombineInventory : MonoBehaviour
 
         inventorySlots_Player.AddRange(inventorySlotParent_Player.GetComponentsInChildren<Slot>());
         inventorySlots_OtherInventory.AddRange(inventorySlotParent_OtherInventory.GetComponentsInChildren<Slot>());
+        hotBarSlots.AddRange(HotBarObjet.GetComponentsInChildren<Slot>());
 
 
     }
@@ -48,25 +53,42 @@ public class CombineInventory : MonoBehaviour
         HandleOtherInventoryData(otherInvenotryItems);
 
         HandlePlayerInventoryData(inventory_player.GetMainInventoryItemData());// we ask the main inventory for the data that it has
+
+        HandlePlayerHotbarData(inventory_player.GetHotbarItemData());
        
         HandleCursorLock();
        
     
-    }  
+    }
 
-    private void HandlePlayerInventoryData(List<Item> playerInventoryItems)
+   
+
+    private void HandlePlayerHotbarData(List<Item> playerInventoryItems)
     {
-        for(int i = 0; i < inventorySlots_Player.Count; i++)
+        for (int i = 0; i < hotBarSlots.Count; i++)
         {
             if (i < playerInventoryItems.Count)
             {
                 Item itemData = playerInventoryItems[i];
-                inventorySlots_Player[i].SetItem(itemData.item, itemData.amount, itemData.ammoAmount, itemData.durability);
+                hotBarSlots[i].SetItem(itemData.item, itemData.amount, itemData.ammoAmount, itemData.durability);
             }
             else
             {
-                inventorySlots_Player[i].ClearSlot();
+                hotBarSlots[i].ClearSlot();
             }
+        }
+    }
+
+    private void HandlePlayerInventoryData((List<Item>, List<int>) value)
+    {
+        List<Item> playerInventoryItems = new List<Item>();
+        List<int> index = new List<int>();
+
+        playerInventoryItems = value.Item1;
+        index = value.Item2;
+
+       foreach(int n in index)
+        {
         }
     }
 

@@ -413,11 +413,37 @@ public class Inventory : MonoBehaviour
     }
 
 
-    public List<Item> GetMainInventoryItemData()
+    public( List<Item> , List<int>)  GetMainInventoryItemData()
+    {
+        List<Item> allItems = new List<Item>();
+        List<int> indexs = new List<int>();
+
+
+        for(int i = 0; i <inventorySlots.Count; i++)
+        {
+            Slot slot = inventorySlots[i];
+            if (slot.HasItem())
+            {
+                Item itemData = new Item();
+                itemData.item = slot.GetItem();
+                itemData.amount = slot.GetAmount();
+                itemData.ammoAmount = slot.GetAmount();
+                itemData.durability = slot.GetDurability();
+
+                allItems.Add(itemData);
+                indexs.Add(i);
+            }
+           
+        }
+        return(allItems, indexs);
+    }
+        
+
+    public List<Item> GetHotbarItemData()
     {
         List<Item> allItems = new List<Item>();
 
-        foreach(Slot slot in inventorySlots)
+        foreach (Slot slot in hotbarSlots)
         {
             if (slot.HasItem())
             {
@@ -432,7 +458,6 @@ public class Inventory : MonoBehaviour
         }
         return allItems;
     }
-
 
     public void OnHotBarSelection1(InputAction.CallbackContext context)
     {
