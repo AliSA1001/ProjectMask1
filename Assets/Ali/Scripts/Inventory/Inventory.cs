@@ -413,6 +413,27 @@ public class Inventory : MonoBehaviour
     }
 
 
+    public List<Item> GetMainInventoryItemData()
+    {
+        List<Item> allItems = new List<Item>();
+
+        foreach(Slot slot in inventorySlots)
+        {
+            if (slot.HasItem())
+            {
+                Item itemData = new Item();
+                itemData.item = slot.GetItem();
+                itemData.amount = slot.GetAmount();
+                itemData.ammoAmount = slot.GetAmount();
+                itemData.durability = slot.GetDurability();
+
+                allItems.Add(itemData);
+            }
+        }
+        return allItems;
+    }
+
+
     public void OnHotBarSelection1(InputAction.CallbackContext context)
     {
         if (context.performed)

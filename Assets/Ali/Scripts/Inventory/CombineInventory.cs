@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CombineInventory : MonoBehaviour
@@ -30,7 +31,7 @@ public class CombineInventory : MonoBehaviour
         }
 
 
-        inventorySlots_Player.AddRange(inventory_player.inventorySlots);
+        inventorySlots_Player.AddRange(inventorySlotParent_Player.GetComponentsInChildren<Slot>());
         inventorySlots_OtherInventory.AddRange(inventorySlotParent_OtherInventory.GetComponentsInChildren<Slot>());
 
 
@@ -44,6 +45,34 @@ public class CombineInventory : MonoBehaviour
     {
         Continer.SetActive(true);// we need to get our inventory info and the other npc inventory inventory
 
+        HandleOtherInventoryData(otherInvenotryItems);
+
+        HandlePlayerInventoryData(inventory_player.GetMainInventoryItemData());// we ask the main inventory for the data that it has
+       
+        HandleCursorLock();
+       
+    
+    }  
+
+    private void HandlePlayerInventoryData(List<Item> playerInventoryItems)
+    {
+        for(int i = 0; i < inventorySlots_Player.Count; i++)
+        {
+            if (i < playerInventoryItems.Count)
+            {
+                Item itemData = playerInventoryItems[i];
+                inventorySlots_Player[i].SetItem(itemData.item, itemData.amount, itemData.ammoAmount, itemData.durability);
+            }
+            else
+            {
+                inventorySlots_Player[i].ClearSlot();
+            }
+        }
+    }
+
+
+    private void HandleOtherInventoryData(List<Item> otherInvenotryItems)
+    {
         for (int i = 0; i < inventorySlots_OtherInventory.Count; i++)
         {
             if (i < otherInvenotryItems.Count)
@@ -58,20 +87,8 @@ public class CombineInventory : MonoBehaviour
 
             }
         }
+    }
 
-        if (Cursor.lockState == CursorLockMode.Locked)
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-        Movement.instance.UpdatingRotation = !Movement.instance.UpdatingRotation;
-    
-}
 
     public void AddItem(ItemSO itemToAdd, int amount, int ammoAmount, float durability)
     {
@@ -119,6 +136,22 @@ public class CombineInventory : MonoBehaviour
         {
             Debug.Log("We are full ");
         }
+    }
+
+
+    private void HandleCursorLock()
+    {
+        if (Cursor.lockState == CursorLockMode.Locked)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        Movement.instance.UpdatingRotation = !Movement.instance.UpdatingRotation;
     }
 }
 
