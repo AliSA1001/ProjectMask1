@@ -63,19 +63,18 @@ public class CombineInventory : MonoBehaviour
 
    
 
-    private void HandlePlayerHotbarData(List<Item> playerInventoryItems)
+    private void HandlePlayerHotbarData((List<Item>, List<int>) value)
     {
-        for (int i = 0; i < hotBarSlots.Count; i++)
+        List<Item> hotbaritems = new List<Item>();
+        List<int> index = new List<int>();
+
+        hotbaritems = value.Item1;
+        index = value.Item2;
+
+        foreach (int n in index)
         {
-            if (i < playerInventoryItems.Count)
-            {
-                Item itemData = playerInventoryItems[i];
-                hotBarSlots[i].SetItem(itemData.item, itemData.amount, itemData.ammoAmount, itemData.durability);
-            }
-            else
-            {
-                hotBarSlots[i].ClearSlot();
-            }
+            Item itemData = hotbaritems[n];
+            hotBarSlots[n].SetItem(itemData.item, itemData.amount, itemData.ammoAmount, itemData.durability);
         }
     }
 
@@ -89,6 +88,8 @@ public class CombineInventory : MonoBehaviour
 
        foreach(int n in index)
         {
+            Item itemData = playerInventoryItems[n];
+            inventorySlots_Player[n].SetItem(itemData.item, itemData.amount, itemData.ammoAmount, itemData.durability);
         }
     }
 

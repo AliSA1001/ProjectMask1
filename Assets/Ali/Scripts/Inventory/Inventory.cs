@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System;
+using NUnit.Framework.Interfaces;
 
 public class Inventory : MonoBehaviour
 {
@@ -433,18 +434,32 @@ public class Inventory : MonoBehaviour
                 allItems.Add(itemData);
                 indexs.Add(i);
             }
-           
+            else
+            {
+                Item itemData = new Item();
+                itemData.item = null;
+                itemData.amount = 0;
+                itemData.ammoAmount = 0;
+                itemData.durability = 0;
+                allItems.Add(itemData);
+                indexs.Add(i);
+            }
+            
+
         }
         return(allItems, indexs);
     }
         
 
-    public List<Item> GetHotbarItemData()
+    public (List<Item>, List<int>) GetHotbarItemData()
     {
         List<Item> allItems = new List<Item>();
+        List<int> indexs = new List<int>();
 
-        foreach (Slot slot in hotbarSlots)
+
+        for (int i = 0; i < hotbarSlots.Count; i++)
         {
+            Slot slot = hotbarSlots[i];
             if (slot.HasItem())
             {
                 Item itemData = new Item();
@@ -454,9 +469,22 @@ public class Inventory : MonoBehaviour
                 itemData.durability = slot.GetDurability();
 
                 allItems.Add(itemData);
+                indexs.Add(i);
             }
+            else
+            {
+                Item itemData = new Item();
+                itemData.item = null;
+                itemData.amount = 0;
+                itemData.ammoAmount = 0;
+                itemData.durability = 0;
+                allItems.Add(itemData);
+                indexs.Add(i);
+            }
+
+
         }
-        return allItems;
+        return (allItems, indexs);
     }
 
     public void OnHotBarSelection1(InputAction.CallbackContext context)
