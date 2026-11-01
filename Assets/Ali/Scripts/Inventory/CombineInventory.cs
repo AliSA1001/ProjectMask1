@@ -309,6 +309,7 @@ public class CombineInventory : MonoBehaviour
             Cursor.visible = false;
         }
         Movement.instance.UpdatingRotation = !Movement.instance.UpdatingRotation;
+        
     }
     public void OnSlectingItem(InputAction.CallbackContext context)
     {
@@ -319,6 +320,16 @@ public class CombineInventory : MonoBehaviour
         if (context.canceled)
         {
             isSelectingItem = false;
+        }
+    }
+    public void OnExitCombainInventory(InputAction.CallbackContext context)
+    {
+        if (context.performed && Continer.activeInHierarchy)
+        {
+            Continer.SetActive(false);
+            CallEventOnOpeing_AND_ClosingCombineInventory();
+            HandleCursorLock();
+
         }
     }
 }

@@ -515,6 +515,7 @@ public class Inventory : MonoBehaviour
     private void OnIsInCombainInventory(bool isCombineInventoryOpen)
     {
         canOpenMainInventory = !isCombineInventoryOpen;
+        hotbarObj.SetActive(!isCombineInventoryOpen);
     }
 
 
