@@ -11,6 +11,9 @@ public class Inventory : MonoBehaviour
    // public ItemSO Jar;
   //  public ItemSO Ammo;
 
+    public static Inventory Instance;
+
+
     public GameObject hotbarObj;
     public GameObject inventorySlotParent;
     public GameObject container;
@@ -42,10 +45,25 @@ public class Inventory : MonoBehaviour
     // new input system helper vaule 
     private bool isSelectingItem = false;
 
-   
+
+    // event to tell every interactable object that the inventory is open 
+    public static Action<bool> OnOpenANDCloseMainInventoryEvent;
+
+
+
 
     private void Awake()
     {
+
+        if(Instance != null)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+
         inventorySlots.AddRange(inventorySlotParent.GetComponentsInChildren<Slot>());
         hotbarSlots.AddRange(hotbarObj.GetComponentsInChildren<Slot>());
 
@@ -487,6 +505,8 @@ public class Inventory : MonoBehaviour
         return (allItems, indexs);
     }
 
+    
+
     public void OnHotBarSelection1(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -645,8 +665,14 @@ public class Inventory : MonoBehaviour
                 Cursor.visible = false;
             }
             Movement.instance.UpdatingRotation = !Movement.instance.UpdatingRotation;
+            CallEvent_InventoryIsOpen();
         }
     }
+    private void CallEvent_InventoryIsOpen()
+    {
+        OnOpenANDCloseMainInventoryEvent?.Invoke(container.activeInHierarchy);
+    }
+   
 
 
 

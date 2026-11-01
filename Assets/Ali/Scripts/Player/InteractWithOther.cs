@@ -7,9 +7,23 @@ public class InteractWithOther : MonoBehaviour
     // other interacable things like doors and boxes etc....
 
     private Camera mainCamera;
-    private bool canInteract;
+    private bool canInteract = true;
     [SerializeField] private float interactDistance = 7;
 
+
+    private void OnEnable()
+    {
+        Inventory.OnOpenANDCloseMainInventoryEvent += OnOpenANDCloseMainInventoryEvent;
+    }
+    private void OnDisable()
+    {
+        Inventory.OnOpenANDCloseMainInventoryEvent -= OnOpenANDCloseMainInventoryEvent;
+
+    }
+    private void Awake()
+    {
+
+    }
     private void Start()
     {
         mainCamera = Camera.main;
@@ -17,6 +31,13 @@ public class InteractWithOther : MonoBehaviour
 
     private void Update()
     {
+
+    }
+
+
+    private void OnOpenANDCloseMainInventoryEvent(bool isInventoryOpen)
+    {
+        canInteract = !isInventoryOpen;
     }
 
     private void HandleInteract()
@@ -38,7 +59,7 @@ public class InteractWithOther : MonoBehaviour
 
     public void OnInteract(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started && canInteract)
         {
             HandleInteract();
         }
