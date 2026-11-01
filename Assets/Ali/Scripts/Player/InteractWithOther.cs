@@ -10,14 +10,18 @@ public class InteractWithOther : MonoBehaviour
     private bool canInteract = true;
     [SerializeField] private float interactDistance = 7;
 
+    private CombineInventory combineInventory; // we need this in case we opened the combine inventory so we dont interact with others interactable things
+
 
     private void OnEnable()
     {
         Inventory.OnOpenANDCloseMainInventoryEvent += OnOpenANDCloseMainInventoryEvent;
+        CombineInventory.OnIsInCombainInventory += OnIsInCombainInventory;
     }
     private void OnDisable()
     {
         Inventory.OnOpenANDCloseMainInventoryEvent -= OnOpenANDCloseMainInventoryEvent;
+        CombineInventory.OnIsInCombainInventory -= OnIsInCombainInventory;
 
     }
     private void Awake()
@@ -34,7 +38,10 @@ public class InteractWithOther : MonoBehaviour
 
     }
 
-
+    private void OnIsInCombainInventory(bool isCombineInventoryOpen)
+    {
+       canInteract = !isCombineInventoryOpen;
+    }
     private void OnOpenANDCloseMainInventoryEvent(bool isInventoryOpen)
     {
         canInteract = !isInventoryOpen;

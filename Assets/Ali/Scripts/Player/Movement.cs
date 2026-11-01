@@ -68,7 +68,6 @@ public class Movement : MonoBehaviour
 
     [Header("Interact")]
     [SerializeField] private Camera mainCamera;
-    private bool canInteract;
 
     //Sliding Parmeters
 
@@ -132,14 +131,20 @@ public class Movement : MonoBehaviour
     {
         STBar.OnST_StateChange += OnNoST;
         MasterGun.OnShoting += OnShoting;
+
+        // inventory event 
+        CombineInventory.OnIsInCombainInventory += OnIsInCombainInventory;
+
     }
 
-   
+
     private void OnDisable()
     {
         STBar.OnST_StateChange -= OnNoST;
         MasterGun.OnShoting -= OnShoting;
 
+        // inventory event 
+        CombineInventory.OnIsInCombainInventory -= OnIsInCombainInventory;
     }
     private void OnNoST(bool St_Change)
     {
@@ -314,7 +319,10 @@ public class Movement : MonoBehaviour
         }
     }
 
-  
+    private void OnIsInCombainInventory(bool isCombineInventoryOpen)
+    {
+        CanMove = !isCombineInventoryOpen;
+    }
 
     public Vector2 GetMoveInput() // we need to call this in sway and bob guns script
     {

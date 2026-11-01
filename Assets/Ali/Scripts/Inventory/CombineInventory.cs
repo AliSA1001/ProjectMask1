@@ -29,6 +29,10 @@ public class CombineInventory : MonoBehaviour
     private bool isDraging = false;
     private bool isSelectingItem = false;
 
+    // we need an event to stop all other interaction if this inventory is open
+    public static Action<bool> OnIsInCombainInventory;
+   
+
 
     private void Awake()
     {
@@ -66,8 +70,11 @@ public class CombineInventory : MonoBehaviour
         CombainAllSlots();
        
         HandleCursorLock();
-       
-    
+
+        CallEventOnOpeing_AND_ClosingCombineInventory();
+
+
+
     }
 
     private void Update()
@@ -77,6 +84,10 @@ public class CombineInventory : MonoBehaviour
         EndDrag();
     }
 
+    private void CallEventOnOpeing_AND_ClosingCombineInventory() // we tell others that we are busy soo dont do any action
+    {
+        OnIsInCombainInventory?.Invoke(Continer.activeInHierarchy);
+    }
 
     private void HandlePlayerHotbarData((List<Item>, List<int>) value)
     {

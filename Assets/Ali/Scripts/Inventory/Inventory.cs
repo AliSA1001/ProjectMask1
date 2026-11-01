@@ -42,6 +42,7 @@ public class Inventory : MonoBehaviour
 
     private Slot draggedSlot = null;
     private bool isDraging = false;
+    private bool canOpenMainInventory = true;
     // new input system helper vaule 
     private bool isSelectingItem = false;
 
@@ -77,11 +78,17 @@ public class Inventory : MonoBehaviour
     {
         MasterGun.OnAmmoUse += OnAmmoUse;
         Melee.OnDurabilityLose += OnDurabilityLose;
+
+        CombineInventory.OnIsInCombainInventory += OnIsInCombainInventory;
+
     }
     private void OnDisable()
     {
         MasterGun.OnAmmoUse -= OnAmmoUse;
         Melee.OnDurabilityLose -= OnDurabilityLose;
+
+        CombineInventory.OnIsInCombainInventory -= OnIsInCombainInventory;
+
     }
 
     private void Update()
@@ -505,7 +512,11 @@ public class Inventory : MonoBehaviour
         return (allItems, indexs);
     }
 
-    
+    private void OnIsInCombainInventory(bool isCombineInventoryOpen)
+    {
+        canOpenMainInventory = !isCombineInventoryOpen;
+    }
+
 
     public void OnHotBarSelection1(InputAction.CallbackContext context)
     {
@@ -650,7 +661,7 @@ public class Inventory : MonoBehaviour
     }
     public void OnOpenInventory(InputAction.CallbackContext context)
     {
-        if(context.performed)
+        if(context.performed && canOpenMainInventory)
         {
             container.SetActive(!container.activeInHierarchy);
             // if it is Locked then we open the cursor and if not we locked it 
