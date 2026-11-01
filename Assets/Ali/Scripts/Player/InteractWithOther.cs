@@ -17,7 +17,6 @@ public class InteractWithOther : MonoBehaviour
 
     private void Update()
     {
-        HandleInteract();
     }
 
     private void HandleInteract()
@@ -26,7 +25,7 @@ public class InteractWithOther : MonoBehaviour
         {
             if (hit.collider.TryGetComponent<IInteractable>(out IInteractable target))
             {
-                if (canInteract)
+               
                     target.Interact();
             }
             else
@@ -41,11 +40,8 @@ public class InteractWithOther : MonoBehaviour
     {
         if (context.started)
         {
-            canInteract = true;
+            HandleInteract();
         }
-        else if (context.canceled)
-        {
-            canInteract = false;
-        }
+        
     }
 }

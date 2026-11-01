@@ -465,7 +465,7 @@ public class Inventory : MonoBehaviour
                 Item itemData = new Item();
                 itemData.item = slot.GetItem();
                 itemData.amount = slot.GetAmount();
-                itemData.ammoAmount = slot.GetAmount();
+                itemData.ammoAmount = slot.GetAmmoAmount();
                 itemData.durability = slot.GetDurability();
 
                 allItems.Add(itemData);

@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class CombineInventory : MonoBehaviour
 {
@@ -19,8 +21,13 @@ public class CombineInventory : MonoBehaviour
     private List<Slot> inventorySlots_Player = new List<Slot>();
     private List<Slot> inventorySlots_OtherInventory = new List<Slot>();
     private List<Slot> hotBarSlots = new List<Slot>();
+    private List<Slot> allSlots = new List<Slot>();
 
 
+    public Image dragIcon;
+    private Slot draggedSlot = null;
+    private bool isDraging = false;
+    private bool isSelectingItem = false;
 
 
     private void Awake()
@@ -55,13 +62,21 @@ public class CombineInventory : MonoBehaviour
         HandlePlayerInventoryData(inventory_player.GetMainInventoryItemData());// we ask the main inventory for the data that it has
 
         HandlePlayerHotbarData(inventory_player.GetHotbarItemData());
+
+        CombainAllSlots();
        
         HandleCursorLock();
        
     
     }
 
-   
+    private void Update()
+    {
+        StartDrag();
+        UpdateDragItemPosition();
+        EndDrag();
+    }
+
 
     private void HandlePlayerHotbarData((List<Item>, List<int>) value)
     {
@@ -111,8 +126,113 @@ public class CombineInventory : MonoBehaviour
             }
         }
     }
+    private void CombainAllSlots()
+    {
+        allSlots.AddRange(inventorySlots_OtherInventory);
+        allSlots.AddRange(inventorySlots_Player);
+        allSlots.AddRange(hotBarSlots);
+    }
+
+    private void StartDrag()
+    {
+
+        if (isDraging) return;
 
 
+        if (isSelectingItem)
+        {
+            Slot hovered = GetHoverdSlot();
+
+            if (hovered != null && hovered.HasItem())
+            {
+                draggedSlot = hovered;
+                isDraging = true;
+
+                //show the drag item 
+                dragIcon.sprite = hovered.GetItem().icon;
+                dragIcon.color = new Color(1, 1, 1, 0.5f);
+                dragIcon.enabled = true;
+            }
+        }
+    }
+    private void EndDrag()
+    {
+        if (!isSelectingItem && isDraging)
+        {
+            Slot hoverd = GetHoverdSlot();
+
+            if (hoverd != null)
+            {
+                HandleDrop(draggedSlot, hoverd);
+
+                dragIcon.enabled = false;
+
+                draggedSlot = null;
+                isDraging = false;
+
+            }
+        }
+
+    }
+    private Slot GetHoverdSlot()
+    {
+        foreach (Slot slot in allSlots)
+        {
+            if (slot.hovering)
+            {
+                return slot;
+            }
+        }
+        return null;
+    }
+    private void HandleDrop(Slot from, Slot to)
+    {
+        if (from == to) return;
+
+        //Stacking
+        if (to.HasItem() && to.GetItem() == from.GetItem() && to.GetItem().maxStacksSize > 1)
+        {
+            int max = to.GetItem().maxStacksSize;
+            int space = max - to.GetAmount();
+
+            if (space > 0)
+            {
+                int move = Mathf.Min(space, from.GetAmount());
+
+                to.SetItem(to.GetItem(), to.GetAmount() + move, to.GetAmmoAmount(), to.GetDurability());
+                from.SetItem(from.GetItem(), from.GetAmount() - move, from.GetAmmoAmount(), from.GetDurability());
+
+                if (from.GetAmount() <= 0)
+                {
+                    from.ClearSlot();
+
+                    return;
+                }
+
+            }
+            return;
+        }
+
+        //Diffrent Item
+        if (to.HasItem() && (to.GetItem() != from.GetItem() || (to.GetItem().maxStacksSize <= 1 && from.GetItem().maxStacksSize <= 1)))
+        {
+            ItemSO tempItem = to.GetItem();
+            int tempAmount = to.GetAmount();
+            int tempAmmoAmount = to.GetAmmoAmount();
+            float tempDurability = to.GetDurability();
+
+            to.SetItem(from.GetItem(), from.GetAmount(), from.GetAmmoAmount(), from.GetDurability());
+            from.SetItem(tempItem, tempAmount, tempAmmoAmount, tempDurability);
+            
+
+            return;
+        }
+
+        //Empty Slot
+        to.SetItem(from.GetItem(), from.GetAmount(), from.GetAmmoAmount(), from.GetDurability());
+        from.ClearSlot();
+
+    }
     public void AddItem(ItemSO itemToAdd, int amount, int ammoAmount, float durability)
     {
         int remanining = amount;
@@ -161,7 +281,10 @@ public class CombineInventory : MonoBehaviour
         }
     }
 
-
+    private void UpdateDragItemPosition()
+    {
+        dragIcon.transform.position = Input.mousePosition;
+    }
     private void HandleCursorLock()
     {
         if (Cursor.lockState == CursorLockMode.Locked)
@@ -175,6 +298,17 @@ public class CombineInventory : MonoBehaviour
             Cursor.visible = false;
         }
         Movement.instance.UpdatingRotation = !Movement.instance.UpdatingRotation;
+    }
+    public void OnSlectingItem(InputAction.CallbackContext context)
+    {
+        if (context.performed && Cursor.lockState != CursorLockMode.Locked)
+        {
+            isSelectingItem = true;
+        }
+        if (context.canceled)
+        {
+            isSelectingItem = false;
+        }
     }
 }
 
