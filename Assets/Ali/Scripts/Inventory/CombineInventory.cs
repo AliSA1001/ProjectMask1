@@ -23,6 +23,7 @@ public class CombineInventory : MonoBehaviour
     private List<Slot> hotBarSlots = new List<Slot>();
     private List<Slot> allSlots = new List<Slot>();
 
+    private OtherInventory currentOtherInventory;
 
     public Image dragIcon;
     private Slot draggedSlot = null;
@@ -57,9 +58,11 @@ public class CombineInventory : MonoBehaviour
     {
         Continer = transform.GetChild(0).gameObject;
     }
-    public void OpenOtherInventory(List<Item> otherInvenotryItems)
+    public void OpenOtherInventory(List<Item> otherInvenotryItems , OtherInventory adrees)
     {
         Continer.SetActive(true);// we need to get our inventory info and the other npc inventory inventory
+
+        currentOtherInventory = adrees; // save the adrees of our other inventory so we can update it later
 
         HandleOtherInventoryData(otherInvenotryItems);
 
@@ -292,6 +295,34 @@ public class CombineInventory : MonoBehaviour
         }
     }
 
+    private void UpdateAllInvetoryes()
+    {
+        inventory_player.UpdateMainInventory_AND_Hotbar(inventorySlots_Player , hotBarSlots);
+
+        List <Item> newItems = new List<Item>();
+
+        foreach (Slot slot in inventorySlots_OtherInventory)
+        {
+            Item itemData = new Item();
+            if(slot.HasItem())
+            {
+               itemData.item = slot.GetItem();
+               itemData.amount = slot.GetAmount();
+               itemData.ammoAmount = slot.GetAmmoAmount();
+               itemData.durability = slot.GetDurability();
+            }
+            else
+            {
+                itemData.item = null;
+                itemData.amount = 0;
+                itemData.ammoAmount = 0;
+                itemData.durability = 0;
+            }
+            newItems.Add(itemData);
+        }
+        currentOtherInventory.UpdateOtherInventory(newItems);
+    }
+
     private void UpdateDragItemPosition()
     {
         dragIcon.transform.position = Input.mousePosition;
@@ -329,6 +360,7 @@ public class CombineInventory : MonoBehaviour
             Continer.SetActive(false);
             CallEventOnOpeing_AND_ClosingCombineInventory();
             HandleCursorLock();
+            UpdateAllInvetoryes();
 
         }
     }

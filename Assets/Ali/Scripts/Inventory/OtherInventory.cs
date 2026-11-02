@@ -18,4 +18,10 @@ public class OtherInventory : MonoBehaviour
         return Items;
     }
 
+    public void UpdateOtherInventory(List<Item> newitems)
+    {
+        Items.Clear();
+        Items.AddRange(newitems);
+    }
+
 }

@@ -512,6 +512,26 @@ public class Inventory : MonoBehaviour
         return (allItems, indexs);
     }
 
+    public void UpdateMainInventory_AND_Hotbar(List<Slot> newSlots , List<Slot> newSlotsHotbar)
+    {
+        for(int i = 0;i < newSlots.Count; i++)
+        {
+            inventorySlots[i].SetItem(
+                newSlots[i].GetItem(),
+                newSlots[i].GetAmount(),
+                newSlots[i].GetAmmoAmount(),
+                newSlots[i].GetDurability());
+        }
+        for (int i = 0; i < newSlotsHotbar.Count; i++)
+        {
+            hotbarSlots[i].SetItem(
+                newSlotsHotbar[i].GetItem(),
+                newSlotsHotbar[i].GetAmount(),
+                newSlotsHotbar[i].GetAmmoAmount(),
+                newSlotsHotbar[i].GetDurability());
+        }
+    }
+
     private void OnIsInCombainInventory(bool isCombineInventoryOpen)
     {
         canOpenMainInventory = !isCombineInventoryOpen;

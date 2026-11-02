@@ -15,6 +15,6 @@ public class InteractableObject : MonoBehaviour, IInteractable
     public void Interact()
     {
         Debug.Log("interact with box");
-        combineInventory.OpenOtherInventory(otherInventory.GetItems());
+        combineInventory.OpenOtherInventory(otherInventory.GetItems() , otherInventory);
     }
 }
