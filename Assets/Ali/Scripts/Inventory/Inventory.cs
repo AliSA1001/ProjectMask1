@@ -530,6 +530,8 @@ public class Inventory : MonoBehaviour
                 newSlotsHotbar[i].GetAmmoAmount(),
                 newSlotsHotbar[i].GetDurability());
         }
+        EquipHandItem();
+
     }
 
     private void OnIsInCombainInventory(bool isCombineInventoryOpen)
