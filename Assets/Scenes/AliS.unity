@@ -1315,6 +1315,7 @@ MonoBehaviour:
   Inventory: {fileID: 1429724069}
   ammoTypeNumber: 2
   container: {fileID: 482452506}
+  combineInventoryContainer: {fileID: 0}
 --- !u!114 &74121384 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5905192057863698137, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
@@ -21813,6 +21814,7 @@ MonoBehaviour:
   Inventory: {fileID: 1429724069}
   ammoTypeNumber: 2
   container: {fileID: 482452506}
+  combineInventoryContainer: {fileID: 0}
 --- !u!1 &2029223860
 GameObject:
   m_ObjectHideFlags: 0
@@ -23972,6 +23974,10 @@ PrefabInstance:
       propertyPath: 'ShotSounds.Array.data[3]'
       value: 
       objectReference: {fileID: 8300000, guid: 6bd165fb4c98a534ebba8f5741478ae9, type: 3}
+    - target: {fileID: 574276064000833234, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+      propertyPath: combineInventoryContainer
+      value: 
+      objectReference: {fileID: 203838483}
     - target: {fileID: 826937931183197379, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.85

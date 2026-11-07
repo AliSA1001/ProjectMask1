@@ -100,6 +100,7 @@ public class MasterGun : MonoBehaviour
     [SerializeField] private Inventory Inventory;
     [SerializeField] private int ammoTypeNumber;
     [SerializeField] private GameObject container;
+    [SerializeField] private GameObject combineInventoryContainer;
     
 
     public static Action OnAmmoUse;
@@ -136,6 +137,8 @@ public class MasterGun : MonoBehaviour
         reloadEvent.OnReload += OnReload;
         reloadEvent.OnMagRemove += OnMagRemove;
         reloadEvent.OnMagAdd += OnMagAdd;
+        CombineInventory.OnIsInCombainInventory += OnIsInCombainInventory;
+
 
         OnEnableGun?.Invoke(recoilData);
 
@@ -147,6 +150,8 @@ public class MasterGun : MonoBehaviour
             reloadEvent.OnReload -= OnReload;
             reloadEvent.OnMagRemove -= OnMagRemove;
             reloadEvent.OnMagAdd -= OnMagAdd;
+        CombineInventory.OnIsInCombainInventory -= OnIsInCombainInventory;
+
     }
 
     private void OnMagAdd()
@@ -341,10 +346,16 @@ public class MasterGun : MonoBehaviour
         gunAnimator.SetLayerWeight(1,aimLayerWighet);
     }
 
+    private void OnIsInCombainInventory(bool isCombineInventoryOpen)
+    {
+        combineInventoryContainer.SetActive(isCombineInventoryOpen);
+    }
+
+
     public virtual void OnAttack(InputAction.CallbackContext context)
     {
 
-        if (context.started && !isReloading && !container.activeInHierarchy)
+        if (context.started && !isReloading && !container.activeInHierarchy && !combineInventoryContainer.activeInHierarchy)
         {
             attackTrigger = true;
 
@@ -379,7 +390,7 @@ public class MasterGun : MonoBehaviour
     {
         if(Inventory.DoWeHaveTheRightAmmoType(ammoTypeNumber))
         {
-            if (context.started && gunAmmo < maxAmmo && !isReloading && !container.activeInHierarchy)
+            if (context.started && gunAmmo < maxAmmo && !isReloading && !container.activeInHierarchy && !combineInventoryContainer.activeInHierarchy)
             {
                 isReloading = true;
                 gunAnimator.SetTrigger("Reloding");

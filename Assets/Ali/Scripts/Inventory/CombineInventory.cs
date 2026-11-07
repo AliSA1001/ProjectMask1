@@ -362,6 +362,7 @@ public class CombineInventory : MonoBehaviour
             HandleCursorLock();
             UpdateAllInvetoryes();
 
+
         }
     }
 }
