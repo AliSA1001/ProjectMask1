@@ -1,4 +1,5 @@
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GunSwayAndBob : MonoBehaviour
@@ -46,6 +47,11 @@ public class GunSwayAndBob : MonoBehaviour
     [Header("Bob Rotation")]
     [SerializeField] private Vector3 multiplier;
     private Vector3 bobEulerRotation;
+
+
+    [SerializeField] private GameObject combineInventoryContainer;
+
+
     private void Awake()
     {
         initialPos = transform.localPosition;
@@ -55,10 +61,24 @@ public class GunSwayAndBob : MonoBehaviour
     {
         movement = Movement.instance;
         characterController = movement.GetCharacterController();
+
+        combineInventoryContainer = CombineInventory.Instance.transform.GetChild(0).gameObject;
+    }
+    
+    private void OnEnable()
+    {
+        CombineInventory.OnIsInCombainInventory += OnIsInCombainInventory;
+
+    }
+    private void OnDisable()
+    {
+        CombineInventory.OnIsInCombainInventory -= OnIsInCombainInventory;
+
     }
 
     private void LateUpdate()
     {
+       
         if (gunScript.isAiming)
         {
             HandleStopSwayAndBob();
@@ -66,9 +86,13 @@ public class GunSwayAndBob : MonoBehaviour
         else
         {
             GetInput();
+            if (!combineInventoryContainer.activeInHierarchy)
+            {
+                
 
-            Sway();
-            SwayRotation();
+                Sway();
+                SwayRotation();
+            }
             BobOffset();
             BobRotation();
 
@@ -76,6 +100,10 @@ public class GunSwayAndBob : MonoBehaviour
         }
 
 
+    }
+    private void OnIsInCombainInventory(bool isCombineInventoryOpen)
+    {
+        combineInventoryContainer.SetActive(isCombineInventoryOpen);
     }
 
     private void GetInput()
