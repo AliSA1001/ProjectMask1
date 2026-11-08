@@ -42,7 +42,7 @@ public class NewRecoil : MonoBehaviour
 
     }
 
-    private void OnEnableGun(float[] gunRecoilData)
+    private void OnEnableGun(float[] gunRecoilData , MasterGun gun)
     {
         recoilX = gunRecoilData[0];
         recoilY = gunRecoilData[1];
@@ -52,6 +52,8 @@ public class NewRecoil : MonoBehaviour
         aimRecoilZ = gunRecoilData[5];
         snappiness = gunRecoilData[6];
         returnSpeed = gunRecoilData[7];
+
+        gunScript = gun;
     }
 
     private void Update()

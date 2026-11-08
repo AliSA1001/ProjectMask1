@@ -2541,6 +2541,7 @@ MonoBehaviour:
   windUpTime2: 0.2
   attackCooldown2: 1
   comboThreshold: 0.15
+  combineInventoryContainer: {fileID: 203838483}
 --- !u!114 &164673549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2658,6 +2659,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 6e60cd3d-80ee-405d-a7f0-a4eee1a55f25
     m_ActionName: 'Melee/Attack[/Mouse/leftButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0fc18a5a-52d9-4675-aaf4-4ac6ed9e881a
+    m_ActionName: 'Inventory/Exit[/Keyboard/escape]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Melee

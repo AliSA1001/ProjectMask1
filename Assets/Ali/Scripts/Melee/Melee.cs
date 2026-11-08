@@ -32,6 +32,9 @@ public class Melee : MonoBehaviour
     private bool canAttack = true;
     public static Action OnDurabilityLose;
 
+    [SerializeField] private GameObject combineInventoryContainer;
+
+
 
 
 
@@ -43,6 +46,15 @@ public class Melee : MonoBehaviour
     {
         canAttack = true;
         animator.Play("Knife Standing");
+
+        CombineInventory.OnIsInCombainInventory += OnIsInCombainInventory;
+
+    }
+
+    private void OnDisable()
+    {
+        CombineInventory.OnIsInCombainInventory -= OnIsInCombainInventory;
+
     }
 
     private void Update()
@@ -50,21 +62,7 @@ public class Melee : MonoBehaviour
        
     }
 
-    public void OnAttack(InputAction.CallbackContext context)
-    {
-        if (context.performed && canAttack)
-        {
-           activeAttackCorroutin = StartCoroutine(Attack());
-        }
-        else if (context.performed && can2ndAttack)
-        {
-            if(activeAttackCorroutin != null)
-            {
-                StopCoroutine(activeAttackCorroutin);
-            }
-            StartCoroutine(Attack2());
-        }
-    }
+  
 
     public void EnableAttack2() // anim event
     {
@@ -147,7 +145,26 @@ public class Melee : MonoBehaviour
         canAttack = true;
     }
 
+    private void OnIsInCombainInventory(bool isCombineInventoryOpen)
+    {
+        combineInventoryContainer.SetActive(isCombineInventoryOpen);
+    }
 
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        if (context.performed && canAttack && !combineInventoryContainer.activeInHierarchy)
+        {
+            activeAttackCorroutin = StartCoroutine(Attack());
+        }
+        else if (context.performed && can2ndAttack)
+        {
+            if (activeAttackCorroutin != null)
+            {
+                StopCoroutine(activeAttackCorroutin);
+            }
+            StartCoroutine(Attack2());
+        }
+    }
     private void OnDrawGizmosSelected()
     {
         if (attackPoint != null)
@@ -156,4 +173,5 @@ public class Melee : MonoBehaviour
             Gizmos.DrawWireSphere(attackPoint.position, attackRange);
         }
     }
+
 }

@@ -41,7 +41,7 @@ public class MasterGun : MonoBehaviour
     public float returnSpeed;
 
     // event to call the change for the recoil vaules
-    public static Action<float[]> OnEnableGun;
+    public static Action<float[] ,MasterGun> OnEnableGun;
     private float[] recoilData;
 
     [Header("Visuals")]
@@ -140,7 +140,7 @@ public class MasterGun : MonoBehaviour
         CombineInventory.OnIsInCombainInventory += OnIsInCombainInventory;
 
 
-        OnEnableGun?.Invoke(recoilData);
+        OnEnableGun?.Invoke(recoilData , this);
 
 
     }
