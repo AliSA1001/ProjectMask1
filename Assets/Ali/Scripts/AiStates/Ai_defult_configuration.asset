@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f13f5e566e0b1ff4b9a2e51f421973b4, type: 3}
   m_Name: Ai_defult_configuration
   m_EditorClassIdentifier: Assembly-CSharp::AIAgentConfig
-  maxTime: 0.1
+  maxTime: 1
   maxDistance: 1
   dieForce: 10
   maxSightDistance: 5
