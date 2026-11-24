@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
@@ -68,6 +69,11 @@ public class Movement : MonoBehaviour
 
     [Header("Interact")]
     [SerializeField] private Camera mainCamera;
+
+
+    [Header ("Aniamtion")]
+    [SerializeField] private Animator animator_BodyAndLegs;
+    [SerializeField] private float blendSpeed = 0.5f;
 
     //Sliding Parmeters
 
@@ -171,6 +177,7 @@ public class Movement : MonoBehaviour
         if (CanMove)
         {
             HandleMoveSpeed();
+            HandleAnimation();
             HandleMovewmentInput();
             if (UpdatingRotation)
             {
@@ -182,6 +189,9 @@ public class Movement : MonoBehaviour
 
         }
     }
+
+   
+
     private void HandleMovewmentInput()
     {
         currentInput = new Vector2(moveSpeed * moveInput.x, moveSpeed * moveInput.y);
@@ -234,6 +244,25 @@ public class Movement : MonoBehaviour
         }
     }
 
+    private void HandleAnimation()
+    {
+        float targetBlend;
+       if(moveInput == Vector2.zero)
+        {
+            targetBlend = 0f;
+        }
+        else if (isSprinting)
+        {
+            targetBlend = 1;
+        }
+        else
+        {
+            targetBlend = 0.5f;
+        }
+        float current = animator_BodyAndLegs.GetFloat("Blend");
+        animator_BodyAndLegs.SetFloat("Blend", Mathf.Lerp(current, targetBlend, Time.deltaTime * blendSpeed));
+
+    }
     private void HandleJump()
     {
         moveDirection.y = jumpForce;

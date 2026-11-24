@@ -8711,7 +8711,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7672846553081400661, guid: 08134226f65eb1f4da45c42d5cc79744, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.899
+      value: -1.183
       objectReference: {fileID: 0}
     - target: {fileID: 7672846553081400661, guid: 08134226f65eb1f4da45c42d5cc79744, type: 3}
       propertyPath: m_LocalPosition.z
@@ -26690,6 +26690,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.095
       objectReference: {fileID: 0}
+    - target: {fileID: 6436321287075107637, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+      propertyPath: blendSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6436321287075107637, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+      propertyPath: animator_BodyAndLegs
+      value: 
+      objectReference: {fileID: 1500341398}
     - target: {fileID: 6504593659760384599, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
       propertyPath: 'm_Transforms.Array.data[60]'
       value: 
