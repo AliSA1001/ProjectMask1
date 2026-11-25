@@ -72,6 +72,7 @@ public class Movement : MonoBehaviour
 
     [Header ("Aniamtion")]
     [SerializeField] private Animator animator_BodyAndLegs;
+    [SerializeField] private Animator animator_NakedHand;
     [SerializeField] private float blendSpeed = 0.5f;
 
     //Sliding Parmeters
@@ -256,6 +257,13 @@ public class Movement : MonoBehaviour
 
         animator_BodyAndLegs.SetFloat("xBlend", Mathf.Lerp(currentX, direcation.x * speedValue, Time.deltaTime * blendSpeed));
         animator_BodyAndLegs.SetFloat("yBlend", Mathf.Lerp(currentY, direcation.y * speedValue, Time.deltaTime * blendSpeed));
+
+
+        float currentX_Hand = animator_NakedHand.GetFloat("xBlend");
+        float currentY_Hand = animator_NakedHand.GetFloat("yBlend");
+
+        animator_NakedHand.SetFloat("xBlend", Mathf.Lerp(currentX_Hand, direcation.x * speedValue, Time.deltaTime * blendSpeed));
+        animator_NakedHand.SetFloat("yBlend", Mathf.Lerp(currentY_Hand, direcation.y * speedValue, Time.deltaTime * blendSpeed));
 
 
 
