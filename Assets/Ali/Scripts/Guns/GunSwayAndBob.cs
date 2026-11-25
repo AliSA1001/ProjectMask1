@@ -79,7 +79,7 @@ public class GunSwayAndBob : MonoBehaviour
     private void LateUpdate()
     {
        
-        if (gunScript.isAiming)
+        if ( gunScript != null && gunScript.isAiming )
         {
             HandleStopSwayAndBob();
         }

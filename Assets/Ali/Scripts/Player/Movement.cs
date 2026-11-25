@@ -259,11 +259,7 @@ public class Movement : MonoBehaviour
         animator_BodyAndLegs.SetFloat("yBlend", Mathf.Lerp(currentY, direcation.y * speedValue, Time.deltaTime * blendSpeed));
 
 
-        float currentX_Hand = animator_NakedHand.GetFloat("xBlend");
-        float currentY_Hand = animator_NakedHand.GetFloat("yBlend");
-
-        animator_NakedHand.SetFloat("xBlend", Mathf.Lerp(currentX_Hand, direcation.x * speedValue, Time.deltaTime * blendSpeed));
-        animator_NakedHand.SetFloat("yBlend", Mathf.Lerp(currentY_Hand, direcation.y * speedValue, Time.deltaTime * blendSpeed));
+        
 
 
 
