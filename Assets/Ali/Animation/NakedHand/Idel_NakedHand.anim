@@ -631,7 +631,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 0.33333334
-        value: {x: 15.022, y: -466.761, z: -407.487}
+        value: {x: 18.223, y: -470.472, z: -408.549}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -1285,7 +1285,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 0.33333334
-        value: {x: 0.0097, y: 0.185, z: 0.0156}
+        value: {x: -0.0117, y: 0.2024, z: -0.0016}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -5808,7 +5808,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.33333334
-        value: 0.0097
+        value: -0.0117
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -5838,7 +5838,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.33333334
-        value: 0.185
+        value: 0.2024
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -5868,7 +5868,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.33333334
-        value: 0.0156
+        value: -0.0016
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -6078,7 +6078,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.33333334
-        value: 15.022
+        value: 18.223
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -6108,7 +6108,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.33333334
-        value: -466.761
+        value: -470.472
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -6138,7 +6138,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.33333334
-        value: -407.487
+        value: -408.549
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -7116,7 +7116,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Armature/root/CC_Base_Hip/CC_Base_Waist/CC_Base_Spine01/CC_Base_Spine02/CC_Base_R_Clavicle/CC_Base_R_Upperarm/CC_Base_R_Forearm
+    path: Hand_Right
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -7128,7 +7128,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Armature/root/CC_Base_Hip/CC_Base_Waist/CC_Base_Spine01/CC_Base_Spine02/CC_Base_R_Clavicle/CC_Base_R_Upperarm/CC_Base_R_Forearm
+    path: Hand_Right
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -7140,7 +7140,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Armature/root/CC_Base_Hip/CC_Base_Waist/CC_Base_Spine01/CC_Base_Spine02/CC_Base_R_Clavicle/CC_Base_R_Upperarm/CC_Base_R_Forearm
+    path: Hand_Right
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -7332,7 +7332,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Hand_Right
+    path: Armature/root/CC_Base_Hip/CC_Base_Waist/CC_Base_Spine01/CC_Base_Spine02/CC_Base_R_Clavicle/CC_Base_R_Upperarm/CC_Base_R_Forearm
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -7344,7 +7344,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Hand_Right
+    path: Armature/root/CC_Base_Hip/CC_Base_Waist/CC_Base_Spine01/CC_Base_Spine02/CC_Base_R_Clavicle/CC_Base_R_Upperarm/CC_Base_R_Forearm
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -7356,7 +7356,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Hand_Right
+    path: Armature/root/CC_Base_Hip/CC_Base_Waist/CC_Base_Spine01/CC_Base_Spine02/CC_Base_R_Clavicle/CC_Base_R_Upperarm/CC_Base_R_Forearm
     classID: 4
     script: {fileID: 0}
     flags: 0
