@@ -1,4 +1,19 @@
-﻿title: kid_diallogues
+﻿title: Kid
+---
+<<if is_upset("Kid")>>
+    <<jump Kid_Upset>>
+<<elseif quest_status("amethyst") == "NotStarted">>
+    <<jump Kid_Ask>>
+<<elseif quest_status("amethyst") == "Active" and quest_ready("amethyst")>>
+    <<jump Kid_Deliver>>
+<<elseif quest_status("amethyst") == "Active">>
+    <<jump Kid_Waiting>>
+<<else>>
+    <<jump Kid_Done>>
+<<endif>>
+===
+
+title: Kid_Ask
 ---
 Kid: HEY THERE SIR
 
@@ -13,8 +28,7 @@ Kid: SIR I NEED SOMETHING FROM YOU SIR
 Mc: …..
 Kid: HERE TAKE THIS
 
-// bunch of bugs and rocks 
-<<giveItem bugs_and_rocks 1>>
+<<give_item "bugs_and_rocks" 1>>
 
 Kid: I'D LIKE SOME AMETHYST SIR
 
@@ -26,11 +40,9 @@ Kid: I'D LIKE SOME AMETHYST SIR
     Mc: …..
 
 Kid: I'LL STOP BY TO TAKE IT LATER SIR THANN YOU
-//  kid runs off lol
 
-<<setFact quest_amethyst 1>>
+<<start_quest "amethyst">>
 ===
-
 
 title: Kid_Waiting
 ---
@@ -38,7 +50,6 @@ Kid: DID YOU GET IT YET SIR?
 Mc: …..
 Kid: I'LL COME BACK LATER SIR
 ===
-
 
 title: Kid_Deliver
 ---
@@ -52,20 +63,21 @@ Kid: GOT THE AMETHYSTINE SIR?
 -> yes but why'd a kid like you want one?
     Mc: yes but why'd a kid like you want one?
 
-<<takeItem amethyst 1>>
+<<complete_quest "amethyst">>
 
 Kid: I..
 Kid: Thank you sir I
 Mc: what?
 Kid: it's my mom… she's sick and they told us we need an amethyst for her medicine
 Kid: I will come here again with my mom to thank you SIR THANK YOUUU!!
-// kid runs off+2
-
-<<setFact quest_amethyst 2>>
 ===
-
 
 title: Kid_Done
 ---
 Kid: THANK YOU AGAIN SIR!
+===
+
+title: Kid_Upset
+---
+Kid: ...
 ===

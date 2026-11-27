@@ -1,4 +1,19 @@
-﻿title: Nurse_dialogues
+﻿title: Nurse
+---
+<<if is_upset("Nurse")>>
+    <<jump Nurse_Upset>>
+<<elseif quest_status("snake") == "NotStarted">>
+    <<jump Nurse_Ask>>
+<<elseif quest_status("snake") == "Active" and quest_ready("snake")>>
+    <<jump Nurse_Deliver>>
+<<elseif quest_status("snake") == "Active">>
+    <<jump Nurse_Waiting>>
+<<else>>
+    <<jump Nurse_Done>>
+<<endif>>
+===
+
+title: Nurse_Ask
 ---
 Nurse: morning
 
@@ -23,17 +38,18 @@ Nurse: I was hoping to find the five headed snake here
 Nurse: I shall come back when you have it
 Nurse: Later shop man
 
-<<setFact quest_snake 1>>
+<<start_quest "snake">>
 ===
-
 
 title: Nurse_Waiting
 ---
 Nurse: Still nothing?
 Mc: ……..
+<<if days_left("snake") > 0>>
+    Nurse: Don't take too long. Days left: {days_left("snake")}
+<<endif>>
 Nurse: Later shop man
 ===
-
 
 title: Nurse_Deliver
 ---
@@ -43,22 +59,27 @@ Nurse: So? Found it yet?
     Mc: it's all yours
 -> no
     Mc: no
-    // joking like a silly goose
     Mc: it's all yours
-
-// gives the snake
-<<takeItem five_headed_snake 1>>
 
 Nurse: I knew you could do it!
 Nurse: here this is for your trouble
-<<giveGold 100>>   // idk yall how much she'll give us
+<<complete_quest "snake">>
 Nurse: also you can stop by me when I smoke next to the ambulance I'll help get you whatever you want
-
-<<setFact quest_snake 2>>
-<<setFact nurse_ambulance_unlocked 1>>
 ===
 
 title: Nurse_Done
 ---
 Nurse: Later shop man
+-> Spend the day with her (the day ends)
+    Mc: Got some time?
+    Nurse: For you? Sure.
+    <<end_day>>
+-> Leave
+    Mc: Later
+===
+
+title: Nurse_Upset
+---
+Nurse: ...
+Nurse: I don't need anything from you anymore.
 ===
