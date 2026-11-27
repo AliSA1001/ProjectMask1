@@ -1,0 +1,18 @@
+using UnityEngine;
+
+public enum AiStateId
+{
+    ChasePlayer,
+    Death,
+    Idle,
+    FindWeapon
+
+}
+
+public interface AiState 
+{
+    AiStateId GetId();
+    void Enter(AiAgent agent );
+    void Exit(AiAgent agent );
+    void Update(AiAgent agent);
+}

@@ -1,0 +1,408 @@
+using TMPro;
+using UnityEngine;
+using UnityEngine.InputSystem.XR;
+using UnityEngine.InputSystem;
+using System.Collections;
+using System;
+using JetBrains.Annotations;
+
+public class MasterGun : MonoBehaviour
+{
+    [Header("Connections")]
+    // 'protected' means the Child (Shotgun) can see this, but other scripts cannot.
+    [SerializeField] protected RaycastHit gunRaycastInfo;
+    [SerializeField] private Transform maincam;
+    private Movement player;
+
+    [Header("Stats")]
+    [SerializeField] protected float gunRange = 100f;
+    [SerializeField] protected float gunDamage = 10f;
+    [SerializeField] protected float fireRate = 0.5f;
+    [SerializeField] protected float bulletSpeed = 50f;
+    [SerializeField] protected int gunAmmo = 999;
+    [SerializeField] private int maxAmmo = 80;
+
+    [Header("HipFire")]//HipFire
+    [SerializeField] private float UnAimDownSightSpeed;
+    public float recoilX;
+    public float recoilY;
+    public float recoilZ;
+
+    [Header("ADS")]//Aim down Sight
+    [SerializeField] private float aimDownSightSpeed;
+    private float aimLayerWighet = 0;
+    public bool isAiming;
+    public float aimRecoilX;
+    public float aimRecoilY;
+    public float aimRecoilZ;
+
+    [Header("Settings")] //Settings
+    public float snappiness;
+    public float returnSpeed;
+
+    // event to call the change for the recoil vaules
+    public static Action<float[] ,MasterGun> OnEnableGun;
+    private float[] recoilData;
+
+    [Header("Visuals")]
+    [SerializeField] protected ParticleSystem muzzleEffect;
+    [SerializeField] protected float muzzleEffectDuration = 0.1f;
+    [SerializeField] protected Animator gunAnimator;
+    [SerializeField] protected TrailRenderer bulletTrail;
+    [SerializeField] protected ParticleSystem impactParticleSystem;
+    [SerializeField] protected Transform trailSpawnPoint;
+    [SerializeField] protected GameObject bulletHoles;
+
+    [Header("SFX")]
+    [SerializeField] protected AudioClip[] ShotSounds;
+    [SerializeField] private AudioClip magRemove;
+    [SerializeField] private AudioClip magAdded;
+    private AudioSource gunAudioSource;
+
+    [Header("hitscan")]
+    [SerializeField] LayerMask hitLayers;
+
+
+
+    [Header("Animation")]
+    private float currentblendValue = 0;
+    [SerializeField] private float blendSmoothTime = 0.1f;
+
+
+    [Header("Conection")]
+    [SerializeField] private ReloadEvent reloadEvent;
+    [SerializeField] private NewRecoil recoilNewScript;
+    private bool isReloading = false;
+
+    //events 
+    public static Action<bool> OnShoting;
+     
+
+
+
+    [Header("TMP REF HERE")]
+    [SerializeField] private TMP_Text text_Ammo;
+
+    // Timer to track when we can shoot again
+    protected float nextFireTime;
+
+
+    //input button
+    protected bool attackTrigger;
+
+
+    [Header("Feedbacks")]
+    [SerializeField] private ParticleSystem ShootFeedback;
+
+
+
+    // Conection to the inventory to get the ammo for the gun 
+    [SerializeField] private Inventory Inventory;
+    [SerializeField] private int ammoTypeNumber;
+    [SerializeField] private GameObject container;
+    [SerializeField] private GameObject combineInventoryContainer;
+    
+
+    public static Action OnAmmoUse;
+
+
+    private void Awake()
+    {
+        recoilData = new float[8] { recoilX, recoilY, recoilZ, aimRecoilX, aimRecoilY, aimRecoilZ, snappiness, returnSpeed };
+        gunAudioSource = GetComponent<AudioSource>();
+        
+    }
+    public void Start()
+    {
+        player = Movement.instance;
+        if (maincam == null)
+        {
+            maincam = Camera.main.transform;
+        }
+    }
+
+    public void Update()
+    {
+        HandleShooting();
+        HandleAnmationSprinting();
+        HandleAiming();
+
+       
+
+       // text_Ammo.text = gunAmmo.ToString();
+    }
+    private void OnEnable()
+    {
+        if(reloadEvent != null)
+        reloadEvent.OnReload += OnReload;
+        reloadEvent.OnMagRemove += OnMagRemove;
+        reloadEvent.OnMagAdd += OnMagAdd;
+        CombineInventory.OnIsInCombainInventory += OnIsInCombainInventory;
+
+
+        OnEnableGun?.Invoke(recoilData , this);
+
+
+    }
+    private void OnDisable()
+    {
+        if (reloadEvent != null)
+            reloadEvent.OnReload -= OnReload;
+            reloadEvent.OnMagRemove -= OnMagRemove;
+            reloadEvent.OnMagAdd -= OnMagAdd;
+        CombineInventory.OnIsInCombainInventory -= OnIsInCombainInventory;
+
+    }
+
+    private void OnMagAdd()
+    {
+        gunAudioSource.PlayOneShot(magAdded);
+    }
+
+    private void OnMagRemove()
+    {
+        gunAudioSource.PlayOneShot(magRemove);
+    }
+
+    public void NewAmmoAmount(int amount)
+    {
+        gunAmmo = amount;
+    }
+   private void OnReload()
+    {
+        gunAmmo += Inventory.HandleSendAmmo(ammoTypeNumber, gunAmmo, maxAmmo);
+        isReloading = false ;
+        gunAnimator.SetBool("IsReloding", isReloading);
+
+    }
+    
+
+    private void HandleAnmationSprinting()
+    {
+        float targetBlend = 0;
+        
+        if (player.moveInput == Vector2.zero)
+        {
+            targetBlend = 0;
+        }
+        else if (player.moveSpeed >= player.sprintingMoveSpeed)
+        {
+            targetBlend = 1;
+        }
+        else 
+        {
+            targetBlend = 0.5f;
+        }
+
+        currentblendValue = Mathf.MoveTowards(currentblendValue, targetBlend, blendSmoothTime * Time.deltaTime);
+
+        gunAnimator.SetFloat("Blend", currentblendValue);
+
+    }
+    
+    protected virtual void HandleShooting()
+    {
+        if (attackTrigger && nextFireTime <= Time.time)
+        {
+            if (gunAmmo <= 0)
+            {
+                return;
+            }
+            else
+            {
+                gunAnimator.SetBool("IsShoting", true);
+                ShootFeedback.Play();
+                recoilNewScript.RecoilFire();
+                HandleShotSounds();
+                HandleSubtractFromInventory();
+
+                if (HandleHitScan(out gunRaycastInfo))
+                {
+                    IDamgeable damageable = gunRaycastInfo.collider.GetComponent<IDamgeable>();
+                    ParticleSystem hitParticle = null;
+
+                    if (damageable != null)
+                    {
+                        damageable.TakeDamage(gunDamage , maincam.forward);
+                        hitParticle = damageable.GetHitParticleSystem();
+                    }
+                    StartCoroutine(HandleTrail(gunRaycastInfo , hitParticle));
+                }
+                else
+                {
+                    StartCoroutine(HandleLostTrail());// if we didnt hit anything in the range of the gun 
+                }
+                gunAmmo--;
+                nextFireTime = Time.time + fireRate;
+            }
+        }
+    }
+
+    private void HandleShotSounds()
+    {
+        if(ShotSounds == null) {  return; }
+
+        int randomSound = UnityEngine.Random.Range(0, ShotSounds.Length);
+
+
+        gunAudioSource.PlayOneShot(ShotSounds[randomSound]);
+        
+        
+    }
+
+    private void HandleSubtractFromInventory()
+    {
+        OnAmmoUse?.Invoke();
+    }
+
+
+
+    protected virtual void Recoil()
+    {
+        gunAnimator.Play("Shoting");
+
+    }
+
+
+    protected virtual bool HandleHitScan(out RaycastHit hitInfo)
+    {
+
+        Debug.DrawRay(maincam.position, maincam.forward * gunRange, Color.red, 2f);// just so we can see the line
+        if (Physics.Raycast(maincam.position, maincam.forward, out hitInfo, gunRange, hitLayers))
+        {
+            return true;
+        }
+        return false;
+    }
+
+
+    protected virtual IEnumerator HandleTrail(RaycastHit gunRaycasthitInfo , ParticleSystem particle)
+    {
+        TrailRenderer instance = Instantiate(bulletTrail, trailSpawnPoint.position, Quaternion.identity);
+        while (Vector3.Distance(instance.transform.position, gunRaycasthitInfo.point) > 0.1f)
+        {
+            instance.transform.position = Vector3.MoveTowards(
+                instance.transform.position,
+                gunRaycasthitInfo.point,
+                bulletSpeed * Time.deltaTime
+
+                );
+            yield return null;// wait for the next frame and redo the while again 
+
+        }
+        ParticleSystem instanceofParticleSystem = Instantiate(impactParticleSystem, gunRaycasthitInfo.point, Quaternion.LookRotation(gunRaycastInfo.normal));
+        Destroy(instanceofParticleSystem.gameObject, 2f);
+        Destroy(instance.gameObject, instance.time);
+
+        if (particle != null)
+        {
+            ParticleSystem bloodParticle =  Instantiate(particle, gunRaycasthitInfo.point, Quaternion.LookRotation(gunRaycastInfo.normal));
+            Destroy(bloodParticle.gameObject, 2f);
+        }
+        else
+        {
+            GameObject ImpactBulletHole = Instantiate(bulletHoles, gunRaycasthitInfo.point, Quaternion.LookRotation(gunRaycastInfo.normal));
+            Destroy(ImpactBulletHole.gameObject, 10f);
+        }
+       
+    }
+
+
+    protected virtual IEnumerator HandleLostTrail()
+    {
+        Vector3 longetPointYouCanGetToInRange = maincam.transform.position + (maincam.forward * gunRange);
+        TrailRenderer instance = Instantiate(bulletTrail, trailSpawnPoint.position, Quaternion.identity);
+        while (Vector3.Distance(instance.transform.position, longetPointYouCanGetToInRange) > 0.1f)
+        {
+            instance.transform.position = Vector3.MoveTowards(
+                instance.transform.position,
+                longetPointYouCanGetToInRange,
+                bulletSpeed * Time.deltaTime
+                );
+            yield return null;
+        }
+
+        Destroy(instance.gameObject, instance.time);
+    }
+
+    protected void HandleAiming()
+    {
+      Camera camera = maincam.GetComponent<Camera>();
+
+        if (isAiming)
+        {
+            // gunCurrentPos = Vector3.Lerp(gunCurrentPos, aimDownSightPos.localPosition, aimDownSightSpeed * Time.deltaTime);
+            aimLayerWighet = Mathf.Lerp(aimLayerWighet, 1, aimDownSightSpeed * Time.deltaTime);
+            camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, 30, 5 *  Time.deltaTime);
+        }
+        else
+        {
+           // gunCurrentPos = Vector3.Lerp(gunCurrentPos, hipFirePos.localPosition, UnAimDownSightSpeed * Time.deltaTime);
+          aimLayerWighet =  Mathf.Lerp(aimLayerWighet, 0, UnAimDownSightSpeed * Time.deltaTime);
+            camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, 60, 5 * Time.deltaTime);
+
+
+        }
+        gunAnimator.SetLayerWeight(1,aimLayerWighet);
+    }
+
+    private void OnIsInCombainInventory(bool isCombineInventoryOpen)
+    {
+        combineInventoryContainer.SetActive(isCombineInventoryOpen);
+    }
+
+
+    public virtual void OnAttack(InputAction.CallbackContext context)
+    {
+
+        if (context.started && !isReloading && !container.activeInHierarchy && !combineInventoryContainer.activeInHierarchy)
+        {
+            attackTrigger = true;
+
+            Debug.Log("We shot");
+
+        }
+        else if (context.canceled )
+        {
+            attackTrigger = false;
+            gunAnimator.SetBool("IsShoting" , false);
+
+        }
+        OnShoting?.Invoke(attackTrigger);
+
+    }
+
+    public virtual void OnAimDownSight(InputAction.CallbackContext context)
+    {
+        if(context.performed && !isReloading)
+        {
+            isAiming = true;
+            Debug.Log("Aim");
+
+        }
+        if(context.canceled )
+        {
+            isAiming = false;
+
+        }
+    }
+    public void OnReload(InputAction.CallbackContext context)
+    {
+        if(Inventory.DoWeHaveTheRightAmmoType(ammoTypeNumber))
+        {
+            if (context.started && gunAmmo < maxAmmo && !isReloading && !container.activeInHierarchy && !combineInventoryContainer.activeInHierarchy)
+            {
+                isReloading = true;
+                gunAnimator.SetTrigger("Reloding");
+                gunAnimator.SetBool("IsReloding", isReloading);
+                Invoke("ResetReloadState", 2);
+
+            }
+        }
+    }
+    private void ResetReloadState()
+    {
+        isReloading = false;
+    }
+
+}

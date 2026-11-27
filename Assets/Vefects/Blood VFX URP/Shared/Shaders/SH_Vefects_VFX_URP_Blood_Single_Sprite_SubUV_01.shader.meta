@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 37c3806129bb63048bdf9b996f1fcbe7
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _LUT: {fileID: 2800000, guid: 70fa73508dccec944852d3eed97e2e2f, type: 3}
+  - _BloodTexture: {fileID: 2800000, guid: 22b7060794aaa7941abee8186124b0b2, type: 3}
+  - _HDRI: {fileID: 8900000, guid: 9ff1be94635d3064b8cdfa419fc7bf3f, type: 3}
+  - _BloodTextureNormal: {fileID: 2800000, guid: 1bfcaedae42d89b4ca16a163bb713cc1,
+      type: 3}
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 265906
+  packageName: Blood VFX - URP
+  packageVersion: 1.0.1
+  assetPath: Assets/Vefects/Blood VFX URP/Shared/Shaders/SH_Vefects_VFX_URP_Blood_Single_Sprite_SubUV_01.shader
+  uploadId: 754708

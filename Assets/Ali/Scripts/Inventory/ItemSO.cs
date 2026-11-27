@@ -1,0 +1,23 @@
+using UnityEngine;
+
+[ CreateAssetMenu(fileName = "Item" , menuName = "NewItem")]
+public class ItemSO : ScriptableObject
+{
+    public string itemName;
+    public Sprite icon;
+    public int maxStacksSize;
+    public GameObject itemPrefab;
+    public GameObject handItemPrefab;
+    public bool isFpsRealHandObject;
+    public int HandNumber;
+    public bool isAmmo;
+    public int ammoGunNumber;
+
+    [Header("Melee")]
+    public bool isMeleeObject;
+
+    [Header("Enemy Interaction")]
+    public bool canBePickedByEnemy;
+    
+    
+}

@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 030d3e1aaafa3e549913b3d22bb967ee
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _LUT: {fileID: 2800000, guid: 70fa73508dccec944852d3eed97e2e2f, type: 3}
+  - _FlipTexture: {fileID: 2800000, guid: 41318eac2e4415d4595643aa28674ded, type: 3}
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 265906
+  packageName: Blood VFX - URP
+  packageVersion: 1.0.1
+  assetPath: Assets/Vefects/Blood VFX URP/Shared/Shaders/SH_Vefects_VFX_URP_Flip_01.shader
+  uploadId: 754708
