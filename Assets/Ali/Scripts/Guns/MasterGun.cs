@@ -45,7 +45,7 @@ public class MasterGun : MonoBehaviour
     private float[] recoilData;
 
     [Header("Visuals")]
-    [SerializeField] protected ParticleSystem muzzleEffect;
+  //  [SerializeField] protected ParticleSystem muzzleEffect;
     [SerializeField] protected float muzzleEffectDuration = 0.1f;
     [SerializeField] protected Animator gunAnimator;
     [SerializeField] protected TrailRenderer bulletTrail;

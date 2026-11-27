@@ -1376,7 +1376,6 @@ MonoBehaviour:
   aimRecoilZ: 0
   snappiness: 6
   returnSpeed: 2
-  muzzleEffect: {fileID: 2114786686}
   muzzleEffectDuration: 0.1
   gunAnimator: {fileID: 136724567359776357}
   bulletTrail: {fileID: 1282306406444555056, guid: d644d36773ff2d349b20305e4d7e9876, type: 3}
@@ -22146,7 +22145,6 @@ MonoBehaviour:
   aimRecoilZ: 0.3
   snappiness: 6
   returnSpeed: 2
-  muzzleEffect: {fileID: 1507956856}
   muzzleEffectDuration: 0.1
   gunAnimator: {fileID: 164673543}
   bulletTrail: {fileID: 1282306406444555056, guid: d644d36773ff2d349b20305e4d7e9876, type: 3}
@@ -25374,7 +25372,7 @@ MonoBehaviour:
   gunRange: 100
   gunDamage: 10
   fireRate: 0.5
-  bulletSpeed: 50
+  bulletSpeed: 300
   gunAmmo: 999
   maxAmmo: 80
   UnAimDownSightSpeed: 0
@@ -25388,7 +25386,6 @@ MonoBehaviour:
   aimRecoilZ: 0
   snappiness: 0
   returnSpeed: 0
-  muzzleEffect: {fileID: 2067879937}
   muzzleEffectDuration: 0.1
   gunAnimator: {fileID: 880805745}
   bulletTrail: {fileID: 1282306406444555056, guid: d644d36773ff2d349b20305e4d7e9876, type: 3}
@@ -25558,9 +25555,106 @@ MonoBehaviour:
     m_ActionName: 'Melee/Attack[/Mouse/leftButton]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: 7e543c23-c3b2-4fdf-802f-6483a5205ade
+  m_DefaultActionMap: guns
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!82 &919132148502209046
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148502209043}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &928629450149823066
 GameObject:
   m_ObjectHideFlags: 0
@@ -26489,6 +26583,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 659047295083079248, guid: ff33467c5f2aeb14196e4944fb325ba8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 919132148502209044}
+    - targetCorrespondingSourceObject: {fileID: 659047295083079248, guid: ff33467c5f2aeb14196e4944fb325ba8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 919132148502209046}
     - targetCorrespondingSourceObject: {fileID: 659047295083079248, guid: ff33467c5f2aeb14196e4944fb325ba8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 919132148502209045}
@@ -27768,6 +27865,18 @@ PrefabInstance:
     - target: {fileID: 5869258553155733471, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0.13398094
+      objectReference: {fileID: 0}
+    - target: {fileID: 5905192057863698137, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+      propertyPath: recoilX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5905192057863698137, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+      propertyPath: recoilY
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5905192057863698137, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
+      propertyPath: recoilZ
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5905192057863698137, guid: bbd6d7e096bb90e44a7115d4e25cdc08, type: 3}
       propertyPath: gunScript
