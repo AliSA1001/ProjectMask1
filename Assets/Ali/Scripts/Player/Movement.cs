@@ -259,8 +259,8 @@ public class Movement : MonoBehaviour
         animator_BodyAndLegs.SetFloat("yBlend", Mathf.Lerp(currentY, direcation.y * speedValue, Time.deltaTime * blendSpeed));
 
 
-        
 
+        animator_NakedHand.SetBool("isSprinting", isSprinting);
 
 
     }
