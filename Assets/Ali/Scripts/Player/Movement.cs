@@ -260,7 +260,7 @@ public class Movement : MonoBehaviour
 
 
 
-        animator_NakedHand.SetBool("isSprinting", isSprinting);
+        animator_NakedHand.SetBool("isSprinting", isSprinting); 
 
 
     }
